@@ -1,0 +1,30 @@
+package mart.fresh.com.data.dao;
+
+import mart.fresh.com.data.entity.Member;
+
+public interface MemberDao {
+   
+    Member login(String memberId, String memberPw);
+    
+    // boolean verifyPw(String memberId, String memberPw);
+
+    Member getMemberById(String memberId);
+    void addMember(Member member);
+    String findMemberId(String memberName, String memberEmail);
+    
+    int memberIdCheck(String memberId);
+    int memberEmailCheck(String memberEmail);
+
+    String getMemberName(String memberId, String memberPw);
+	String getMemberEmail(String memberId, String memberPw);
+    int getMemberAuth(String memberId, String memberPw);
+
+    Member findByMemberNameAndMemberIdAndMemberEmail(String memberName, String memberId, String memberEmail);
+
+    void updateMemberPw(Member member, String memberPw);
+
+    Member save(Member member);
+
+    Member findMemberId(String memberId);
+
+}
