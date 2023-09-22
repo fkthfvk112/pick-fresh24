@@ -49,9 +49,9 @@ jobs:
               -e BOOTPAY_ID=${{ secrets.BOOTPAY_ID }} \
               -e BOOTPAY_PRIVATE_KEY=${{ secrets.BOOTPAY_PRIVATE_KEY }} \
               -e JWT_TOKEN=${{ secrets.JWT_TOKEN }} \
-              -e NC_CLOUDNAME=${{ secrets.NC_CLOUDNAME }} \
-              -e NC_API_KEY=${{ secrets.NC_API_KEY }} \
-              -e NC_API_SECRET=${{ secrets.NC_API_SECRET }} \
+              -e CD_CLOUDNAME=${{ secrets.CD_CLOUDNAME }} \
+              -e CD_API_KEY=${{ secrets.CD_API_KEY }} \
+              -e CD_API_SECRET=${{ secrets.CD_API_SECRET }} \
               --name fresh-backend \
               --link mydb:db \
               ${{ secrets.DOCKERHUB_USERNAME }}/back-end:latest
