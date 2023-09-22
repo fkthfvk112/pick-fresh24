@@ -44,10 +44,10 @@ jobs:
               -e DB_HOST=mydb \
               -e DB_USER=${{ secrets.DB_USER }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-              -e EMAIL_USER=${{ secrets.NCS_ACCESSKEY }} \
-              -e EMAIL_PASSWORD=${{ secrets.NCS_SECRETKEY }} \
-              -e BOOTPAY_ID=${{ secrets.NCS_SERVICEID }} \
-              -e BOOTPAY_PRIVATE_KEY=${{ secrets.NCS_PHONE_NUMBER }} \
+              -e EMAIL_USER=${{ secrets.EMAIL_USER }} \
+              -e EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }} \
+              -e BOOTPAY_ID=${{ secrets.BOOTPAY_ID }} \
+              -e BOOTPAY_PRIVATE_KEY=${{ secrets.BOOTPAY_PRIVATE_KEY }} \
               -e JWT_TOKEN=${{ secrets.JWT_TOKEN }} \
               -e NC_CLOUDNAME=${{ secrets.NC_CLOUDNAME }} \
               -e NC_API_KEY=${{ secrets.NC_API_KEY }} \
