@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 @Configuration
 public class CloudinaryConfig {
 
-    @Value("${navercloud.cloudName}")
+    @Value("${cloudinary.cloudName}")
     private String cloudName;
 
-    @Value("${navercloud.apiKey}")
+    @Value("${cloudinary.apiKey}")
     private String apiKey;
     
-    @Value("${navercloud.apiSecret}")
+    @Value("${cloudinary.apiSecret}")
     private String apiSecret;
 
     @Bean
