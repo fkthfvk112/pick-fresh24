@@ -40,7 +40,7 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/back-end:latest
             docker rm -f fresh-backend
             docker run -d \
-              -p 3000:3000 \
+              -p 8080:8080 \
               -e DB_HOST=mydb \
               -e DB_USER=${{ secrets.DB_USER }} \
               -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
