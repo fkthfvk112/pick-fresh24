@@ -120,6 +120,12 @@
 		    <artifactId>cloudinary-http44</artifactId>
 		    <version>1.29.0</version>
 		</dependency>
+
+	    <!-- Spring WebFlux 의존성 -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
 		
 		<dependency>
 		    <groupId>org.modelmapper</groupId>

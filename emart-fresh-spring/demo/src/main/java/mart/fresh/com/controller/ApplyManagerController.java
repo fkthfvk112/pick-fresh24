@@ -3,6 +3,8 @@ package mart.fresh.com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +30,14 @@ private final EmailService emailService;
 	}
 
 	
-	@PostMapping("/apply-showList")
+	@GetMapping("/apply-showList")
 	public Page<ApplyManagerDto> showApplyList(@RequestParam int page, @RequestParam int size) {
 		Page<ApplyManagerDto> applyList = applyManagerService.showApplyList(page-1, size);
 	    return applyList;
 	}
 	
 	
-	@PostMapping("/apply-requestapplymanager")
+	@GetMapping("/apply-requestapplymanager")
 	public String requestApplyManager(@RequestBody ApplyEmailDto emailDto) {
 		System.out.println("controller 확인 : " + emailDto.toString());
 		

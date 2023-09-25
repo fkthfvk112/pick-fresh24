@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,11 @@ public class ReviewController {
 		this.reviewService = reviewService;
 	}
 	
-	@PostMapping("/review-list")
-	public Page<ReviewDto> myReviewList(@RequestParam String memberId,
+	@GetMapping("/review-list")
+	public Page<ReviewDto> myReviewList(Authentication authentication,
 										@RequestParam int page, @RequestParam int size) {
 		
-		Page<ReviewDto> reviewList = reviewService.myReviewList(memberId, page-1, size);
+		Page<ReviewDto> reviewList = reviewService.myReviewList(authentication.getName(), page-1, size);
 		return reviewList;
 	}
 	
