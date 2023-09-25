@@ -24,4 +24,10 @@ public class CartServiceImpl implements CartService{
         return cartDao.getCartInfo(memberId);
 	}
 
+	@Override
+	public String addToCart(String memberId, String productName, int storeId, int requestQuantity) {
+		
+		return cartDao.addToCart(memberId, productName, storeId, requestQuantity);
+	}
+
 }

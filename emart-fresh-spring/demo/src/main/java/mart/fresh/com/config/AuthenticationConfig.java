@@ -34,9 +34,10 @@ public class AuthenticationConfig {
     	.requestMatchers(new AntPathRequestMatcher("/member/**")).permitAll()
     	.requestMatchers(new AntPathRequestMatcher("/refreshToken/**")).permitAll()
     	.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+		.requestMatchers(new AntPathRequestMatcher("/cart/**")).permitAll();
     	//.requestMatchers(new AntPathRequestMatcher("/**")).permitAll();
     	//.requestMatchers(new AntPathRequestMatcher("/review/**")).permitAll()
-        .anyRequest().authenticated(); 	// 이외 모든 요청은 인증필요
+        //.anyRequest().authenticated(); 	// 이외 모든 요청은 인증필요
 		
 		return http.build();
 	}
