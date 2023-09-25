@@ -72,6 +72,16 @@ public class RefreshTokenController {
 	@GetMapping("/401error-handle")
 	public ResponseEntity<?> catch401ErrorHandler(HttpServletRequest req, HttpServletResponse res) throws IOException {
     	System.out.println("RefreshTokenController catch401ErrorHandler " + new Date());
+    	System.out.println("----------401error-handle--------------------");
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
+	
+	@PostMapping("/401error-handlePost")
+	public ResponseEntity<?> catch401ErrorPostHandler(HttpServletRequest req, HttpServletResponse res) throws IOException {
+    	System.out.println("RefreshTokenController catch401ErrorHandler " + new Date());
+    	System.out.println("----------401error-handle--------------------");
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 }
