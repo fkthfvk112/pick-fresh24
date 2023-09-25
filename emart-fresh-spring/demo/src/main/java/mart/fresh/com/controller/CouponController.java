@@ -2,6 +2,8 @@ package mart.fresh.com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +24,11 @@ public class CouponController {
 		this.couponService = couponService;
 	}
 	
-	@PostMapping("/coupon-list")
-	public Page<CouponDto> myCouponList(@RequestParam String memberId,
+	@GetMapping("/coupon-list")
+	public Page<CouponDto> myCouponList(Authentication authentication,
 										@RequestParam int page, @RequestParam int size) {
 		
-		Page<CouponDto> couponList = couponService.myCouponList(memberId, page-1, size);
+		Page<CouponDto> couponList = couponService.myCouponList(authentication.getName(), page-1, size);
 		return couponList;
 	}
 

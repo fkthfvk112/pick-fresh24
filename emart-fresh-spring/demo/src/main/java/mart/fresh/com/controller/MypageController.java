@@ -4,6 +4,8 @@ package mart.fresh.com.controller;
 import java.time.LocalDateTime;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,22 +35,22 @@ public class MypageController {
  	}
 	
 	
-	@PostMapping("/mypage-info")
-	public MypageDto getMemberByMemberId(@RequestParam String memberId) {
+	@GetMapping("/mypage-info")
+	public MypageDto getMemberByMemberId(Authentication authentication) {
 		System.out.println("MypageController getMemberByMemberId");
 		
-		MypageDto mypageInfo = mypageService.getMemberAndIsAppliedByMemberId(memberId);
+		MypageDto mypageInfo = mypageService.getMemberAndIsAppliedByMemberId(authentication.getName());
 		
 		return mypageInfo;
 	}
 	
 	@PostMapping("/mypage-changepassword")
-	public String changePassword(@RequestParam String memberId,
+	public String changePassword(Authentication authentication,
 									@RequestParam String memberPw,
 									@RequestParam String newPw) {
 		System.out.println("MypageController changepassword");
 		
-		boolean isS = mypageService.changePassword(memberId, memberPw, newPw);
+		boolean isS = mypageService.changePassword(authentication.getName(), memberPw, newPw);
 		
 		if(isS) { return "Success";	}
 			else { return "fail"; }
@@ -56,7 +58,7 @@ public class MypageController {
 	
 	
 	@PostMapping("/mypage-checkemail")
-	public String checkEmail(@RequestParam String memberId,
+	public String checkEmail(Authentication authentication,
 								@RequestParam String newEmail) {
 		System.out.println("MypageController checkEmail");
 		
@@ -64,7 +66,7 @@ public class MypageController {
 		
 		if(isS) { return "사용 중인 이메일입니다."; }
 
-		MypageDto member = mypageService.getMemberAndIsAppliedByMemberId(memberId);
+		MypageDto member = mypageService.getMemberAndIsAppliedByMemberId(authentication.getName());
 		
 			if(member != null) {
 			  String recipientEmail = newEmail; // 수신자 이메일 주소 설정
@@ -76,7 +78,7 @@ public class MypageController {
 	         LocalDateTime expiryTime = currentTime.plusMinutes(5);
 	        
 	  		emailService.sendEmailVerificationCode(member.getMemberName(), recipientEmail, subject, verificationCode);
-	  		mypageService.saveVerificationCode(memberId, verificationCode, expiryTime);
+	  		mypageService.saveVerificationCode(authentication.getName(), verificationCode, expiryTime);
 	  		
 			return "Success"; 
 			}
@@ -88,7 +90,7 @@ public class MypageController {
 	
 	
 	@PostMapping("/mypage-changeemail")
-	public String changeEmail(@RequestParam String memberId,
+	public String changeEmail(Authentication authentication,
 								@RequestParam String newEmail,
 								@RequestParam String verificationCode) {
 		
@@ -96,7 +98,7 @@ public class MypageController {
 		
 
          
-		int count = mypageService.changeEmail(memberId, newEmail, verificationCode);
+		int count = mypageService.changeEmail(authentication.getName(), newEmail, verificationCode);
 
 		
 		

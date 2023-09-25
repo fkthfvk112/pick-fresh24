@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +25,7 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @PostMapping("/event-list")
+    @GetMapping("/event-list")
     public Page<EventDto> eventList(@RequestParam int page, @RequestParam int size) {
         Page<EventDto> eventList = eventService.eventList(page - 1, size);
         return eventList;

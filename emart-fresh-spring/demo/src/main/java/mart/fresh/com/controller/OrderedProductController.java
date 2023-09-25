@@ -2,6 +2,8 @@ package mart.fresh.com.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,12 +27,12 @@ private final OrderedProductRepository orderedProductRepository;
 		this.orderedProductRepository = orderedProductRepository;
 	}
 	
-	@PostMapping("/orderedproduct-list")
-	public Page<MyOrderedProductDto> getOrderedProductBymemberId(	@RequestParam String memberId,
+	@GetMapping("/orderedproduct-list")
+	public Page<MyOrderedProductDto> getOrderedProductBymemberId(	Authentication authentication,
 																	@RequestParam int page, @RequestParam int size) {
 		System.out.println("OrderedProductController getOrderedProductByorderedProductId : " );
 
-		Page<MyOrderedProductDto> orderedProductList = orderedProductService.getOrderedProductByMemberId(memberId, page-1, size);
+		Page<MyOrderedProductDto> orderedProductList = orderedProductService.getOrderedProductByMemberId(authentication.getName(), page-1, size);
 		System.out.println("orderedProductList orderedProductList orderedProductList" + orderedProductList.toString());
 		return orderedProductList;
 	}
