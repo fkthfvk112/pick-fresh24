@@ -7,5 +7,6 @@ import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.entity.Store;
 
 public interface StoreDao {
-	public List<StoreDto> getStoreWitnNByProductName(GetStoreInDisDto dto);
+	List<StoreDto> getStoreWitnNByProductName(GetStoreInDisDto dto);
+	Store getStoreInfo(int storeId);
 }

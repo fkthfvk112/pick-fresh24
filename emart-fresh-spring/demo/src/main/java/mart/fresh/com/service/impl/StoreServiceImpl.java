@@ -2,6 +2,7 @@ package mart.fresh.com.service.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ import mart.fresh.com.service.StoreService;
 @Service
 public class StoreServiceImpl implements StoreService {
 	private final StoreDao storeDao;
+	private final ModelMapper modelMapper;
 	
 	@Autowired
-	public StoreServiceImpl(StoreDao storeDao) {
+	public StoreServiceImpl(StoreDao storeDao, ModelMapper modelMapper) {
 		this.storeDao = storeDao;
+		this.modelMapper = modelMapper;
 	}//엔티티 객체 DTO객체 전환
 
 
@@ -26,8 +29,16 @@ public class StoreServiceImpl implements StoreService {
 	public List<StoreDto> getStoreWitnNByProductName(GetStoreInDisDto dto) {
 		return storeDao.getStoreWitnNByProductName(dto) ;
 	}
-	
-	
-	
+
+
+	@Override
+	public StoreDto getStoreInfo(int storeId) {
+		Store store = storeDao.getStoreInfo(storeId);
+		StoreDto storeDto = modelMapper.map(store, StoreDto.class);
+				
+		System.out.println("스토어 dto" +  storeDto);
+		
+		return storeDto;
+	}
 }
 
