@@ -46,13 +46,14 @@ public class CartController {
     }
 	
 	@PostMapping("/addToCart")//수정 : add auth
-	public String addToCart(@RequestBody AddToCartDto dto) {
+	public String addToCart(Authentication authentication, @RequestBody AddToCartDto dto) {
 
 	    System.out.println("CartController의 장바구니에 추가 " + new Date());
 	    System.out.println("CartController" + dto.getProductName());
 	    System.out.println("CartController" + dto.getRequestQuantity());
+	    System.out.println("CartController" + authentication.getName());
 
-	    return cartService.addToCart("abcabc123", dto.getProductName(), dto.getStoreId(), dto.getRequestQuantity());//수정 memid
+	    return cartService.addToCart(authentication.getName(), dto.getProductName(), dto.getStoreId(), dto.getRequestQuantity());//수정 memid
 
 	}
 	

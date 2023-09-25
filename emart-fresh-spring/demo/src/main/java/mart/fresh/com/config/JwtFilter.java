@@ -67,7 +67,12 @@ public class JwtFilter extends OncePerRequestFilter {
 		    	// Access 토큰이 만료된 경우 401 Unauthorized 상태 코드를 반환
 		    	System.out.println("accessToken이 만료되었습니다. 401을 반환합니다.");
 		    	isError = true;		        
-		        request.getRequestDispatcher("/refreshToken/401error-handle").forward(request, response);
+		    	String httpMethod = request.getMethod();
+		    	 if ("POST".equalsIgnoreCase(httpMethod)) {
+				        request.getRequestDispatcher("/refreshToken/401error-handlePost").forward(request, response);
+		    	    } else if ("GET".equalsIgnoreCase(httpMethod)) {
+				        request.getRequestDispatcher("/refreshToken/401error-handle").forward(request, response);
+		    	    }
 		    }
 		    
 	    }
