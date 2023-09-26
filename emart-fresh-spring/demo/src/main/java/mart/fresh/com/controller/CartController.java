@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.AddToCartDto;
@@ -44,6 +45,28 @@ public class CartController {
             return ResponseEntity.ok(cartInfoList);
         }
     }
+	
+	@PostMapping("/updateCartProductQuantity")
+	public ResponseEntity<?> updateCartProductQuantity(Authentication authentication, @RequestBody Map<String, String> requestBody){
+        String memberId = authentication.getName();
+        System.out.println("CartController "+ memberId+ "의 장바구니 물품 수량 변경 " + new Date());
+		
+	    int cartProductId = Integer.parseInt(requestBody.get("cartProductId"));
+        int cartProductQuantity = Integer.parseInt(requestBody.get("cartProductQuantity"));
+	    
+        try {
+            boolean success = cartProductService.updateCartProductQuantity(memberId, cartProductId, cartProductQuantity);
+
+            if (success) {
+                List<CartInfoDto> updatedCartInfoList = cartService.getCartInfo(memberId);
+                return ResponseEntity.ok(updatedCartInfoList);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패: " + e.getMessage());
+        }
+	}
 	
 	@PostMapping("/addToCart")//수정 : add auth
 	public String addToCart(Authentication authentication, @RequestBody AddToCartDto dto) {
