@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
     @Value("${jwt.secretKey}")
     private String secretKey;
     
-    private Long expiredMs = 1*1000*30l; // 30초 임시
+    private Long expiredMs = 30*1000*60l; // 30분
  
     LocalDateTime refreshTokenExpiry = LocalDateTime.now().plus(Duration.ofHours(24)); // 24시간
     
