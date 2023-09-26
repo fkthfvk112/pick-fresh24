@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,6 +42,14 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+	
+	@Value("${naver.client.id}")
+	private String naverClientId;
+
+	@Value("${naver.client.secret}")
+	private String naverClientSecret;
+	
+	
 	private final MemberService memberService;
 	private final EmailService emailService;
 	private final AccountEmailVerificationRepository accountEmailVerificationRepository;
@@ -209,7 +218,9 @@ public class MemberController {
 		if (loginType == null || loginType.isEmpty()) {
 			System.out.println("loginType이 없습니다.");
 			return ResponseEntity.badRequest().body("loginType이 없습니다.");
-		} else if (loginType.equals("local")) {
+		} 
+		
+		else if (loginType.equals("local")) {
 			System.out.println("MemberController 로컬 로그아웃 " + new Date());
 			if (result) {
 				System.out.println("로컬 로그아웃 성공");
@@ -254,8 +265,10 @@ public class MemberController {
 
 			String naverAccessToken = requestBody.get("naverAccessToken");
 			if (naverAccessToken != null) {
-				String naverLogoutUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=cK9SlUJ8PJ4TPM9Vuxir&client_secret=khAsWc146D&access_token="
-						+ naverAccessToken + "&service_provider=NAVER";
+				String naverLogoutUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete"
+						+ "&client_id=" + naverClientId
+						+ "&client_secret=" + naverClientSecret
+						+ "&access_token=" + naverAccessToken + "&service_provider=NAVER";
 
 				ResponseEntity<String> response = restTemplate.postForEntity(naverLogoutUrl, null, String.class);
 
@@ -274,35 +287,6 @@ public class MemberController {
 			}
 		} else {
 			return ResponseEntity.badRequest().body("알수없는 로그인타입입니다.");
-		}
-	}
-
-	@PostMapping("/naverLogout")
-	public ResponseEntity<?> naverLogout(Authentication authentication, @RequestBody Map<String, String> requestBody) {
-		System.out.println("MemberController 네이버 로그아웃 " + new Date());
-
-		String accessToken = requestBody.get("access_token");
-		if (accessToken != null) {
-			String naverLogoutUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=cK9SlUJ8PJ4TPM9Vuxir&client_secret=khAsWc146D&access_token="
-					+ accessToken + "&service_provider=NAVER";
-
-			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<String> responseEntity = restTemplate.postForEntity(naverLogoutUrl, null, String.class);
-
-			if (responseEntity.getStatusCode().is2xxSuccessful()) {
-				System.out.println(authentication.getName());
-				boolean result = refreshTokenService.deleteByMemberId(authentication.getName());
-
-				if (result) {
-					return ResponseEntity.ok().build();
-				} else {
-					return ResponseEntity.badRequest().body("해당 멤버를 찾을 수 없습니다.");
-				}
-			} else {
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("네이버의 accessToken 값이 잘못됐습니다.");
-			}
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("네이버의 accessToken이 없습니다.");
 		}
 	}
 
