@@ -1,44 +1,28 @@
 package mart.fresh.com.controller;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.sql.Timestamp;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.security.core.Authentication;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import mart.fresh.com.config.JwtFilter;
 import mart.fresh.com.data.entity.AccountEmailVerification;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.AccountEmailVerificationRepository;
@@ -46,8 +30,6 @@ import mart.fresh.com.service.EmailService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.RefreshTokenService;
 import mart.fresh.com.util.MemberUtil;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
@@ -85,7 +67,152 @@ public class MemberController {
         }
     } 
     
-    @PostMapping("/add")                  // @Valid 어노테이션을 사용하여 입력된 Member 객체를 검증
+    @PostMapping("/kakaoLogin")
+	public ResponseEntity<?> kakaoLogin(@RequestBody Map<String, String> requestBody) {
+		System.out.println("MemberController 카카오 로그인 " + new Date());
+
+		String kakaoAccessToken = requestBody.get("access_token");
+
+		String apiUrl = "https://kapi.kakao.com/v2/user/me";
+
+		try {
+			URL url = new URL(apiUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Authorization", "Bearer " + kakaoAccessToken);
+
+			int responseCode = conn.getResponseCode();
+			System.out.println("카카오 응답 : " + responseCode);
+
+			if (responseCode == 200) {
+				ObjectMapper mapper = new ObjectMapper();
+				JsonNode jsonNode = mapper.readTree(conn.getInputStream());
+
+				String memberId = jsonNode.get("id").asText();
+				String memberName = jsonNode.get("properties").get("nickname").asText();
+				String memberEmail = jsonNode.get("kakao_account").get("email").asText();
+
+				memberService.kakaoAddMember(memberId, memberName, memberEmail); // DB에 카카오로그인 회원 저장
+				
+				Member member = memberService.findByMemberId("[kakao]"+memberId);
+				memberService.kakaoLoginType(member);
+
+				Map<String, String> tokens = memberService.kakaoLoginJwt(memberId);
+
+				if (tokens != null) {
+					System.out.println("카카오 로그인 토큰 발행 성공 " + new Date());
+
+					return ResponseEntity.ok().body(tokens); // 로그인 성공 시 JWT 및 리프레시 토큰 반환
+				} else {
+					System.out.println("카카오 로그인 토큰 발행 실패 " + new Date());
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 로그인 실패 시 401 반환
+				}
+			} else {
+				System.out.println("카카오 응답 : " + responseCode);
+				System.out.println("카카오 로그인 실패");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("카카오 로그인 실패");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+    
+    @PostMapping("/naverLogin")
+	public ResponseEntity<Object> naverLogin(@RequestBody Map<String, String> requestBody) {
+		System.out.println("MemberController 네이버 로그인 " + new Date());
+
+		String naverAccessToken = requestBody.get("access_token");
+
+		String apiUrl = "https://openapi.naver.com/v1/nid/me";
+
+		try {
+			URL url = new URL(apiUrl);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Authorization", "Bearer " + naverAccessToken);
+
+			int responseCode = conn.getResponseCode();
+			System.out.println("네이버 응답 : " + responseCode);
+
+			if (responseCode == 200) {
+				ObjectMapper objectMapper = new ObjectMapper();
+				JsonNode responseJson = objectMapper.readTree(conn.getInputStream());
+
+				String memberId = responseJson.get("response").get("id").asText();
+				String memberEmail = responseJson.get("response").get("email").asText();
+				String memberName = responseJson.get("response").get("name").asText();
+
+				memberService.naverAddMember(memberId, memberName, memberEmail); // DB에 네이버로그인 회원 저장
+				
+				Member member = memberService.findByMemberId("[naver]"+memberId);
+				memberService.naverLoginType(member);
+
+				Map<String, String> tokens = memberService.naverLoginJwt(memberId);
+
+				if (tokens != null) {
+					System.out.println("네이버 로그인 토큰 발행 성공 " + new Date());
+
+					return ResponseEntity.ok().body(tokens); // 로그인 성공 시 JWT 및 리프레시 토큰 반환
+				} else {
+					System.out.println("네이버 로그인 토큰 발행 실패 " + new Date());
+					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 로그인 실패 시 401 반환
+				}
+			} else {
+				System.out.println("네이버 응답 : " + responseCode);
+				System.out.println("네이버 로그인 실패");
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 로그인 실패 시 401 반환
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+    
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestParam("memberId") String memberId) {
+        System.out.println("MemberController 로그아웃 " + new Date());
+
+        boolean result = refreshTokenService.deleteByMemberId(memberId);
+
+        if (result) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    
+    @PostMapping("/naverLogout")
+	public ResponseEntity<?> naverLogout(Authentication authentication, @RequestBody Map<String, String> requestBody) {
+		System.out.println("MemberController 네이버 로그아웃 " + new Date());
+
+		String accessToken = requestBody.get("access_token");
+		if (accessToken != null) {
+			String naverLogoutUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=cK9SlUJ8PJ4TPM9Vuxir&client_secret=khAsWc146D&access_token="
+					+ accessToken + "&service_provider=NAVER";
+
+			RestTemplate restTemplate = new RestTemplate();
+			ResponseEntity<String> responseEntity = restTemplate.postForEntity(naverLogoutUrl, null, String.class);
+
+			if (responseEntity.getStatusCode().is2xxSuccessful()) {
+				System.out.println(authentication.getName());
+				boolean result = refreshTokenService.deleteByMemberId(authentication.getName());
+
+				if (result) {
+					return ResponseEntity.ok().build();
+				} else {
+					return ResponseEntity.badRequest().body("해당 멤버를 찾을 수 없습니다.");
+				}
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("네이버의 accessToken 값이 잘못됐습니다.");
+			}
+		} else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("네이버의 accessToken이 없습니다.");
+		}
+	}
+    
+    @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody @Valid Member member) {
         System.out.println("MemberController 회원가입 " + new Date());
         
@@ -95,6 +222,8 @@ public class MemberController {
         
         try {
             memberService.addMember(member);
+    		memberService.localLoginType(member);
+    		
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -247,21 +376,6 @@ public class MemberController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
         }    
-    }
-    
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestParam("memberId") String memberId) {
-        System.out.println("MemberController 로그아웃 " + new Date());
-
-        boolean result = refreshTokenService.deleteByMemberId(memberId);
-
-        if (result) {
-            // 로그아웃 성공
-            return ResponseEntity.ok().build();
-        } else {
-            // 로그아웃 실패
-            return ResponseEntity.badRequest().build();
-        }
     }
     
     @GetMapping("/isValidMember")

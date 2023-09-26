@@ -37,13 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
 		
 		boolean isError = false;
 		
-		String requestURI = request.getRequestURI();
-		if (requestURI.startsWith("/member")) {
-			System.out.println("로그인과 회원가입은 AccessToken이 필요없습니다.");
-	        filterChain.doFilter(request, response);
-	        return;
-	    }
-		
 		final String authorization = request.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
 		log.info("Authorization : {}",authorization);
 		
