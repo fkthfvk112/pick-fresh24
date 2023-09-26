@@ -67,6 +67,11 @@ public class CartController {
 
     }
 	
-	
+	@GetMapping("/decreaseCartProduct")
+	public String decreaseCartProductQuantity(String memberId){
+		System.out.println("이거요");
+		//String memberId = authentication.getName();
+		return cartService.decreaseCartProductQuantity(memberId);
+	}
 
 }

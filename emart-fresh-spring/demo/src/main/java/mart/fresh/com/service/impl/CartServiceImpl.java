@@ -30,4 +30,10 @@ public class CartServiceImpl implements CartService{
 		return cartDao.addToCart(memberId, productName, storeId, requestQuantity);
 	}
 
+	@Override
+	public String decreaseCartProductQuantity(String memberId) {
+		
+		return cartDao.decreaseCartProductQuantity(memberId);
+	}
+
 }
