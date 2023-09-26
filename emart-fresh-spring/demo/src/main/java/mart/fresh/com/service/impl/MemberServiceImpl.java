@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
     @Value("${jwt.secretKey}")
     private String secretKey;
     
-    private Long expiredMs = 1*1000*30l; // 30초 임시
+    private Long expiredMs = 30*1000*60l; // 30분
  
     LocalDateTime refreshTokenExpiry = LocalDateTime.now().plus(Duration.ofHours(24)); // 24시간
     
@@ -87,6 +87,88 @@ public class MemberServiceImpl implements MemberService {
            return null;
         }
     }
+    
+    @Override
+    public Map<String, String> kakaoLoginJwt(String memberId) {
+    	String kakaoMemberId = "[kakao]"+memberId;
+    	try {
+            Member member = memberDao.getMemberById(kakaoMemberId);
+            if (member != null) {
+            	String memberName = member.getMemberName();
+            	String memberEmail = member.getMemberEmail();
+                int memberAuth = member.getMemberAuth();
+                String jwt = JwtUtil.createJwt(kakaoMemberId, memberName, memberEmail, memberAuth, jwtUtil.getSecretKey(), expiredMs);
+                RefreshToken currentMember = refreshTokenService.findByMember(member);
+
+                String refreshToken = JwtUtil.createRefreshToken(64);
+                
+                if (currentMember != null) {
+                    currentMember.setRefreshToken(refreshToken);
+                    currentMember.setRefreshTokenExpiry(refreshTokenExpiry);
+                    refreshTokenService.saveRefreshToken(currentMember);
+                } else {
+                    // 새로운 리프레시 토큰 생성 후 저장
+                    RefreshToken refreshTokenEntity = new RefreshToken();
+                    refreshTokenEntity.setRefreshToken(refreshToken);
+                    refreshTokenEntity.setMember(member);
+                    refreshTokenEntity.setRefreshTokenExpiry(refreshTokenExpiry);
+                    refreshTokenService.saveRefreshToken(refreshTokenEntity);
+                }
+
+                Map<String, String> response = new HashMap<>();
+                response.put("accessToken", jwt);
+                response.put("refreshToken", refreshToken);
+                
+                return response;
+            } else {
+            	System.out.println("DB에 회원이 없음");
+                throw new AuthenticationException("Invalid credentials");
+            }
+    	}catch(AuthenticationException e) {
+            return null;
+        }
+    }
+    
+    @Override
+    public Map<String, String> naverLoginJwt(String memberId) {
+    	String naverMemberId = "[naver]"+memberId;
+    	try {
+            Member member = memberDao.getMemberById(naverMemberId);
+            if (member != null) {
+            	String memberName = member.getMemberName();
+            	String memberEmail = member.getMemberEmail();
+                int memberAuth = member.getMemberAuth();
+                String jwt = JwtUtil.createJwt(naverMemberId, memberName, memberEmail, memberAuth, jwtUtil.getSecretKey(), expiredMs);
+                RefreshToken currentMember = refreshTokenService.findByMember(member);
+
+                String refreshToken = JwtUtil.createRefreshToken(64);
+                
+                if (currentMember != null) {
+                    currentMember.setRefreshToken(refreshToken);
+                    currentMember.setRefreshTokenExpiry(refreshTokenExpiry);
+                    refreshTokenService.saveRefreshToken(currentMember);
+                } else {
+                    // 새로운 리프레시 토큰 생성 후 저장
+                    RefreshToken refreshTokenEntity = new RefreshToken();
+                    refreshTokenEntity.setRefreshToken(refreshToken);
+                    refreshTokenEntity.setMember(member);
+                    refreshTokenEntity.setRefreshTokenExpiry(refreshTokenExpiry);
+                    refreshTokenService.saveRefreshToken(refreshTokenEntity);
+                }
+
+                Map<String, String> response = new HashMap<>();
+                response.put("accessToken", jwt);
+                response.put("refreshToken", refreshToken);
+                
+                return response;
+            } else {
+            	System.out.println("DB에 회원이 없음");
+                throw new AuthenticationException("Invalid credentials");
+            }
+    	}catch(AuthenticationException e) {
+            return null;
+        }
+    }
 
     @Override
     public Member getMemberById(String memberId) {
@@ -100,7 +182,35 @@ public class MemberServiceImpl implements MemberService {
        
        memberDao.addMember(member);
     }
+    
+    @Override
+    public void kakaoAddMember(String memberId, String memberName, String memberEmail) {
+    	memberDao.kakaoAddMember(memberId, memberName, memberEmail);
+    }
+    
+    @Override
+    public void naverAddMember(String memberId, String memberName, String memberEmail) {
+    	memberDao.naverAddMember(memberId, memberName, memberEmail);
+    	
+    }
 
+    @Override
+	public void localLoginType(Member member) {
+		memberDao.localLoginType(member);
+	}
+
+	@Override
+	public void kakaoLoginType(Member member) {
+		memberDao.kakaoLoginType(member);
+		
+	}
+
+	@Override
+	public void naverLoginType(Member member) {
+		memberDao.naverLoginType(member);
+		
+	}
+    
    @Override
    public String findMemberId(String memberName, String memberEmail) {
         return memberDao.findMemberId(memberName, memberEmail);
