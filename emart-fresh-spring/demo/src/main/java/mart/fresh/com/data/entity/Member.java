@@ -51,5 +51,8 @@ public class Member {
     private String verifyCode;
     
     @Column(name = "verify_code_expiry")
-    private LocalDateTime verifyCodeExpiry;
+    private LocalDateTime verifyCodeExpiry;    
+    
+    @Column(name = "login_type")
+    private String loginType;
 }

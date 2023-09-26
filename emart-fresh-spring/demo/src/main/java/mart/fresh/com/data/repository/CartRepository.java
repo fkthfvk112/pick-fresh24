@@ -15,7 +15,7 @@ import mart.fresh.com.data.entity.StoreProduct;
 public interface CartRepository extends JpaRepository<Cart, Integer>{
     List<Cart> findByMemberMemberId(String memberId);
 
-    @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.priceNumber, cp.cartProductQuantity, c.store.storeId) " +
+    @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.priceNumber, p.productTimeSale, cp.cartProductQuantity, c.store.storeId) " +
     	       "FROM CartProduct cp " +
     	       "JOIN cp.cart c " +
     	       "JOIN cp.product p " +
