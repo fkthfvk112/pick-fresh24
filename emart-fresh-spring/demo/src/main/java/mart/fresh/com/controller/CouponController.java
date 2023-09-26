@@ -27,7 +27,7 @@ public class CouponController {
 	@GetMapping("/coupon-list")
 	public Page<CouponDto> myCouponList(Authentication authentication,
 										@RequestParam int page, @RequestParam int size) {
-		
+		System.out.println("멤버 아이디"+ authentication.getName());
 		Page<CouponDto> couponList = couponService.myCouponList(authentication.getName(), page-1, size);
 		return couponList;
 	}

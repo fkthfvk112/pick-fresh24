@@ -22,9 +22,6 @@ import mart.fresh.com.service.PaymentService;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
-	
-	
-	
 	private final PaymentService paymentService;
 	
 	@Autowired

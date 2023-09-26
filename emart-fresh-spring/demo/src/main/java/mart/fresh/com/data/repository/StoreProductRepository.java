@@ -14,4 +14,6 @@ import mart.fresh.com.data.entity.StoreProductWithId;
 public interface StoreProductRepository extends JpaRepository<StoreProductWithId, Integer> {
 
 	StoreProductWithId findByStoreIdAndProductId(int storeId,  int productId);
+	
+	List<StoreProductWithId> findByStoreId(int storeId);
 }

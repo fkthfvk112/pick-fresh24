@@ -21,5 +21,10 @@ public interface StoreProductObjRepository extends JpaRepository<StoreProduct, I
 	List<Store> findStoreByProductNames(
 			@Param("productNames") List<String> productNames,
 			@Param("productSize") int productSize);
-
+	
+	@Query("SELECT sp "
+			+ "FROM StoreProduct sp"
+			+ " JOIN FETCH sp.product "
+			+ "WHERE sp.store.storeId = :storeId ")
+	List<StoreProduct> findtStoreProuctByStoreId(@Param("storeId") int storeId);
 }

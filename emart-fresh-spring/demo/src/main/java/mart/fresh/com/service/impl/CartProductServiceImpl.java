@@ -19,6 +19,4 @@ public class CartProductServiceImpl implements CartProductService{
 	public void removeProductFromCart(String memberId, int cartProductId) {
 		cartProductDao.removeProductFromCart(memberId, cartProductId);
 	}
-	
-	
 }

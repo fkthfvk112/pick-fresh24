@@ -21,6 +21,9 @@ public interface CartRepository extends JpaRepository<Cart, Integer>{
     	       "JOIN cp.product p " +
     	       "WHERE c.member.memberId = :memberId")
     	List<CartInfoDto> getCartInfoByMemberId(@Param("memberId") String memberId);
+    
+    
+    Cart findByMember_MemberId(String memberId);
 
     //현재 날짜 기준으로 해당 가게에 해당 상품 재고가 존재하는지 확인
     @Query("SELECT sp "

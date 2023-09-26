@@ -1,8 +1,10 @@
 package mart.fresh.com.controller;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,5 +33,17 @@ private final StoreService storeService;
 		List<StoreDto> nearStoreList = storeService.getStoreWitnNByProductName(dto);
 		
 		return nearStoreList;
+	}
+	
+	@GetMapping("/get-storeinfo")
+	public ResponseEntity<StoreDto> getStoreInfo(int storeId) {
+		StoreDto storeDto = storeService.getStoreInfo(storeId);
+		System.out.println("디티오값" + storeDto);
+		if(storeDto == null) {
+			return ResponseEntity
+					.status(HttpStatus.NOT_FOUND)
+	                .body(storeDto);
+		}
+		return ResponseEntity.ok(storeDto);
 	}
 }
