@@ -19,11 +19,8 @@ public class CartProductServiceImpl implements CartProductService{
 	public void removeProductFromCart(String memberId, int cartProductId) {
 		cartProductDao.removeProductFromCart(memberId, cartProductId);
 	}
-
 	@Override
 	public boolean updateCartProductQuantity(String memberId, int cartProductId, int cartProductQuantity) {
 		return cartProductDao.updateCartProductQuantity(memberId, cartProductId, cartProductQuantity);
 	}
-	
-	
 }

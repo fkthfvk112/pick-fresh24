@@ -77,7 +77,6 @@ public class CartController {
 	    System.out.println("CartController" + authentication.getName());
 
 	    return cartService.addToCart(authentication.getName(), dto.getProductName(), dto.getStoreId(), dto.getRequestQuantity());//수정 memid
-
 	}
 	
 	@DeleteMapping("/removeProduct")
@@ -90,6 +89,11 @@ public class CartController {
 
     }
 	
-	
+	@GetMapping("/decreaseCartProduct")
+	public String decreaseCartProductQuantity(String memberId){
+		System.out.println("이거요");
+		//String memberId = authentication.getName();
+		return cartService.decreaseCartProductQuantity(memberId);
+	}
 
 }

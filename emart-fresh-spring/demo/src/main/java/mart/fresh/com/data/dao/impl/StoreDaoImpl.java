@@ -2,6 +2,7 @@ package mart.fresh.com.data.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,16 +13,19 @@ import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.data.repository.ProductRepository;
 import mart.fresh.com.data.repository.StoreProductObjRepository;
+import mart.fresh.com.data.repository.StoreRepository;
 import utils.StoreUtils;
 
 @Component
 public class StoreDaoImpl implements StoreDao {
 	
 	private final StoreProductObjRepository storeProductObjRepository;
+	private final StoreRepository storeRepository;
 	
 	@Autowired
-	public StoreDaoImpl(StoreProductObjRepository storeProductObjRepository) {
+	public StoreDaoImpl(StoreProductObjRepository storeProductObjRepository, StoreRepository storeRepository) {
 		this.storeProductObjRepository = storeProductObjRepository;
+		this.storeRepository = storeRepository;
 	}
 	
 	@Override
@@ -56,6 +60,18 @@ public class StoreDaoImpl implements StoreDao {
 		System.out.println("-----getStoreWitnNByProductName" + storeDtos);
 		
 		return storeDtos;
+	}
+
+	@Override
+	public Store getStoreInfo(int storeId) {
+		Optional<Store> os =  storeRepository.findById(storeId);
+		if (os.isPresent()) {
+		    System.out.println("값 존재 " + os.get());
+		    return os.get();
+		}
+		
+		System.out.println("값 없음 ");
+		return null;
 	}
 
 }
