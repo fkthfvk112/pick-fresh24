@@ -27,4 +27,7 @@ public class ApplyManager {
 
     @Column(name = "apply_date")
     private Timestamp applyDate;
+    
+    @Column(name = "certif_img_url")
+    private String certifImgUrl;
 }

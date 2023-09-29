@@ -11,4 +11,5 @@ public class ApplyManagerDto {
     private String memberId; // MyDto로 수정
     private boolean isApplied;
     private Timestamp applyDate;
+    private String certifImgUrl;
 }

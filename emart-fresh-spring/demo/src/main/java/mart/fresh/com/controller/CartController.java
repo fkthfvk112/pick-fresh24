@@ -66,11 +66,11 @@ public class CartController {
 
     }
 	
-	@GetMapping("/decreaseCartProduct")
-	public String decreaseCartProductQuantity(String memberId){
+	@PostMapping("/decreaseCartProduct")
+	public String decreaseCartProductQuantity(Authentication authentication){
 		System.out.println("이거요");
 		//String memberId = authentication.getName();
-		return cartService.decreaseCartProductQuantity(memberId);
+		return cartService.decreaseCartProductQuantity(authentication.getName());
 	}
 
 }
