@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.GetStoreInDisDto;
 import mart.fresh.com.data.dto.StoreDto;
+import mart.fresh.com.data.dto.StoreDtoWithId;
+import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.data.repository.ProductRepository;
 import mart.fresh.com.data.repository.StoreProductObjRepository;
@@ -21,11 +24,13 @@ public class StoreDaoImpl implements StoreDao {
 	
 	private final StoreProductObjRepository storeProductObjRepository;
 	private final StoreRepository storeRepository;
+	private final ModelMapper modelmapper;
 	
 	@Autowired
-	public StoreDaoImpl(StoreProductObjRepository storeProductObjRepository, StoreRepository storeRepository) {
+	public StoreDaoImpl(StoreProductObjRepository storeProductObjRepository, StoreRepository storeRepository, ModelMapper modelMapper) {
 		this.storeProductObjRepository = storeProductObjRepository;
 		this.storeRepository = storeRepository;
+		this.modelmapper = modelMapper;
 	}
 	
 	@Override
@@ -72,6 +77,26 @@ public class StoreDaoImpl implements StoreDao {
 		
 		System.out.println("값 없음 ");
 		return null;
+	}
+
+	@Override
+	public int addStore(StoreDtoWithId dto) {
+		try {
+			Store storeEntity = new Store();
+			Member member = new Member();
+			member.setMemberId(dto.getMemberId());
+			
+			storeEntity.setMember(member);
+			storeEntity.setStoreAddress(dto.getStoreAddress());
+			storeEntity.setStoreLatitude(dto.getStoreLatitude());
+			storeEntity.setStoreLongitude(dto.getStoreLongitude());
+			storeEntity.setStoreName(dto.getStoreName());
+			storeRepository.save(storeEntity);
+			
+			return 1;
+		}catch(Exception e) {
+			return 0;
+		}
 	}
 
 }

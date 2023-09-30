@@ -59,14 +59,13 @@ private final EmailService emailService;
 
 	//입력된 아이디를 apply해줌, 즉 남의 아이디를 받아줌
 	@PostMapping("apply-applymanager")
-	public String applymanager(Authentication authentication) {
-		
-		boolean isS = applyManagerService.applyManager(authentication.getName());
+	public ResponseEntity<String>  applymanager(String memberId) {
+		boolean isS = applyManagerService.applyManager(memberId);
 		
 		if(isS) {
-			return("Success");
+			return ResponseEntity.ok("success");
 		} else {
-			return("fail");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
 		}
 		
 	}

@@ -53,6 +53,7 @@ public class ApplyManagerServiceImpl implements ApplyManagerService {
             dto.setMemberId(applyManager.getMember().getMemberId());
             dto.setApplied(applyManager.isApplied());
             dto.setApplyDate(applyManager.getApplyDate());
+            dto.setCertifImgUrl(applyManager.getCertifImgUrl());
             
             int applyManagerCount = applyManagerRepository.applyManagerCount();
             dto.setApplyManagerCount(applyManagerCount);

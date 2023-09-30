@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.GetStoreInDisDto;
 import mart.fresh.com.data.dto.StoreDto;
+import mart.fresh.com.data.dto.StoreDtoWithId;
 import mart.fresh.com.service.StoreService;
 
 @RequestMapping("/store")
@@ -45,5 +46,17 @@ private final StoreService storeService;
 	                .body(storeDto);
 		}
 		return ResponseEntity.ok(storeDto);
+	}
+	
+	@PostMapping("/add-store")
+	public ResponseEntity<String> addStore(@RequestBody StoreDtoWithId dto){
+		int result = storeService.addStore(dto);
+		
+		if(result == 1) {
+			return ResponseEntity.ok().body("success");
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+		}
 	}
 }
