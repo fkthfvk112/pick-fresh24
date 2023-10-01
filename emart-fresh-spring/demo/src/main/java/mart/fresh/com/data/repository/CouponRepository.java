@@ -28,4 +28,5 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	@Transactional
 	List<Coupon> findByCouponExpirationDateBefore(LocalDateTime currentTime);
 
+	Coupon getCouponByCouponId(@Param("couponId") int couponId);
 }

@@ -69,6 +69,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	 
 	 @Query("SELECT p FROM Product p WHERE p.productExpirationDate <= :sixHoursFromNow")
 	 List<Product> findProductTimeSale(LocalDateTime sixHoursFromNow);
-	 
+
+	 Product findProductByProductId(int productId);	 
 }
 

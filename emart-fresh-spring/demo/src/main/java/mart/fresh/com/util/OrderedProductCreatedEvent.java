@@ -1,9 +1,7 @@
 package mart.fresh.com.util;
 
-import java.util.List;
 
 import mart.fresh.com.data.entity.OrderedProduct;
-import mart.fresh.com.data.entity.OrderedProductProduct;
 
 public class OrderedProductCreatedEvent {
 

@@ -6,8 +6,10 @@ import lombok.Data;
 
 @Data
 public class MyOrderedProductDto {
+	private String memberId;
     private int productId;
     private int storeId;
+    private int couponId;
     private boolean isPickup;
     private String storeName;
     private Timestamp orderedDate;

@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import mart.fresh.com.data.entity.Store;
 
 public interface StoreRepository extends JpaRepository<Store, Integer>{
-	
+	Store findByMemberMemberId(String memberId);
+	Store findStoreByStoreId(int storeId);
 }
