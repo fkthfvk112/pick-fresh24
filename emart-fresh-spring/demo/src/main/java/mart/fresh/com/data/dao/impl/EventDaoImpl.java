@@ -48,5 +48,11 @@ public class EventDaoImpl implements EventDao {
         Pageable pageable = PageRequest.of(page, size);
     	return eventRepository.eventList(pageable);
     }
+
+	@Override
+	public Event eventDetail(int eventId) {
+		Event event = eventRepository.findByEventId(eventId); 
+		return event;
+	}
     
 }

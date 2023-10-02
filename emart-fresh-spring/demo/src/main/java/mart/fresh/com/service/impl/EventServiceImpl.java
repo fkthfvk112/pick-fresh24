@@ -58,6 +58,13 @@ public class EventServiceImpl implements EventService {
         
         return eventDtoPage;
     }
+    
+    @Override
+    public EventDto eventDetail(int eventId) {
+    	Event event = eventDao.eventDetail(eventId);
+    	
+    	return convertEventToDto(event);
+    }
 
 
     public String uploadImage(MultipartFile imageFile) throws Exception {

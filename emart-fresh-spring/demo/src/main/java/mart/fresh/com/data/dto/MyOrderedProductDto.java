@@ -20,4 +20,5 @@ public class MyOrderedProductDto {
     private int myOrderedCount;
     private String productImgUrl;
     private int orderedProductId;
+    private String audioData;
 }

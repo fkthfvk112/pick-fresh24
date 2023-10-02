@@ -10,13 +10,11 @@ public class OrderedProductCreatedEvent {
     
     // 그냥 OrderedProduct 값 생성
     public OrderedProductCreatedEvent(OrderedProduct orderedProduct) {
-        System.out.println("OrderedProductCreatedEvent 값 확인 : " + orderedProduct.toString() );
     	this.orderedProduct = orderedProduct;
             
     }
 
     public OrderedProduct getOrderedProduct() {
-    	System.out.println("OrderedProductCreatedEvent getOrderedProduct 값 확인 : " + orderedProduct.toString() );
         return orderedProduct;
     }
 }

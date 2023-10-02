@@ -1,30 +1,24 @@
 package mart.fresh.com.service.impl;
 
-import java.sql.Timestamp;
+
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
-
 import mart.fresh.com.data.dao.OrderedProductDao;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
 import mart.fresh.com.data.entity.OrderedProduct;
 import mart.fresh.com.data.entity.OrderedProductProduct;
-import mart.fresh.com.data.repository.MypageRepository;
 import mart.fresh.com.data.repository.OrderedProductRepository;
 import mart.fresh.com.service.OrderedProductService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
-import mart.fresh.com.util.EventPublisherHolder;
+import mart.fresh.com.util.NaverTtsService;
 import mart.fresh.com.util.OrderedProductCreatedEvent;
 
 import org.slf4j.Logger;
@@ -40,14 +34,17 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 
     private FluxSink<MyOrderedProductDto> sink;
     private final Flux<MyOrderedProductDto> flux;
-    
+
+    private NaverTtsService naverTtsService;
 
     @Autowired
     public OrderedProductServiceImpl(OrderedProductDao orderedProductDao,
-                                    OrderedProductRepository orderedProductRepository) {
+                                    OrderedProductRepository orderedProductRepository,
+                                    NaverTtsService naverTtsService) {
         this.orderedProductDao = orderedProductDao;
         this.orderedProductRepository = orderedProductRepository;
-
+        this.naverTtsService = naverTtsService;
+        
         this.flux = Flux.<MyOrderedProductDto>create(emitter ->  this.sink = emitter, FluxSink.OverflowStrategy.BUFFER)
                         .publish()
                         .autoConnect();
@@ -72,24 +69,18 @@ public class OrderedProductServiceImpl implements OrderedProductService {
     @Override
     @EventListener
     public void handleOrderedProductCreatedEvent(OrderedProductCreatedEvent event) {
-        // 이벤트 발생 시 streamOrderedProductsByStoreId 메서드를 호출하도록 변경
-    	
-    	System.out.println("handleOrderedProductCreatedEvent : " +  event.getOrderedProduct().toString());
-    	
-	    OrderedProduct orderedProduct = event.getOrderedProduct();
-	    System.out.println("handleOrderedProductCreatedEventhandleOrderedProductCreatedEvent orderedProduct : " + orderedProduct.toString());
-	    	      
-	    MyOrderedProductDto dto = convertEntityOpToDto(orderedProduct);
-	
-	    System.out.println("handleOrderedProductCreatedEventhandleOrderedProductCreatedEvent dto dto : " + dto.toString());
-	      
-	      // sink 값이 있으면 다음 flux 클라이언트 연결 때 dto 값 
+    	    	
+	    // sink 값이 있으면 다음 flux 클라이언트 연결 때 dto 값 
 	    if (sink != null) {
-	          sink.next(dto);
+	    	 byte[] audioData = naverTtsService.synthesizeSpeech("주문 왔숑");
+	    	 String audioDataEncoded = Base64.getEncoder().encodeToString(audioData);
+	         MyOrderedProductDto dto = convertEntityOpToDto(event.getOrderedProduct());
+	    	 dto.setAudioData(audioDataEncoded);
+	         sink.next(dto);
+	          
+	         
 	    }
-	    	
-//        streamOrderedProductsByStoreId(event.getOrderedProduct().getMember().getMemberId());
-        
+
     }
     
 
@@ -137,7 +128,7 @@ public class OrderedProductServiceImpl implements OrderedProductService {
         myOrderedProductDto.setOrderedDate(orderedProduct.getOrderedDate());
         myOrderedProductDto.setTotalAmount(orderedProduct.getTotalAmount());
         myOrderedProductDto.setOrderedProductId(orderedProduct.getOrderedProductId());
-           
+
         return myOrderedProductDto;
     }
 

@@ -29,11 +29,8 @@ import reactor.core.publisher.Flux;
 @RequestMapping("/orderedproduct")
 @RestController
 public class OrderedProductController {
-
 private final OrderedProductService orderedProductService;
-private final OrderedProductRepository orderedProductRepository;
-private final WebClient webClient;
-private ApplicationEventPublisher eventPublisher;
+
 
 
 	@Autowired
@@ -41,8 +38,7 @@ private ApplicationEventPublisher eventPublisher;
 														OrderedProductRepository orderedProductRepository,
 														WebClient.Builder webClientBuilder) {
 		this.orderedProductService = orderedProductService;
-		this.orderedProductRepository = orderedProductRepository;
-		this.webClient = webClientBuilder.baseUrl("https://naveropenapi.apigw.ntruss.com").build();
+
 	}
 	
 	@PostMapping("/orderedproduct-list")
