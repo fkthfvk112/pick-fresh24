@@ -10,6 +10,7 @@ import mart.fresh.com.data.dao.ProductDao;
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.GetStoreInDisDto;
 import mart.fresh.com.data.dto.StoreDto;
+import mart.fresh.com.data.dto.StoreDtoWithId;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.service.StoreService;
 
@@ -39,6 +40,13 @@ public class StoreServiceImpl implements StoreService {
 		System.out.println("스토어 dto" +  storeDto);
 		
 		return storeDto;
+	}
+
+
+	@Override
+	public int addStore(StoreDtoWithId dto) {
+		
+		return storeDao.addStore(dto);
 	}
 }
 

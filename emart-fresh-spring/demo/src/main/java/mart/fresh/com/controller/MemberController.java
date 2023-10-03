@@ -30,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import mart.fresh.com.data.dto.MemberDto;
 import mart.fresh.com.data.entity.AccountEmailVerification;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.AccountEmailVerificationRepository;
@@ -460,4 +461,12 @@ public class MemberController {
 		return "valid";
 	}
 
+	@GetMapping("/getMemberInfo")
+	public ResponseEntity<Member> getMemberInfoById(String memberId) {
+		Member member = memberService.findByMemberId(memberId);
+		if(member != null) {
+			return ResponseEntity.ok().body(member);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(member);
+	}
 }

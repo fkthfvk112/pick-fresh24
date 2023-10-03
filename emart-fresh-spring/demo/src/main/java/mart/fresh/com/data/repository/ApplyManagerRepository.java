@@ -15,6 +15,7 @@ public interface ApplyManagerRepository extends JpaRepository<ApplyManager, Inte
 
 	
 	boolean existsByMember_MemberId(String memberId);
+	
     @Transactional
     @Modifying
     @Query( value = "INSERT INTO apply_manager (member_id, is_applied, apply_date) " +
