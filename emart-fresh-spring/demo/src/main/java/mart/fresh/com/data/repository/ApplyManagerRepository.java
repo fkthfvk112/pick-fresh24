@@ -28,6 +28,7 @@ public interface ApplyManagerRepository extends JpaRepository<ApplyManager, Inte
     
     @Query("SELECT am " +
     	       "FROM ApplyManager AS am " +
+    	       "WHERE am.isApplied = FALSE " +
     	       "ORDER BY am.applyDate DESC")
 	Page<ApplyManager> showApplyList(Pageable pageable);
 
@@ -48,5 +49,6 @@ public interface ApplyManagerRepository extends JpaRepository<ApplyManager, Inte
 	        + "FROM ApplyManager am")
 	int applyManagerCount();
 
-    
+	
+	ApplyManager findByMember_memberId(String memberId);
 }

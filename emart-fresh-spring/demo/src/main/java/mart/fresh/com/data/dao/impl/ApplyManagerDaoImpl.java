@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import mart.fresh.com.data.dao.ApplyManagerDao;
@@ -56,11 +57,14 @@ public class ApplyManagerDaoImpl implements ApplyManagerDao {
         return applyManagerRepository.showApplyList(pageable);
     }
 
+    @Transactional
 	@Override
 	public int applyManager(String memberId) {
+    	System.out.println("아이디" + memberId);
 		int apply = applyManagerRepository.applyManager(memberId, true);
 		int updateAuth = applyManagerRepository.updateMemberAuth(memberId, 1);
-		if( apply != 1 || updateAuth != 1) { return 0; } 
+		if( apply != 1 || updateAuth != 1) { return 0; }
+		
 		return 1;
 	}
 	

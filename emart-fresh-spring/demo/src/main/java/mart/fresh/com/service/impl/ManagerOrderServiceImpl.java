@@ -2,13 +2,11 @@ package mart.fresh.com.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mart.fresh.com.data.dao.ManagerOrderDao;
-import mart.fresh.com.data.dao.ProductDao;
 import mart.fresh.com.data.dto.ManagerOrderDto;
 import mart.fresh.com.data.entity.ManagerOrderWithId;
 import mart.fresh.com.data.entity.ManagerOrderWithObj;
