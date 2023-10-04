@@ -3,12 +3,16 @@ package mart.fresh.com.data.dao.impl;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import jakarta.persistence.Transient;
+import jakarta.transaction.Transactional;
 import mart.fresh.com.data.dao.CartDao;
 import mart.fresh.com.data.dto.CartInfoDto;
 import mart.fresh.com.data.dto.CartProductDto;
@@ -18,9 +22,12 @@ import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.data.entity.StoreProduct;
+import mart.fresh.com.data.entity.StoreProductWithId;
 import mart.fresh.com.data.repository.CartProductRepository;
 import mart.fresh.com.data.repository.CartRepository;
 import mart.fresh.com.data.repository.MemberRepository;
+import mart.fresh.com.data.repository.StoreProductObjRepository;
+import mart.fresh.com.data.repository.StoreProductRepository;
 import mart.fresh.com.data.repository.StoreRepository;
 
 @Component
@@ -29,13 +36,17 @@ public class CartDaoImpl implements CartDao {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
     private final CartProductRepository cartProductRepository;
+    private final StoreProductObjRepository storeProductObjRepository;
+    
     @Autowired
     public CartDaoImpl(CartRepository cartRepository, MemberRepository memberRepository,
-    		StoreRepository storeRepository, CartProductRepository cartProductRepository) {
+    		StoreRepository storeRepository, CartProductRepository cartProductRepository,
+    		StoreProductObjRepository storeProductObjRepository) {
         this.cartRepository = cartRepository;
         this.memberRepository = memberRepository;
         this.storeRepository = storeRepository;
         this.cartProductRepository = cartProductRepository;
+        this.storeProductObjRepository = storeProductObjRepository;
     }
 
     @Override
@@ -119,22 +130,61 @@ public class CartDaoImpl implements CartDao {
 
 			    requestQuantity -= productNowQuantity;
 			}
-				
-			//실제 주문에 들어가면더 나을 것 같은 로직
-//			//현재 프로덕트에서 주문 개수 채울수 있으면 전체 다 넣기 
-//			if (requestQuantity - productNowQuantity < 0) {
-//				cartProduct.setCartProductQuantity(cartExistingQuantity + requestQuantity);
-//			    requestQuantity = 0;
-//			} else {//부족하면 프로덕트 주문개수만 넣기
-//				cartProduct.setCartProductQuantity(productNowQuantity);
-//			    requestQuantity -= productNowQuantity;
-//			}
-//			
+						
 			cartProductRepository.save(cartProduct);
 		}
 		return "success";
 	}
 
+	
+	
+	//수정 : 동시성 문제 세마포어로 관리
+	@Transactional
+	@Override
+	public String decreaseCartProductQuantity(String memberId) {
+		System.out.println("멤버 아이디" + memberId);
+		Cart myCart =  cartRepository.findByMember_MemberId(memberId);
+		//카트 아이디
+		int cartId = myCart.getCartId();
+		int storeId = myCart.getStore().getStoreId();
+		
+		//내 주문 리스트
+		List<CartProduct> cartProductList =  cartProductRepository.findCartProductListByCartId(cartId);
+		
+		//가게 재고
+		List<StoreProduct> spList = storeProductObjRepository.findtStoreProuctByStoreId(storeId);
+		
+		for(CartProduct orderCp:cartProductList) {
+			String orederdProductName = orderCp.getProduct().getProductTitle();
+			int orederedProductQuantity = orderCp.getCartProductQuantity();
+			
+			for(StoreProduct storeProduct:spList) {
+				String storeProductname = storeProduct.getProduct().getProductTitle();
+				int storeProductQuantity = storeProduct.getStoreProductStock();//퀀티티
 
+				if(storeProductname.equals(orederdProductName)) {//현재 검사하는 가게 물품과 내가 주문한 물품 일치
+					if(orederedProductQuantity > storeProductQuantity) {//요구 수량이 가게 수량보다 많을 경우
+						storeProductQuantity = 0;
+						storeProduct.setStoreProductStock(storeProductQuantity);
+						storeProductObjRepository.save(storeProduct);
+						
+						orederedProductQuantity -= storeProductQuantity;
+					} 
+					else if(orederedProductQuantity <= storeProductQuantity){//요구 수량이 가게 수량보다 적을 경우
+						storeProductQuantity -= orederedProductQuantity;
+						orederedProductQuantity = 0;
+						
+						storeProduct.setStoreProductStock(storeProductQuantity);
+						storeProductObjRepository.save(storeProduct);
+						cartProductRepository.delete(orderCp);
+						break;//다음 내 품목으로
+					}
+				}
+			}
+			
+			if(orederedProductQuantity >= 1) throw new RuntimeException("수량 처리가 불가합니다.");
+		}
+		return "success";
+	}
 	
 }

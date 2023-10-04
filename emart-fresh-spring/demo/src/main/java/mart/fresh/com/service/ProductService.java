@@ -16,6 +16,7 @@ public interface ProductService {
 	List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit);
 	List<ProductDto> getStoreProductsDtoByFilter(ProductFilterDto productFilterDto, int offset, int limit);
 	ProductDto getProductDetailByProductId(int productId);
+	Product findByProductId(int productId);
 
 //	ProductResponseDto getProduct(Long number);
 //	ProductResponseDto saveProduct(ProductDto productDto);

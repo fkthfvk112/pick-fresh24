@@ -19,17 +19,11 @@ public class MemberDaoImpl implements MemberDao {
         this.memberRepository = memberRepository;
         this.encoder = encoder;
     }
-
     
    @Override
    public Member login(String memberId, String memberPw) {
         return memberRepository.findByMemberIdAndMemberPw(memberId, memberPw);
    }
-    
-//    @Override
-//    public boolean verifyPw(String memberId, String memberPw) {
-//        return memberRepository.findByMemberIdAndMemberPw(memberId, memberPw);
-//    }
     
     @Override
     public Member getMemberById(String memberId) {
@@ -41,6 +35,56 @@ public class MemberDaoImpl implements MemberDao {
        System.out.println("----회원가입 멤버 추가---- ");
         memberRepository.save(member);
     }
+    
+    @Override
+    public void kakaoAddMember(String memberId, String memberName, String memberEmail) {
+    	
+    	String kakaoMemberId = "[kakao]"+memberId;
+    	String kakaoMemberName = "[kakao]"+memberName;
+    	String kakaoMemberEmail = "[kakao]"+memberEmail;
+
+    	Member member = new Member();
+        member.setMemberId(kakaoMemberId);
+        member.setMemberPw(null);
+        member.setMemberName(kakaoMemberName);
+        member.setMemberEmail(kakaoMemberEmail);
+        
+        memberRepository.save(member);    	
+    }
+    
+    @Override
+    public void naverAddMember(String memberId, String memberName, String memberEmail) {
+    	String naverMemberId = "[naver]"+memberId;
+    	String naverMemberName = "[naver]"+memberName;
+    	String naverMemberEmail = "[naver]"+memberEmail;
+
+    	Member member = new Member();
+        member.setMemberId(naverMemberId);
+        member.setMemberPw(null);
+        member.setMemberName(naverMemberName);
+        member.setMemberEmail(naverMemberEmail);
+        
+        memberRepository.save(member); 
+    	
+    }
+    
+	@Override
+	public void localLoginType(Member member) {
+		member.setLoginType("local");
+		memberRepository.save(member);
+	}
+	
+	@Override
+	public void kakaoLoginType(Member member) {
+		member.setLoginType("kakao");
+		memberRepository.save(member);
+	}
+	
+	@Override
+	public void naverLoginType(Member member) {
+		member.setLoginType("naver");
+		memberRepository.save(member);
+	}
     
     @Override
     public String findMemberId(String memberName, String memberEmail) {

@@ -1,5 +1,6 @@
 package mart.fresh.com.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.AddToCartDto;
@@ -45,6 +47,34 @@ public class CartController {
         }
     }
 	
+	@PostMapping("/updateCartProductQuantity")
+	public ResponseEntity<?> updateCartProductQuantity(Authentication authentication, @RequestBody List<Map<String, Integer>> requestItems) {
+	    String memberId = authentication.getName();
+	    System.out.println("CartController " + memberId + "의 장바구니 물품 수량 변경 " + new Date());
+
+	    try {
+	        List<CartInfoDto> updatedCartInfoList = new ArrayList<>();
+
+	        for (Map<String, Integer> item : requestItems) {
+	            int cartProductId = item.get("cartProductId");
+	            int cartProductQuantity = item.get("cartProductQuantity");
+
+	            boolean success = cartProductService.updateCartProductQuantity(memberId, cartProductId, cartProductQuantity);
+
+	            if (!success) {
+	                System.out.println("장바구니 물품 수량 변경 실패");
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패");
+	            }
+	        }
+	        updatedCartInfoList = cartService.getCartInfo(memberId);
+
+	        System.out.println("장바구니 물품 수량 변경 성공");
+	        return ResponseEntity.ok(updatedCartInfoList);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패: " + e.getMessage());
+	    }
+	}
+	
 	@PostMapping("/addToCart")//수정 : add auth
 	public String addToCart(Authentication authentication, @RequestBody AddToCartDto dto) {
 
@@ -54,7 +84,6 @@ public class CartController {
 	    System.out.println("CartController" + authentication.getName());
 
 	    return cartService.addToCart(authentication.getName(), dto.getProductName(), dto.getStoreId(), dto.getRequestQuantity());//수정 memid
-
 	}
 	
 	@DeleteMapping("/removeProduct")
@@ -67,6 +96,11 @@ public class CartController {
 
     }
 	
-	
+	@PostMapping("/decreaseCartProduct")
+	public String decreaseCartProductQuantity(Authentication authentication){
+		System.out.println("이거요");
+		//String memberId = authentication.getName();
+		return cartService.decreaseCartProductQuantity(authentication.getName());
+	}
 
 }

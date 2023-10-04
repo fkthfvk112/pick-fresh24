@@ -29,17 +29,10 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 	Page<OrderedProductProduct> getOrderedProductProductByMemberId(@Param("memberId") String memberId,
 																	@Param("orderedDel") boolean orderedDel,Pageable pageable);
 
+
 	OrderedProduct findByIsPickupAndMemberMemberId(boolean isPickup, String memberId);
-	
-	
-	@Query("SELECT opp "
-	        + "FROM OrderedProductProduct opp "
-			+ "JOIN opp.orderedProduct op "
-	        + "WHERE op.member.memberId = :memberId "
-			+ "AND op.isPickup = :isPickup "
-			+ "ORDER BY op.orderedDate DESC")
-	List<OrderedProductProduct> getOrderedProductProductListByMemberId(@Param("memberId") String memberId, @Param("isPickup") boolean isPickup );
-	
+
+	List<OrderedProduct> findByMemberMemberId(String memberId);
 
     @Query("SELECT CASE WHEN COUNT(op) > 0 THEN true ELSE false END "
             + "FROM OrderedProduct op "
@@ -48,10 +41,21 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 
 	List<OrderedProduct> findByIsPickupAndStoreStoreId(boolean isPickup, int storeId);
 
-    
-   
-    
-    
-//    OrderedProduct findTopByOrderByOrderedDateDesc();
+
+//	@Query("SELECT op.store "
+//	        + "FROM OrderedProduct op "
+//	        + "JOIN op.store s "
+//	        + "WHERE op.member.memberId = :memberId")
+//	Store findByMemberId(@Param("memberId") String memberId);
+	
+//	@Query("SELECT opp "
+//	        + "FROM OrderedProductProduct opp "
+//			+ "JOIN opp.orderedProduct op "
+//	        + "WHERE op.member.memberId = :memberId "
+//			+ "AND op.isPickup = :isPickup "
+//			+ "ORDER BY op.orderedDate DESC")
+//	List<OrderedProductProduct> getOrderedProductProductListByMemberId(@Param("memberId") String memberId, @Param("isPickup") boolean isPickup );
+//	
+
 	
 }

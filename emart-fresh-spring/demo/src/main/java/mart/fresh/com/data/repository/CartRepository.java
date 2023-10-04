@@ -15,12 +15,15 @@ import mart.fresh.com.data.entity.StoreProduct;
 public interface CartRepository extends JpaRepository<Cart, Integer>{
     List<Cart> findByMemberMemberId(String memberId);
 
-    @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.priceNumber, cp.cartProductQuantity, c.store.storeId) " +
+    @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.priceNumber, p.productTimeSale, cp.cartProductQuantity, c.store.storeId) " +
     	       "FROM CartProduct cp " +
     	       "JOIN cp.cart c " +
     	       "JOIN cp.product p " +
     	       "WHERE c.member.memberId = :memberId")
     	List<CartInfoDto> getCartInfoByMemberId(@Param("memberId") String memberId);
+    
+    
+    Cart findByMember_MemberId(String memberId);
 
     //현재 날짜 기준으로 해당 가게에 해당 상품 재고가 존재하는지 확인
     @Query("SELECT sp "

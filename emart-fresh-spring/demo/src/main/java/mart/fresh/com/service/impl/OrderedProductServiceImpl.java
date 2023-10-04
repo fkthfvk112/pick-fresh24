@@ -21,14 +21,12 @@ import reactor.core.publisher.FluxSink;
 import mart.fresh.com.util.NaverTtsService;
 import mart.fresh.com.util.OrderedProductCreatedEvent;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class OrderedProductServiceImpl implements OrderedProductService {
-    // Logger 객체를 static final로 선언
-    private static final Logger LOGGER = LoggerFactory.getLogger(OrderedProductServiceImpl.class);
-    
+ 
+//    private static final Logger LOGGER = LoggerFactory.getLogger(OrderedProductServiceImpl.class);
+
     private final OrderedProductDao orderedProductDao;
     private final OrderedProductRepository orderedProductRepository;
 
@@ -57,6 +55,9 @@ public class OrderedProductServiceImpl implements OrderedProductService {
     }
 
     private List<MyOrderedProductDto> loadInitialData(String memberId) {
+    	
+    	System.out.println("loadInitialData loadInitialData loadInitialData memberId : " + memberId);
+    	
         List<OrderedProduct> ops = orderedProductDao.findByMemberMemberId(memberId);
         return ops.stream().map(this::convertEntityOpToDto).collect(Collectors.toList());
     }
@@ -72,13 +73,8 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 	         MyOrderedProductDto dto = convertEntityOpToDto(event.getOrderedProduct());
 	    	 dto.setAudioData(audioDataEncoded);
 	         sink.next(dto);
-	          
-	         
 	    }
-
     }
-    
-
     
     @Override
     public Page<MyOrderedProductDto> getOrderedProductByMemberId(String memberId, int page, int size) {
@@ -127,13 +123,18 @@ public class OrderedProductServiceImpl implements OrderedProductService {
         return myOrderedProductDto;
     }
 
+		
+		@Override
+		public void saveOrderedProduct(OrderedProduct orderedProduct) {
+			orderedProductDao.saveOrderedProduct(orderedProduct);
+		}
+
+		@Override
+		public List<OrderedProduct> findByMemberMemberId(String memberId) {
+			return orderedProductDao.findByMemberMemberId(memberId);
+		}
 
 
-
-	@Override
-	public void createOrder(MyOrderedProductDto myOrderedProductDto) {
-
-		orderedProductDao.saveOrderedProduct(myOrderedProductDto);
-	}
 	
 }
+

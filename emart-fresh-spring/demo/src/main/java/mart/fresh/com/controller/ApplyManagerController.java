@@ -1,8 +1,13 @@
 package mart.fresh.com.controller;
 
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+
 import mart.fresh.com.data.dto.ApplyEmailDto;
 import mart.fresh.com.data.dto.ApplyManagerDto;
 import mart.fresh.com.service.ApplyManagerService;
@@ -36,36 +44,31 @@ private final EmailService emailService;
 	    return applyList;
 	}
 	
-	
-	@GetMapping("/apply-requestapplymanager")
-	public String requestApplyManager(@RequestBody ApplyEmailDto emailDto) {
-		System.out.println("controller 확인 : " + emailDto.toString());
+	//내가 점주를 하겠다! 라고 신청
+	@PostMapping("/apply-requestapplymanager")
+	public ResponseEntity<String> requestApplyManager(Authentication authentication, @RequestBody MultipartFile file) {
 		
-	   boolean isS = applyManagerService.requestApplyManager(emailDto.getMemberId());
-	   
-	   if(isS) {
-		   String recipientEmail = emailDto.getMemberEmail(); // 수신자 이메일 주소 설정
-           String subject = "[emart24 fresh] 점주신청 승인 건 알림메일입니다.";
-     
-           emailService.sendApprovalEmail(recipientEmail, subject, emailDto);
-           
-		   return "Success";
-	   } else {
-		   return "fail";
-	   }
-	    
+		System.out.println("네임" + authentication.getName());
+		System.out.println("파일" + file.getOriginalFilename());
+	   try {
+		applyManagerService.requestApplyManager(authentication.getName(), file);
+			return ResponseEntity.ok().body("success");
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("사진 삽입 실패");
+		}
 	}
-	
-	
+
+	//입력된 아이디를 apply해줌, 즉 남의 아이디를 받아줌
 	@PostMapping("apply-applymanager")
-	public String applymanager(String memberId) {
-		
-		boolean isS = applyManagerService.applyManager(memberId);
+	public ResponseEntity<String>  applymanager(@RequestBody Map<String, String> memberId) {
+		String memberId_s =memberId.get("memberId");
+
+		boolean isS = applyManagerService.applyManager(memberId_s);
 		
 		if(isS) {
-			return("Success");
+			return ResponseEntity.ok("success");
 		} else {
-			return("fail");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
 		}
 		
 	}

@@ -7,5 +7,5 @@ import mart.fresh.com.data.dto.CartInfoDto;
 public interface CartService {
 	List<CartInfoDto> getCartInfo(String memberId);
     String addToCart(String memberId, String productName, int storeId, int requestQuantity);
-
+	String decreaseCartProductQuantity(String memberId);
 }
