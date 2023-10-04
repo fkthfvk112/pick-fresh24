@@ -1,7 +1,10 @@
 package mart.fresh.com.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +28,14 @@ public class CouponController {
 	}
 	
 	@GetMapping("/coupon-all")
-	public Page<CouponDto> AllCouponList(@RequestParam int page, @RequestParam int size) {
+	public ResponseEntity<Page<CouponDto>> AllCouponList(@RequestParam int page, @RequestParam int size) {
 		
 		Page<CouponDto> couponList = couponService.AllCouponList(page-1, size);
-		return couponList;
+		  if(couponList != null && !couponList.isEmpty()) {
+		        return ResponseEntity.ok(couponList);
+		    } else {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		    }
 	}
 	
 	@GetMapping("/coupon-list")
