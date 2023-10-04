@@ -130,6 +130,7 @@ public class ProductDaoImpl implements ProductDao{
 					break;
 				}
 			}
+			
 			if(isContain) continue;
 			ProductDto dto = new ProductDto();
 	        dto.setProductId(product.getProductId());

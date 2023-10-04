@@ -1,6 +1,5 @@
 package mart.fresh.com.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import mart.fresh.com.data.dto.ManagerOrderDto;
 import mart.fresh.com.data.entity.ManagerOrderWithId;
 import mart.fresh.com.data.entity.ManagerOrderWithObj;
 import mart.fresh.com.service.ManagerOrderService;
+import java.util.ArrayList;
 
 @Service
 public class ManagerOrderServiceImpl implements ManagerOrderService {
