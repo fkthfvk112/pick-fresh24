@@ -2,6 +2,7 @@ package mart.fresh.com.controller;
 
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,8 +60,10 @@ private final EmailService emailService;
 
 	//입력된 아이디를 apply해줌, 즉 남의 아이디를 받아줌
 	@PostMapping("apply-applymanager")
-	public ResponseEntity<String>  applymanager(String memberId) {
-		boolean isS = applyManagerService.applyManager(memberId);
+	public ResponseEntity<String>  applymanager(@RequestBody Map<String, String> memberId) {
+		String memberId_s =memberId.get("memberId");
+
+		boolean isS = applyManagerService.applyManager(memberId_s);
 		
 		if(isS) {
 			return ResponseEntity.ok("success");

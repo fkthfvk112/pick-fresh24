@@ -71,9 +71,22 @@ public class ProductDaoImpl implements ProductDao{
 		
 		System.out.println(productEntityList);
 		
+		/* 중복 이름 처리, 중복 이름이 존재하면 아예 보여주지 않도록 함*/
 		List<ProductDto> dtoList = new ArrayList();
 		
 		for(Product product:productEntityList) {
+			boolean isContain = false;
+			
+			for(ProductDto dto:dtoList) {
+				String dtoProductName = dto.getProductTitle();
+				String entityProductName = product.getProductTitle();
+				if(dtoProductName.equals(entityProductName)) {
+					isContain = true;
+					break;
+				}
+			}
+			if(isContain) continue;
+			
 			ProductDto dto = new ProductDto();
 	        dto.setProductId(product.getProductId());
 	        dto.setPriceNumber(product.getPriceNumber());
@@ -95,10 +108,6 @@ public class ProductDaoImpl implements ProductDao{
 	public List<ProductDto> getStoreProductsByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
 		System.out.println("-------getStoreProductsByFilter id : " + productFilterDto.getStoreId());
 
-		System.out.println("aaa" + productFilterDto.getSearchingTerm());
-		System.out.println("bbb" + productFilterDto.getEventNumber());
-		System.out.println("ccc" + productFilterDto.getSelect());
-
 		List<Product> productEntityList = productRepository
 				.getStoreProductDtoListByFilter(
 					productFilterDto.getSearchingTerm(),
@@ -112,6 +121,17 @@ public class ProductDaoImpl implements ProductDao{
 		List<ProductDto> dtoList = new ArrayList();
 		
 		for(Product product:productEntityList) {
+			boolean isContain = false;
+			for(ProductDto dto:dtoList) {
+				String dtoProductName = dto.getProductTitle();
+				String entityProductName = product.getProductTitle();
+				if(dtoProductName.equals(entityProductName)) {
+					isContain = true;
+					break;
+				}
+			}
+			
+			if(isContain) continue;
 			ProductDto dto = new ProductDto();
 	        dto.setProductId(product.getProductId());
 	        dto.setPriceNumber(product.getPriceNumber());
