@@ -40,7 +40,9 @@ public class CartServiceImpl implements CartService{
 	@Override
 	public void saveCart(Cart cart) {
 		cartDao.saveCart(cart);
-		
+  
+  public int getMyCartStoreId(String memberId) {
+		return cartDao.getMyCartStoreId(memberId);
 	}
 
 }

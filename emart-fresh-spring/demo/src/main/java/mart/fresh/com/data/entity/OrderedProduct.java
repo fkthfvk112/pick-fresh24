@@ -5,13 +5,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
+import mart.fresh.com.util.OrderedProductListener;
 
 import java.sql.Timestamp;
-
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 @Data
 @Entity
+@EntityListeners(OrderedProductListener.class)
 @Table(name = "ordered_product")
 public class OrderedProduct {
     @Id

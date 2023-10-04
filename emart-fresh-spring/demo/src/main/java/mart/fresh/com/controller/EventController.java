@@ -30,7 +30,14 @@ public class EventController {
         Page<EventDto> eventList = eventService.eventList(page - 1, size);
         return eventList;
     }
-
+    
+    @GetMapping("/detail")
+    public EventDto eventList(@RequestParam int eventId) {
+        EventDto eventDetail = eventService.eventDetail(eventId);
+        return eventDetail;
+    }
+    
+    
     @PostMapping("/event-update")
     public String eventUpdate(@RequestParam("event_title") String eventTitle,
             @RequestParam("event_banner_image") MultipartFile eventBannerImage,

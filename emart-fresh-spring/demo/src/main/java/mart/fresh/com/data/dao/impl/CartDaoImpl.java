@@ -113,7 +113,11 @@ public class CartDaoImpl implements CartDao {
 			cartProduct.setProduct(sp.getProduct());
 			
 			//수량 초과시 최대 개수로 채우고 얼리 리턴
-			if(sumOfStock < cartExistingQuantity + productNowQuantity) {
+			if(sumOfStock < cartExistingQuantity + requestQuantity) {
+				System.out.println("스톡 벨류" + sumOfStock);
+				System.out.println("존재" + cartExistingQuantity);
+				System.out.println("리퀘" + requestQuantity);
+
 				cartProduct.setCartProductQuantity(sumOfStock);
 				cartProductRepository.save(cartProduct);
 				
@@ -139,6 +143,7 @@ public class CartDaoImpl implements CartDao {
 	
 	
 	//수정 : 동시성 문제 세마포어로 관리
+	//현재 로직 ... 가게 재고와 장바구니를 깎음
 	@Transactional
 	@Override
 	public String decreaseCartProductQuantity(String memberId) {
@@ -164,6 +169,7 @@ public class CartDaoImpl implements CartDao {
 
 				if(storeProductname.equals(orederdProductName)) {//현재 검사하는 가게 물품과 내가 주문한 물품 일치
 					if(orederedProductQuantity > storeProductQuantity) {//요구 수량이 가게 수량보다 많을 경우
+						System.out.println("이 조건" + orederedProductQuantity);
 						storeProductQuantity = 0;
 						storeProduct.setStoreProductStock(storeProductQuantity);
 						storeProductObjRepository.save(storeProduct);
@@ -190,6 +196,15 @@ public class CartDaoImpl implements CartDao {
 	@Override
 	public void saveCart(Cart cart) {
 		cartRepository.save(cart);
+  }
+  
+	public int getMyCartStoreId(String memberId) {
+		List<Cart> cartList =  cartRepository.findByMemberMemberId(memberId);
+		if(cartList == null) return -1;
+		
+		Cart cart = cartList.get(0);
+
+		return cart.getStore().getStoreId();
 	}
 	
 }

@@ -46,6 +46,8 @@ public class ProductController {
 		return products;
 	}
 	
+	
+	//수정 : 안쓰는지 확인하고 삭제
 	@GetMapping("/all-product-list")
 	public List<ProductDto> getAllProducts() {
 		System.out.println("-----getAllProducts");

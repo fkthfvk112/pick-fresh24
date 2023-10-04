@@ -17,4 +17,6 @@ public interface EventRepository extends JpaRepository<Event, Integer>{
 	@Query("SELECT COUNT(e) "
 	        + "FROM Event e ")
 	int eventListCount();
+
+	Event findByEventId(int eventId);
 }

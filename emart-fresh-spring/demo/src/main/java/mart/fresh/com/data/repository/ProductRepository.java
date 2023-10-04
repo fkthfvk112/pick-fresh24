@@ -6,10 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.JpaRepositoryConfigExtension;
 import org.springframework.data.repository.query.Param;
-
-import mart.fresh.com.data.dto.ProductDto;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
 
@@ -69,6 +66,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	 
 	 @Query("SELECT p FROM Product p WHERE p.productExpirationDate <= :sixHoursFromNow")
 	 List<Product> findProductTimeSale(LocalDateTime sixHoursFromNow);
+
 
 	Product findByProductId(int productId);
 	 
