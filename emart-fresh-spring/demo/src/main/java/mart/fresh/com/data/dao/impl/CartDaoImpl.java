@@ -194,6 +194,10 @@ public class CartDaoImpl implements CartDao {
 	}
 
 	@Override
+	public void saveCart(Cart cart) {
+		cartRepository.save(cart);
+  }
+  
 	public int getMyCartStoreId(String memberId) {
 		List<Cart> cartList =  cartRepository.findByMemberMemberId(memberId);
 		if(cartList == null) return -1;
