@@ -186,5 +186,10 @@ public class CartDaoImpl implements CartDao {
 		}
 		return "success";
 	}
+
+	@Override
+	public void saveCart(Cart cart) {
+		cartRepository.save(cart);
+	}
 	
 }

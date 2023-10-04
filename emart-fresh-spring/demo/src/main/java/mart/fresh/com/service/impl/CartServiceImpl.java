@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import mart.fresh.com.data.dao.CartDao;
 import mart.fresh.com.data.dao.CartProductDao;
 import mart.fresh.com.data.dto.CartInfoDto;
+import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.service.CartService;
 
 @Service
@@ -34,6 +35,12 @@ public class CartServiceImpl implements CartService{
 	public String decreaseCartProductQuantity(String memberId) {
 		
 		return cartDao.decreaseCartProductQuantity(memberId);
+	}
+
+	@Override
+	public void saveCart(Cart cart) {
+		cartDao.saveCart(cart);
+		
 	}
 
 }

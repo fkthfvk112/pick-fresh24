@@ -75,12 +75,18 @@ public class MemberServiceImpl implements MemberService {
                     response.put("accessToken", jwt);
                     response.put("refreshToken", refreshToken);
                     
+                    member.setMemberWarning(0);
+                    memberDao.save(member);
+                    
                     return response;
                } else {
-                  return null;
+            	   member.setMemberWarning(member.getMemberWarning() + 1);
+            	   memberDao.save(member);
+            	   System.out.println("로그인 정보 불일치, 회원의 Warning 횟수 : " + member.getMemberWarning());
+                   return null;
                }
             } else {
-               System.out.println("입력한 비밀번호와 DB와 일치하지 않음.");
+               System.out.println("[MemberServiceImpl] 존재하지 않는 회원입니다.");
                 throw new AuthenticationException("Invalid credentials");
             }
         } catch (AuthenticationException e) {
