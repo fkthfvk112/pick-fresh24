@@ -8,4 +8,5 @@ public interface CartService {
 	List<CartInfoDto> getCartInfo(String memberId);
     String addToCart(String memberId, String productName, int storeId, int requestQuantity);
 	String decreaseCartProductQuantity(String memberId);
+	int getMyCartStoreId(String memberId);
 }
