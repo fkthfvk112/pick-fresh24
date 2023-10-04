@@ -1,23 +1,29 @@
 package mart.fresh.com.data.dao.impl;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import mart.fresh.com.data.dao.OrderedProductDao;
+import mart.fresh.com.data.entity.OrderedProduct;
 import mart.fresh.com.data.entity.OrderedProductProduct;
 import mart.fresh.com.data.repository.OrderedProductProductRepository;
+import mart.fresh.com.data.repository.OrderedProductRepository;
 
 
 @Component
 public class OrderedProductDaoImpl implements OrderedProductDao {
 
-private final OrderedProductProductRepository orderedProductProductRepository;
+	private final OrderedProductRepository orderedProductRepository;
+	private final OrderedProductProductRepository orderedProductProductRepository;
 
 	@Autowired
-	public OrderedProductDaoImpl(OrderedProductProductRepository orderedProductProductRepository) {
+	public OrderedProductDaoImpl(OrderedProductRepository orderedProductRepository, OrderedProductProductRepository orderedProductProductRepository) {
+		this.orderedProductRepository = orderedProductRepository;
 		this.orderedProductProductRepository = orderedProductProductRepository;
 	}
 
@@ -48,6 +54,14 @@ private final OrderedProductProductRepository orderedProductProductRepository;
 	    return results;
 	}
 	
-	
+	@Override
+	public void saveOrderedProduct(OrderedProduct orderedProduct) {
+		orderedProductRepository.save(orderedProduct);
+	}
+
+	@Override
+	public List<OrderedProduct> findByMemberMemberId(String memberId) {
+		return orderedProductRepository.findByMemberMemberId(memberId);
+	}
 	
 }

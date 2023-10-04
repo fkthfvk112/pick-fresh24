@@ -1,5 +1,7 @@
 package mart.fresh.com.data.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,6 +32,7 @@ public interface OrderedProductProductRepository extends JpaRepository<OrderedPr
 			+ "ORDER BY op.orderedDate DESC")
 	Page<OrderedProductProduct> getOrderedListByStoreId(@Param("storeId") int storeId,
 																	@Param("isPickup") boolean isPickup,Pageable pageable);
-	
+	List<OrderedProductProduct> findByOrderedProductOrderedProductId(int orderedProductId);
+
 }
  

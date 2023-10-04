@@ -2,11 +2,14 @@ package mart.fresh.com.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import mart.fresh.com.data.dao.OrderedProductDao;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
+import mart.fresh.com.data.entity.OrderedProduct;
 import mart.fresh.com.data.entity.OrderedProductProduct;
 import mart.fresh.com.data.repository.OrderedProductRepository;
 import mart.fresh.com.service.OrderedProductService;
@@ -70,6 +73,16 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 			 
 			 Page<OrderedProductProduct> orderedList = orderedProductDao.getOrderedListByStoreId(storeId, page, size);
 		     return orderedList.map(this::convertEntityToDto);
+		}
+		
+		@Override
+		public void saveOrderedProduct(OrderedProduct orderedProduct) {
+			orderedProductDao.saveOrderedProduct(orderedProduct);
+		}
+
+		@Override
+		public List<OrderedProduct> findByMemberMemberId(String memberId) {
+			return orderedProductDao.findByMemberMemberId(memberId);
 		}
 	
 }

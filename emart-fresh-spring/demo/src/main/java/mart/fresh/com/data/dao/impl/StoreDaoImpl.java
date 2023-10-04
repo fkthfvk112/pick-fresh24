@@ -98,5 +98,10 @@ public class StoreDaoImpl implements StoreDao {
 			return 0;
 		}
 	}
+	
+	@Override
+	public Store findByStoreId(int storeId) {
+		return storeRepository.findByStoreId(storeId);
+	}
 
 }
