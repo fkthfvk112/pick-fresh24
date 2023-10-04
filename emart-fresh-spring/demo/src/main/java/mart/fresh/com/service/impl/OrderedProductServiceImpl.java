@@ -52,17 +52,12 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 
     @Override
     public Flux<MyOrderedProductDto> streamOrderedProductsByStoreId(String memberId) {
-        LOGGER.info("memberId: {}에 대해 streamOrderedProductsByStoreId 호출됨", memberId);
-        List<MyOrderedProductDto> initialData = loadInitialData(memberId);
-
-        System.out.println("streamOrderedProductsByStoreId initialData : " + initialData.toString() );
-        
+        List<MyOrderedProductDto> initialData = loadInitialData(memberId);     
         return Flux.concat(Flux.fromIterable(initialData), flux);
     }
 
     private List<MyOrderedProductDto> loadInitialData(String memberId) {
         List<OrderedProduct> ops = orderedProductDao.findByMemberMemberId(memberId);
-        System.out.println("loadInitialData loadInitialData ops : " + ops.toString());
         return ops.stream().map(this::convertEntityOpToDto).collect(Collectors.toList());
     }
     

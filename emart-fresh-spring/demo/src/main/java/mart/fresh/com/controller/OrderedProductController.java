@@ -3,9 +3,7 @@ package mart.fresh.com.controller;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
-import mart.fresh.com.data.entity.Member;
-import mart.fresh.com.data.entity.OrderedProduct;
-import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.data.repository.OrderedProductRepository;
 import mart.fresh.com.service.OrderedProductService;
 import reactor.core.publisher.Flux;
@@ -35,8 +26,7 @@ private final OrderedProductService orderedProductService;
 
 	@Autowired
 	public OrderedProductController(OrderedProductService orderedProductService,
-														OrderedProductRepository orderedProductRepository,
-														WebClient.Builder webClientBuilder) {
+														OrderedProductRepository orderedProductRepository) {
 		this.orderedProductService = orderedProductService;
 
 	}
