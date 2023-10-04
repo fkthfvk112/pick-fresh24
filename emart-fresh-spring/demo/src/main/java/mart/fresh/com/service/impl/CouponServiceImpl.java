@@ -40,11 +40,8 @@ public class CouponServiceImpl implements CouponService {
 
 	public Page<CouponDto> myCouponList(String memberId, int page, int size) {
 	    System.out.println("CouponServiceImpl myCouponList");
-
 	    Page<Coupon> couponList = couponDao.myCouponList(memberId, page, size);
-
 	    Page<CouponDto> couponDtoPage = couponList.map(this::convertEntityToDto);
-
 	    return couponDtoPage;
 	}
 
@@ -63,6 +60,12 @@ public class CouponServiceImpl implements CouponService {
 	@Override
 	public Coupon findByCouponId(int couponId) {
 		return couponDao.findByCouponId(couponId);
+	}
+	
+	public Page<CouponDto> AllCouponList(int page, int size) {
+	    Page<Coupon> couponList = couponDao.AllCouponList(page, size);
+	    Page<CouponDto> couponDtoPage = couponList.map(this::convertEntityToDto);
+	    return couponDtoPage;
 	}
 	
 }

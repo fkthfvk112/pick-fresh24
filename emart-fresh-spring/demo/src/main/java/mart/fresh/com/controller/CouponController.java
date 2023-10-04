@@ -24,6 +24,13 @@ public class CouponController {
 		this.couponService = couponService;
 	}
 	
+	@GetMapping("/coupon-all")
+	public Page<CouponDto> AllCouponList(@RequestParam int page, @RequestParam int size) {
+		
+		Page<CouponDto> couponList = couponService.AllCouponList(page-1, size);
+		return couponList;
+	}
+	
 	@GetMapping("/coupon-list")
 	public Page<CouponDto> myCouponList(Authentication authentication,
 										@RequestParam int page, @RequestParam int size) {

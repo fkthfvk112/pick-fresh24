@@ -32,11 +32,8 @@ public class CouponDaoImpl implements CouponDao {
 	
 	public Page<Coupon> myCouponList(String memberId, int page, int size) {
 		System.out.println("CouponDaoImpl myCouponList");
-		
-	    Pageable pageable = PageRequest.of(page, size);
-	     
+	    Pageable pageable = PageRequest.of(page, size);  
 		Page<Coupon> couponList = couponRepository.myCouponList(memberId, pageable);
-		
 		return couponList;
 	}
 	
@@ -102,4 +99,10 @@ public class CouponDaoImpl implements CouponDao {
 		return couponRepository.findByCouponId(couponId);
 	}
 	
+	public Page<Coupon> AllCouponList(int page, int size) {
+		System.out.println("CouponDaoImpl myCouponList");
+	    Pageable pageable = PageRequest.of(page, size);
+		Page<Coupon> couponList = couponRepository.AllCouponList(pageable);
+		return couponList;
+	}
 }
