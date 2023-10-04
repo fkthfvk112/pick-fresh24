@@ -1,5 +1,6 @@
 package mart.fresh.com.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,25 +48,31 @@ public class CartController {
     }
 	
 	@PostMapping("/updateCartProductQuantity")
-	public ResponseEntity<?> updateCartProductQuantity(Authentication authentication, @RequestBody Map<String, String> requestBody){
-        String memberId = authentication.getName();
-        System.out.println("CartController "+ memberId+ "의 장바구니 물품 수량 변경 " + new Date());
-		
-	    int cartProductId = Integer.parseInt(requestBody.get("cartProductId"));
-        int cartProductQuantity = Integer.parseInt(requestBody.get("cartProductQuantity"));
-	    
-        try {
-            boolean success = cartProductService.updateCartProductQuantity(memberId, cartProductId, cartProductQuantity);
+	public ResponseEntity<?> updateCartProductQuantity(Authentication authentication, @RequestBody List<Map<String, Integer>> requestItems) {
+	    String memberId = authentication.getName();
+	    System.out.println("CartController " + memberId + "의 장바구니 물품 수량 변경 " + new Date());
 
-            if (success) {
-                List<CartInfoDto> updatedCartInfoList = cartService.getCartInfo(memberId);
-                return ResponseEntity.ok(updatedCartInfoList);
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패: " + e.getMessage());
-        }
+	    try {
+	        List<CartInfoDto> updatedCartInfoList = new ArrayList<>();
+
+	        for (Map<String, Integer> item : requestItems) {
+	            int cartProductId = item.get("cartProductId");
+	            int cartProductQuantity = item.get("cartProductQuantity");
+
+	            boolean success = cartProductService.updateCartProductQuantity(memberId, cartProductId, cartProductQuantity);
+
+	            if (!success) {
+	                System.out.println("장바구니 물품 수량 변경 실패");
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패");
+	            }
+	        }
+	        updatedCartInfoList = cartService.getCartInfo(memberId);
+
+	        System.out.println("장바구니 물품 수량 변경 성공");
+	        return ResponseEntity.ok(updatedCartInfoList);
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패: " + e.getMessage());
+	    }
 	}
 	
 	@PostMapping("/addToCart")//수정 : add auth
