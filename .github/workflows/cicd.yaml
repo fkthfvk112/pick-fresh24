@@ -54,6 +54,8 @@ jobs:
               -e CD_API_SECRET=${{ secrets.CD_API_SECRET }} \
               -e NAVER_API_ID=${{ secrets.NAVER_API_ID }} \
               -e NAVER_API_SECRET=${{ secrets.NAVER_API_SECRET }} \
+              -e NAVER_CLIENT_ID=${{ secrets.NAVER_CLIENT_ID }} \
+              -e NAVER_CLIENT_SECRET=${{ secrets.NAVER_CLIENT_SECRET }} \
               --name fresh-backend \
               --link mydb:db \
               ${{ secrets.DOCKERHUB_USERNAME }}/back-end:latest
