@@ -36,4 +36,10 @@ public class CartServiceImpl implements CartService{
 		return cartDao.decreaseCartProductQuantity(memberId);
 	}
 
+	@Override
+	public int getMyCartStoreId(String memberId) {
+		
+		return cartDao.getMyCartStoreId(memberId);
+	}
+
 }
