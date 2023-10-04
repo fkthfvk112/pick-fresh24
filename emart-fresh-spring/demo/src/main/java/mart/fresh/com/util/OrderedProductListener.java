@@ -9,7 +9,5 @@ public class OrderedProductListener {
     @PostPersist
     public void onOrderedProductCreate(OrderedProduct orderedProduct) {
         EventPublisherHolder.getPublisher().publishEvent(new OrderedProductCreatedEvent(orderedProduct));
-        
-        System.out.println("onOrderedProductCreate orderedProduct 값 확인 : " + orderedProduct.toString());
     }
 }

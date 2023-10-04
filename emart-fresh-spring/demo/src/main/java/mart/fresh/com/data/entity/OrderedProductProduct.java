@@ -2,6 +2,7 @@ package mart.fresh.com.data.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +14,7 @@ import lombok.ToString;
 
 @Data
 @Entity
+//Entity 이벤트가 발생할 때 콜백
 @Table(name = "ordered_product_product")
 public class OrderedProductProduct {
 	

@@ -14,4 +14,6 @@ public interface EventService {
 
 	String uploadImage(MultipartFile eventDetailImage) throws Exception;
 
+	EventDto eventDetail(int eventId);
+
 }
