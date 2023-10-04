@@ -17,4 +17,5 @@ public interface ProductDao {
 	List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit);
 	List<ProductDto> getStoreProductsByFilter(ProductFilterDto productFilterDto, int offset, int limit);
 	Product getProductDetailByProductId(int productId);
+	Product findByProductId(int productId);
 }

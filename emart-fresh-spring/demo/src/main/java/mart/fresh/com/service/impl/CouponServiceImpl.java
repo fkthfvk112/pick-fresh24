@@ -60,4 +60,9 @@ public class CouponServiceImpl implements CouponService {
 		return couponDao.couponDown(couponDto)>0?true:false;
 	}
 	
+	@Override
+	public Coupon findByCouponId(int couponId) {
+		return couponDao.findByCouponId(couponId);
+	}
+	
 }

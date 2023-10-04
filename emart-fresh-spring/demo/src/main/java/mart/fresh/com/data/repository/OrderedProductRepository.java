@@ -1,5 +1,7 @@
 package mart.fresh.com.data.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +24,7 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 	        + "WHERE op.member.memberId = :memberId")
 	Store findByMemberId(@Param("memberId") String memberId);
 
-	
+	List<OrderedProduct> findByMemberMemberId(String memberId);
+
 	
 }

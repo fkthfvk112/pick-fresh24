@@ -11,4 +11,5 @@ public interface StoreDao {
 	List<StoreDto> getStoreWitnNByProductName(GetStoreInDisDto dto);
 	Store getStoreInfo(int storeId);
 	int addStore(StoreDtoWithId dto);
+	public Store findByStoreId(int storeId);
 }

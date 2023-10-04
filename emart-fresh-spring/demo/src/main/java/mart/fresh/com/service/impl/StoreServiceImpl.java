@@ -48,5 +48,10 @@ public class StoreServiceImpl implements StoreService {
 		
 		return storeDao.addStore(dto);
 	}
+	
+	@Override
+	public Store findByStoreId(int storeId) {
+		return storeDao.findByStoreId(storeId);
+	}
 }
 

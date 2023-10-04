@@ -97,5 +97,9 @@ public class CouponDaoImpl implements CouponDao {
 	    return savedCoupon.getCouponId();
 	}
 	
+	@Override
+	public Coupon findByCouponId(int couponId) {
+		return couponRepository.findByCouponId(couponId);
+	}
 	
 }

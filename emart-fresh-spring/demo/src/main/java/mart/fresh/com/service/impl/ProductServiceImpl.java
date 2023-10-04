@@ -104,6 +104,11 @@ public class ProductServiceImpl implements ProductService{
 		return dto;
 	}
 	
+	@Override
+	public Product findByProductId(int productId) {
+		return productDao.findByProductId(productId);
+	}
+	
 	//전환 예제
 //	@Override
 //	public ProductResponseDto getProduct(Long number) {

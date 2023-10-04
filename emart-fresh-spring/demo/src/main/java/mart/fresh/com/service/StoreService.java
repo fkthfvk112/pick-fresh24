@@ -13,4 +13,5 @@ public interface StoreService {
 	List<StoreDto> getStoreWitnNByProductName(GetStoreInDisDto dto);
 	StoreDto getStoreInfo(int storeId);
 	int addStore(@RequestBody StoreDtoWithId dto);
+	Store findByStoreId(int storeId);
 }

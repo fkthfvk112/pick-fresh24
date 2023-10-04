@@ -19,9 +19,6 @@ public class OrderedProduct {
     @Column(name = "ordered_product_id")
     private int orderedProductId;
 
-    @Column(name = "ordered_quantity")
-    private int orderedQuantity;
-
     @Column(name = "is_pickup")
     private boolean isPickup;
 
