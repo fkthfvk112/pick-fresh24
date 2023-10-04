@@ -1,7 +1,9 @@
 package mart.fresh.com.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
+import mart.fresh.com.data.dto.OrderedInfoDto;
 import mart.fresh.com.data.dto.OrderedProductInfoDto;
 import mart.fresh.com.data.dto.OrderedProductProductDto;
 import mart.fresh.com.data.entity.Coupon;
@@ -103,6 +106,55 @@ private final ProductService productService;
 			System.out.println("주문 내역 저장 실패");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
 		}
+	}
+	
+	@GetMapping("/getOrderedInfo")
+	public ResponseEntity<List<OrderedInfoDto>> getOrderedInfo(Authentication authentication) {
+	    try {
+	        String memberId = authentication.getName();
+	        System.out.println("OrderedProductController " + memberId + "의 주문내역 " + new Date());
+
+	        List<OrderedProduct> orderedProductList = orderedProductService.findByMemberMemberId(memberId);
+	        List<OrderedInfoDto> orderedInfoDtoList = new ArrayList<>();
+
+	        for (OrderedProduct orderedProduct : orderedProductList) {
+	            List<OrderedProductProduct> orderedProductProductList =
+	                    orderedProductProductService.findByOrderedProductOrderedProductId(orderedProduct.getOrderedProductId());
+
+	            OrderedInfoDto orderedInfoDto = new OrderedInfoDto();
+	            orderedInfoDto.setOrderedProductId(orderedProduct.getOrderedProductId());
+	            orderedInfoDto.setStoreId(orderedProduct.getStore().getStoreId());
+	            orderedInfoDto.setStoreName(orderedProduct.getStore().getStoreName());
+	            orderedInfoDto.setCouponId(orderedProduct.getCoupon().getCouponId());
+	            orderedInfoDto.setTotalAmount(orderedProduct.getTotalAmount());
+	            orderedInfoDto.setPickup(orderedProduct.isPickup());
+	            orderedInfoDto.setOrderedDel(orderedProduct.isOrderedDel());
+	            orderedInfoDto.setOrderedDate(orderedProduct.getOrderedDate());
+	            
+	            List<OrderedProductProductDto> orderedProductProductDtoList = new ArrayList<>();
+	            
+	            for (OrderedProductProduct orderedProductProduct : orderedProductProductList) {
+	                OrderedProductProductDto orderedProductProductDto = new OrderedProductProductDto();
+	                orderedProductProductDto.setProductId(orderedProductProduct.getProduct().getProductId());
+	                orderedProductProductDto.setOrderedQuantity(orderedProductProduct.getOrderedQuantity());
+	                orderedProductProductDto.setOrderedProductId(orderedProductProduct.getOrderedProductProductId());
+	                Product product = orderedProductProductService.getProductDetails(orderedProductProduct.getProduct().getProductId());
+	                
+	                orderedProductProductDto.setProductTitle(product.getProductTitle());
+	                orderedProductProductDto.setPrice(product.getPriceNumber());
+	                orderedProductProductDtoList.add(orderedProductProductDto);
+	            }
+
+	            orderedInfoDto.setOrderedProductProduct(orderedProductProductDtoList);
+	            orderedInfoDtoList.add(orderedInfoDto);
+	        }
+
+	        System.out.println("주문 내역 출력 : " + orderedInfoDtoList);
+	        return ResponseEntity.ok(orderedInfoDtoList);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
 	}
 	
 	
