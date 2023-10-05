@@ -17,5 +17,5 @@ public interface OrderedProductService {
 	void saveOrderedProduct(OrderedProduct orderedProduct);
 	List<OrderedProduct> findByMemberMemberId(String memberId);
 	void completePickup(int orderedProductId);
-
+	OrderedProduct findByOrderedProductId(int orderedProductId);
 }

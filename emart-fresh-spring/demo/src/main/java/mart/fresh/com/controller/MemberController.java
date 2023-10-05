@@ -32,8 +32,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mart.fresh.com.data.dto.MemberDto;
 import mart.fresh.com.data.entity.AccountEmailVerification;
+import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.AccountEmailVerificationRepository;
+import mart.fresh.com.service.CartService;
 import mart.fresh.com.service.EmailService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.RefreshTokenService;
@@ -53,15 +55,17 @@ public class MemberController {
 	
 	private final MemberService memberService;
 	private final EmailService emailService;
+	private final CartService cartService;
 	private final AccountEmailVerificationRepository accountEmailVerificationRepository;
 	private final RefreshTokenService refreshTokenService;
 
 	@Autowired
-	public MemberController(MemberService memberService, EmailService emailService,
+	public MemberController(MemberService memberService, EmailService emailService, CartService cartService, 
 			AccountEmailVerificationRepository accountEmailVerificationRepository,
 			RefreshTokenService refreshTokenService) {
 		this.memberService = memberService;
 		this.emailService = emailService;
+		this.cartService = cartService;
 		this.accountEmailVerificationRepository = accountEmailVerificationRepository;
 		this.refreshTokenService = refreshTokenService;
 	}
@@ -72,9 +76,23 @@ public class MemberController {
 
 		String memberId = requestBody.get("memberId");
 		String memberPw = requestBody.get("memberPw");
+		Member member = memberService.findByMemberId(memberId);
+	    if (member == null) {
+	        System.out.println("[MemberController] 존재하지 않는 회원입니다.");
+	        Map<String, Object> warningMessage = new HashMap<>();
+            warningMessage.put("message", "존재하지 않는 회원입니다.");
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+	    }
+		
 		Map<String, String> tokens = memberService.loginJwt(memberId, memberPw);
 
 		String loginType = memberService.findByMemberId(memberId).getLoginType();
+		
+		if (member.getMemberWarning() != 0 && member.getMemberWarning() % 5 == 0) {
+            Map<String, Object> warningMessage = new HashMap<>();
+            warningMessage.put("message", "memberWarningOver");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(warningMessage);
+        }
 
 		if (tokens != null) {
 			System.out.println("토큰 발행 성공 !! " + new Date());
@@ -302,6 +320,10 @@ public class MemberController {
 		try {
 			memberService.addMember(member);
 			memberService.localLoginType(member);
+			
+			Cart cart = new Cart();
+	        cart.setMember(member);
+	        cartService.saveCart(cart);
 
 			return new ResponseEntity<>(HttpStatus.CREATED);
 		} catch (IllegalArgumentException e) {

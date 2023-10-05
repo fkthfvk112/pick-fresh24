@@ -8,8 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
-import mart.fresh.com.data.repository.OrderedProductRepository;
 import mart.fresh.com.service.OrderedProductService;
 import reactor.core.publisher.Flux;
 import mart.fresh.com.data.dto.OrderedInfoDto;
@@ -74,9 +76,7 @@ private final ProductService productService;
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping(value = "/storeordered-list", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<MyOrderedProductDto> getOrderedlistByStoreId(@RequestParam String memberId) {
-//	public Flux<MyOrderedProductDto> getOrderedlistByStoreId(String memberId) {
 
-//		String memberId = authentication.getName();
 		System.out.println("OrderedProductController getOrderedProductByorderedProductId :  " + memberId);
 	
 		   return orderedProductService.streamOrderedProductsByStoreId(memberId);
@@ -145,7 +145,11 @@ private final ProductService productService;
 	            orderedInfoDto.setOrderedProductId(orderedProduct.getOrderedProductId());
 	            orderedInfoDto.setStoreId(orderedProduct.getStore().getStoreId());
 	            orderedInfoDto.setStoreName(orderedProduct.getStore().getStoreName());
-	            orderedInfoDto.setCouponId(orderedProduct.getCoupon().getCouponId());
+	            if (orderedProduct.getCoupon() != null) {
+	                orderedInfoDto.setCouponId(orderedProduct.getCoupon().getCouponId());
+	            } else {
+	                orderedInfoDto.setCouponId(0);
+	            }	            
 	            orderedInfoDto.setTotalAmount(orderedProduct.getTotalAmount());
 	            orderedInfoDto.setPickup(orderedProduct.isPickup());
 	            orderedInfoDto.setOrderedDel(orderedProduct.isOrderedDel());
@@ -175,6 +179,7 @@ private final ProductService productService;
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
+
 	}	
 	
 	@PostMapping("/completepickup")
@@ -190,4 +195,35 @@ private final ProductService productService;
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
 		}
 	}
+
+	
+	@GetMapping("/getProductDetails")
+	public ResponseEntity<List<Map<String, Object>>> getProductDetails(@RequestParam("orderedProductId") int orderedProductId) {
+	    try {
+	        List<OrderedProductProduct> orderedProductProducts = orderedProductProductService.findByOrderedProductOrderedProductId(orderedProductId);
+
+	        if (orderedProductProducts.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+	        }
+
+	        List<Map<String, Object>> productDetailsList = new ArrayList<>();
+
+	        for (OrderedProductProduct orderedProductProduct : orderedProductProducts) {
+	            Map<String, Object> productDetails = new HashMap<>();
+	            int productId = orderedProductProduct.getProduct().getProductId();
+	            Product product = productService.findByProductId(productId);
+	            productDetails.put("productName", product.getProductTitle());
+	            productDetails.put("productImgUrl", product.getProductImgUrl());
+	            productDetails.put("price", product.getPriceNumber());
+	            productDetails.put("orderedQuantity", orderedProductProduct.getOrderedQuantity());
+	            productDetailsList.add(productDetails);
+	        }
+
+	        return ResponseEntity.ok(productDetailsList);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
+
 }

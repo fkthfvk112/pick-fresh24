@@ -138,8 +138,11 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 		public void completePickup(int orderedProductId) {
 			orderedProductDao.completePickup(orderedProductId);
 		}
+		
+		public OrderedProduct findByOrderedProductId(int orderedProductId) {
+			return orderedProductDao.findByOrderedProductId(orderedProductId);
 
-
+		}
 	
 }
 

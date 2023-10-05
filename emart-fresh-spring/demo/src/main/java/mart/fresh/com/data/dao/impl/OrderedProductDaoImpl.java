@@ -54,12 +54,8 @@ private final StoreRepository storeRepository;
 	public Flux<OrderedProduct> getOrderedListByStoreId(String memberId) {
 	    boolean isPickup = false;
 	    
-//		System.out.println("OrderedProductDaoImpl storeInfo memberId : " + memberId);
-	    
 		Store store = storeRepository.findByMemberMemberId(memberId);
-		
-//		System.out.println("OrderedProductDaoImpl storeInfo : ");
-		
+
 	    List<OrderedProduct> orderedProduct = orderedProductRepository.findByIsPickupAndStoreStoreId(isPickup, store.getStoreId());
 	    
 	    return Flux.fromIterable(orderedProduct);
@@ -95,6 +91,7 @@ private final StoreRepository storeRepository;
 	}
 
 	@Override
+
 	public void completePickup(int orderedProductId) {
 
 	    Optional<OrderedProduct> optionalOrderedProduct = orderedProductRepository.findById(orderedProductId);
@@ -106,5 +103,10 @@ private final StoreRepository storeRepository;
 	        orderedProductRepository.save(orderedProduct);
 	    } 
 	}
+
+	public OrderedProduct findByOrderedProductId(int orderedProductId) {
+		return orderedProductRepository.findByOrderedProductId(orderedProductId);
+	}
+
 
 }
