@@ -70,4 +70,9 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDtoList;
 	}
 
+	@Override
+	public void save(Review review) {
+		reviewDao.save(review);
+	}
+
 }
