@@ -41,6 +41,8 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 
 	List<OrderedProduct> findByIsPickupAndStoreStoreId(boolean isPickup, int storeId);
 
+	OrderedProduct findByOrderedProductId(int orderedProductId);
+
 
 //	@Query("SELECT op.store "
 //	        + "FROM OrderedProduct op "

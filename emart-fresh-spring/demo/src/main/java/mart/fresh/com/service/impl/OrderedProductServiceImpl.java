@@ -134,6 +134,11 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 			return orderedProductDao.findByMemberMemberId(memberId);
 		}
 
+		@Override
+		public OrderedProduct findByOrderedProductId(int orderedProductId) {
+			return orderedProductDao.findByOrderedProductId(orderedProductId);
+		}
+
 
 	
 }

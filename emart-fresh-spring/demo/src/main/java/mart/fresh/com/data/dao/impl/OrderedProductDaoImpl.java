@@ -92,6 +92,11 @@ private final StoreRepository storeRepository;
 		orderedProductRepository.save(orderedProduct);
 	}
 
+	@Override
+	public OrderedProduct findByOrderedProductId(int orderedProductId) {
+		return orderedProductRepository.findByOrderedProductId(orderedProductId);
+	}
+
 //	@Override
 //	public List<OrderedProduct> findByMemberMemberId(String memberId) {
 //		return orderedProductRepository.findByMemberMemberId(memberId);

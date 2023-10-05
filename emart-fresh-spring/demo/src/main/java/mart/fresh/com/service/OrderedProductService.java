@@ -16,5 +16,6 @@ public interface OrderedProductService {
 	void handleOrderedProductCreatedEvent(OrderedProductCreatedEvent event);
 	void saveOrderedProduct(OrderedProduct orderedProduct);
 	List<OrderedProduct> findByMemberMemberId(String memberId);
+	OrderedProduct findByOrderedProductId(int orderedProductId);
 
 }
