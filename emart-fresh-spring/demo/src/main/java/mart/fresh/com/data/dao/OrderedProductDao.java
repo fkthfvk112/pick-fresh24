@@ -20,4 +20,6 @@ public interface OrderedProductDao {
 	Flux<OrderedProduct> getOrderedListByStoreId(String memberId);
 	OrderedProduct findByIsPickupAndMemberMemberId(String memberId);
 
+	OrderedProduct findByOrderedProductId(int orderedProductId);
+
 }
