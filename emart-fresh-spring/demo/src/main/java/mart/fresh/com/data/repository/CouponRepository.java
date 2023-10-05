@@ -15,9 +15,9 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	@Query("SELECT  c "
 		       + "FROM Coupon c "    
-		       + "  WHERE c.member.memberId = :memberId "
+		       + " WHERE c.member.memberId = :memberId "
 		       + " AND c.couponDel = false "
-			   + "	ORDER BY c.couponExpirationDate ASC")
+			   + " ORDER BY c.couponExpirationDate ASC")
 	Page<Coupon> myCouponList(@Param("memberId") String memberId, Pageable pageable);
 	
 	@Query("SELECT COUNT(c) "
@@ -29,5 +29,11 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 	List<Coupon> findByCouponExpirationDateBefore(LocalDateTime currentTime);
 
 	Coupon findByCouponId(int couponId);
+	
+	@Query("SELECT  c "
+		       + "FROM Coupon c "    
+		       + "  WHERE c.couponDel = false "
+			   + "	ORDER BY c.couponExpirationDate ASC")
+	Page<Coupon> AllCouponList(Pageable pageable);
 
 }

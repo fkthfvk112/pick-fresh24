@@ -10,4 +10,5 @@ public interface CouponDao {
 	int createCoupon(CouponDto couponDto);
 	int couponDown(CouponDto couponDto);
 	Coupon findByCouponId(int couponId);
+	Page<Coupon> AllCouponList(int page, int size);
 }

@@ -11,4 +11,5 @@ public interface CouponService {
 	boolean createCoupon(CouponDto couponDto);
 	boolean couponDown(CouponDto couponDto);
 	Coupon findByCouponId(int couponId);
+	Page<CouponDto> AllCouponList(int i, int size);
 }
