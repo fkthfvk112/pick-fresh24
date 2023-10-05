@@ -1,5 +1,7 @@
 package mart.fresh.com.data.dao.impl;
 
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,13 @@ public class EventDaoImpl implements EventDao {
 	public Event eventDetail(int eventId) {
 		Event event = eventRepository.findByEventId(eventId); 
 		return event;
+	}
+
+	@Override
+	public Page<Event> nowEventList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+        return eventRepository.findByEventEndDateAfter(currentTime, pageable);
 	}
     
 }

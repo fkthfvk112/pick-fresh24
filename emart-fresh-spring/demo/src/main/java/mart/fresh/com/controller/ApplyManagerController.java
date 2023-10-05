@@ -1,6 +1,7 @@
 package mart.fresh.com.controller;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import mart.fresh.com.data.dto.ApplyEmailDto;
 import mart.fresh.com.data.dto.ApplyManagerDto;
 import mart.fresh.com.service.ApplyManagerService;
 import mart.fresh.com.service.EmailService;
+//import mart.fresh.com.util.NaverOcrService;
 
 
 @RequestMapping("/applymanager")
@@ -30,11 +32,15 @@ public class ApplyManagerController {
 
 private final ApplyManagerService applyManagerService;
 private final EmailService emailService;
+//private final NaverOcrService naverOcrService;
 
 	@Autowired
-	public ApplyManagerController(ApplyManagerService applyManagerService, EmailService emailService) {
+	public ApplyManagerController(ApplyManagerService applyManagerService,
+//									NaverOcrService naverOcrService,						
+									EmailService emailService) {
 	    this.applyManagerService = applyManagerService;
 	    this.emailService = emailService;
+//	    this.naverOcrService = naverOcrService;
 	}
 
 	
@@ -51,7 +57,8 @@ private final EmailService emailService;
 		System.out.println("네임" + authentication.getName());
 		System.out.println("파일" + file.getOriginalFilename());
 	   try {
-		applyManagerService.requestApplyManager(authentication.getName(), file);
+//		   String extractedText = naverOcrService.callNaverCloudOcr(file);
+		   applyManagerService.requestApplyManager(authentication.getName(), file);
 			return ResponseEntity.ok().body("success");
 		} catch (IOException e) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("사진 삽입 실패");

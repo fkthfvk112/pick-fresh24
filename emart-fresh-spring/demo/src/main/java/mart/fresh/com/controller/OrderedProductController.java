@@ -183,7 +183,7 @@ private final ProductService productService;
 	}	
 	
 	@PostMapping("/completepickup")
-	public ResponseEntity<String> completePickup(int orderedProductId) {
+	public ResponseEntity<String> completePickup(@RequestParam int orderedProductId) {
 		
 		try {
 			orderedProductService.completePickup(orderedProductId);
