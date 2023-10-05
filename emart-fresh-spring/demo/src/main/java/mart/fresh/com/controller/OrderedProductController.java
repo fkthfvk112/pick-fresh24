@@ -62,9 +62,10 @@ private final ProductService productService;
 
 	}
 	
-	@PostMapping("/orderedproduct-list")
+	@GetMapping("/orderedproduct-list")
 	public Page<MyOrderedProductDto> getOrderedProductBymemberId(	Authentication authentication,
 																	@RequestParam int page, @RequestParam int size) {
+		
 		System.out.println("OrderedProductController getOrderedProductByorderedProductId : " );
 		
 		Page<MyOrderedProductDto> orderedProductList = orderedProductService.getOrderedProductByMemberId(authentication.getName(), page-1, size);
@@ -183,8 +184,10 @@ private final ProductService productService;
 	}	
 	
 	@PostMapping("/completepickup")
-	public ResponseEntity<String> completePickup(int orderedProductId) {
-		
+	public ResponseEntity<String> completePickup(@RequestBody Map<String, Integer> orderProductId) {
+	    int orderedProductId = orderProductId.get("orderedProductId");
+
+		System.out.println("여기" + orderedProductId);
 		try {
 			orderedProductService.completePickup(orderedProductId);
 		System.out.println("픽업처리 완료");

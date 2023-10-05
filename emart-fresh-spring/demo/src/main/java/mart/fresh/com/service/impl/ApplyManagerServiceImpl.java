@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.cloudinary.utils.ObjectUtils;
 
 import mart.fresh.com.data.dao.ApplyManagerDao;
 import mart.fresh.com.data.dto.ApplyManagerDto;
+import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.entity.ApplyManager;
 import mart.fresh.com.data.repository.ApplyManagerRepository;
 import mart.fresh.com.service.ApplyManagerService;
@@ -25,12 +27,14 @@ public class ApplyManagerServiceImpl implements ApplyManagerService {
     private final ApplyManagerDao applyManagerDao;
     private final ApplyManagerRepository applyManagerRepository;
     private final Cloudinary cloudinary;
+	private final ModelMapper modelMapper;
 
     @Autowired
-    public ApplyManagerServiceImpl(ApplyManagerDao applyManagerDao, ApplyManagerRepository applyManagerRepository, Cloudinary cloudinary) {
+    public ApplyManagerServiceImpl(ApplyManagerDao applyManagerDao, ApplyManagerRepository applyManagerRepository, Cloudinary cloudinary, ModelMapper modelMapper) {
         this.applyManagerDao = applyManagerDao;
         this.applyManagerRepository = applyManagerRepository;
     	this.cloudinary = cloudinary;
+    	this.modelMapper = modelMapper;
     }
 
     @Override
@@ -68,6 +72,15 @@ public class ApplyManagerServiceImpl implements ApplyManagerService {
 	@Override
 	public boolean applyManager(String memberId) {
 		return applyManagerDao.applyManager(memberId)>0?true:false;
+	}
+
+	@Override
+	public ApplyManagerDto getMyApply(String memberId) {
+		ApplyManager am = applyManagerDao.getMyApply(memberId);
+		if(am == null) return null;
+		ApplyManagerDto dto = modelMapper.map(am, ApplyManagerDto.class);
+
+		return dto;
 	}
     
 }
