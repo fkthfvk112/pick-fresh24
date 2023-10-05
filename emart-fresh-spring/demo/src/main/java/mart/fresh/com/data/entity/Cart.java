@@ -19,6 +19,6 @@ public class Cart {
 
     @OneToOne
     @ToString.Exclude
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "store_id", unique = false)
     private Store store;
 }

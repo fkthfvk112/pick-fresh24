@@ -18,4 +18,5 @@ public interface ProductDao {
 	List<ProductDto> getStoreProductsByFilter(ProductFilterDto productFilterDto, int offset, int limit);
 	Product getProductDetailByProductId(int productId);
 	Product findByProductId(int productId);
+	void saveAllProductList(List<Product> productList);
 }

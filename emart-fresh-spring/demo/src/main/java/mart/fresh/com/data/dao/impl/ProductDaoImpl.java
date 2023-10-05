@@ -162,5 +162,11 @@ public class ProductDaoImpl implements ProductDao{
 		return productRepository.findByProductId(productId);
 	}
 
+	@Override
+	public void saveAllProductList(List<Product> productList) {
+		productRepository.saveAll(productList);
+		
+	}
+
 }
 
