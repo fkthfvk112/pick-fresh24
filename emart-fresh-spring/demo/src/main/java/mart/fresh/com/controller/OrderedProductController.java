@@ -176,4 +176,18 @@ private final ProductService productService;
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
 	}	
+	
+	@PostMapping("/completepickup")
+	public ResponseEntity<String> completePickup(int orderedProductId) {
+		
+		try {
+			orderedProductService.completePickup(orderedProductId);
+		System.out.println("픽업처리 완료");
+		return ResponseEntity.ok("픽업처리 완료");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("픽업처리 실패");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
+		}
+	}
 }

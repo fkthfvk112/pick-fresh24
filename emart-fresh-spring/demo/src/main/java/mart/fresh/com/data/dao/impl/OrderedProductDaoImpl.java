@@ -2,6 +2,8 @@ package mart.fresh.com.data.dao.impl;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,9 +94,17 @@ private final StoreRepository storeRepository;
 		orderedProductRepository.save(orderedProduct);
 	}
 
-//	@Override
-//	public List<OrderedProduct> findByMemberMemberId(String memberId) {
-//		return orderedProductRepository.findByMemberMemberId(memberId);
-//	}
+	@Override
+	public void completePickup(int orderedProductId) {
+
+	    Optional<OrderedProduct> optionalOrderedProduct = orderedProductRepository.findById(orderedProductId);
+
+	    if (optionalOrderedProduct.isPresent()) {
+	        OrderedProduct orderedProduct = optionalOrderedProduct.get();
+
+	        orderedProduct.setPickup(true);
+	        orderedProductRepository.save(orderedProduct);
+	    } 
+	}
 
 }

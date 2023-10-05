@@ -10,14 +10,9 @@ import reactor.core.publisher.Flux;
 
 public interface OrderedProductDao {
 	Page<OrderedProductProduct> getOrderedProductByMemberId(String memberId, int page, int size);
-
 	List<OrderedProduct> findByMemberMemberId(String memberId);
-
-//	void saveOrderedProduct(MyOrderedProductDto myOrderedProductDto);
-
 	void saveOrderedProduct(OrderedProduct orderedProduct);
-	
 	Flux<OrderedProduct> getOrderedListByStoreId(String memberId);
 	OrderedProduct findByIsPickupAndMemberMemberId(String memberId);
-
+	void completePickup(int orderedProductId);
 }
