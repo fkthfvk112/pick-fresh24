@@ -2,6 +2,8 @@ package mart.fresh.com.data.dao.impl;
 
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,12 +54,8 @@ private final StoreRepository storeRepository;
 	public Flux<OrderedProduct> getOrderedListByStoreId(String memberId) {
 	    boolean isPickup = false;
 	    
-//		System.out.println("OrderedProductDaoImpl storeInfo memberId : " + memberId);
-	    
 		Store store = storeRepository.findByMemberMemberId(memberId);
-		
-//		System.out.println("OrderedProductDaoImpl storeInfo : ");
-		
+
 	    List<OrderedProduct> orderedProduct = orderedProductRepository.findByIsPickupAndStoreStoreId(isPickup, store.getStoreId());
 	    
 	    return Flux.fromIterable(orderedProduct);
@@ -93,13 +91,22 @@ private final StoreRepository storeRepository;
 	}
 
 	@Override
+
+	public void completePickup(int orderedProductId) {
+
+	    Optional<OrderedProduct> optionalOrderedProduct = orderedProductRepository.findById(orderedProductId);
+
+	    if (optionalOrderedProduct.isPresent()) {
+	        OrderedProduct orderedProduct = optionalOrderedProduct.get();
+
+	        orderedProduct.setPickup(true);
+	        orderedProductRepository.save(orderedProduct);
+	    } 
+	}
+
 	public OrderedProduct findByOrderedProductId(int orderedProductId) {
 		return orderedProductRepository.findByOrderedProductId(orderedProductId);
 	}
 
-//	@Override
-//	public List<OrderedProduct> findByMemberMemberId(String memberId) {
-//		return orderedProductRepository.findByMemberMemberId(memberId);
-//	}
 
 }
