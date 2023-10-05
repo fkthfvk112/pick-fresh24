@@ -4,6 +4,7 @@ import java.util.List;
 
 import mart.fresh.com.data.dto.CartInfoDto;
 import mart.fresh.com.data.entity.Cart;
+import mart.fresh.com.data.entity.Member;
 
 public interface CartDao {
   List<CartInfoDto> getCartInfo(String memberId);
@@ -11,5 +12,6 @@ public interface CartDao {
 	String decreaseCartProductQuantity(String memberId);
 	void saveCart(Cart cart);
 	int getMyCartStoreId(String memberId);
+	Cart findByMember(Member member);
 }
 

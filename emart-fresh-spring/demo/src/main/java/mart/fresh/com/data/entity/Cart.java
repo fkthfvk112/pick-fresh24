@@ -17,8 +17,8 @@ public class Cart {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @ManyToOne
     @ToString.Exclude
-    @JoinColumn(name = "store_id", unique = false)
+    @JoinColumn(name = "store_id")
     private Store store;
 }
