@@ -16,4 +16,5 @@ public interface CouponService {
 	Coupon findByCouponId(int couponId);
 
 	Page<CouponResponse> exceptCouponList(String memberId, int page, int size);
+	
 }
