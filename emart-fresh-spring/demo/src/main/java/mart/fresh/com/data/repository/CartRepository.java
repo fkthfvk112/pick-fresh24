@@ -9,12 +9,14 @@ import org.springframework.data.repository.query.Param;
 
 import mart.fresh.com.data.dto.CartInfoDto;
 import mart.fresh.com.data.entity.Cart;
+import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.StoreProduct;
 
 public interface CartRepository extends JpaRepository<Cart, Integer>{
     List<Cart> findByMemberMemberId(String memberId);
-
+    Cart findByMember(Member member);
+    
     @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.priceNumber, p.productTimeSale, cp.cartProductQuantity, c.store.storeId) " +
     	       "FROM CartProduct cp " +
     	       "JOIN cp.cart c " +
