@@ -108,6 +108,12 @@ public class ProductServiceImpl implements ProductService{
 	public Product findByProductId(int productId) {
 		return productDao.findByProductId(productId);
 	}
+
+	@Override
+	public void saveAllProductList(List<Product> productList) {
+		productDao.saveAllProductList(productList);
+		
+	}
 	
 	//전환 예제
 //	@Override
