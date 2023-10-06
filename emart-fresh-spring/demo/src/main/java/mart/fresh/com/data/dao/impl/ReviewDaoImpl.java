@@ -48,5 +48,10 @@ public class ReviewDaoImpl implements ReviewDao{
 
 		return reviewList;
 	}
+
+	@Override
+	public void save(Review review) {
+		reviewRepository.save(review);
+	}
 	
 }

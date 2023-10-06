@@ -9,4 +9,5 @@ public interface ReviewDao {
 	Page<Review> myReviewList(String memberId, int page, int size);
 	int myReviewDelete(int reviewId);
 	List<Review> getProductReviewByProductTitle(String productTitle, int select);
+	void save(Review review);
 }
