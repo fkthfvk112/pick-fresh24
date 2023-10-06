@@ -67,6 +67,13 @@ public class ApplyManagerDaoImpl implements ApplyManagerDao {
 		
 		return 1;
 	}
+
+	@Override
+	public ApplyManager getMyApply(String memberId) {
+		ApplyManager am =  applyManagerRepository.findByMemberId(memberId);
+		
+		return am;
+	}
 	
 	
 }
