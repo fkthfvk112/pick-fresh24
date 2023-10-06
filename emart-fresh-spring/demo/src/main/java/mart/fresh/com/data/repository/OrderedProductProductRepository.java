@@ -8,4 +8,6 @@ public interface OrderedProductProductRepository extends JpaRepository<OrderedPr
 
 	List<OrderedProductProduct> findByOrderedProductOrderedProductId(int orderedProductId);
 
+	OrderedProductProduct findByOrderedProductProductId(int orderedProductProductId);
+
 }

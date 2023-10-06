@@ -37,6 +37,7 @@ import mart.fresh.com.service.CouponService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.OrderedProductProductService;
 import mart.fresh.com.service.ProductService;
+import mart.fresh.com.service.ReviewService;
 import mart.fresh.com.service.StoreService;
 
 
@@ -47,18 +48,20 @@ private final OrderedProductService orderedProductService;
 private final OrderedProductProductService orderedProductProductService;
 private final MemberService memberService;
 private final StoreService storeService;
+private final ReviewService reviewService;
 private final CouponService couponService;
 private final ProductService productService;
 
 	@Autowired
 	public OrderedProductController(OrderedProductService orderedProductService, OrderedProductProductService orderedProductProductService, 
-			MemberService memberService, StoreService storeService, CouponService couponService, ProductService productService) {
+			MemberService memberService, StoreService storeService, CouponService couponService, ProductService productService, ReviewService reviewService) {
 		this.orderedProductService = orderedProductService;
 		this.orderedProductProductService = orderedProductProductService;
 		this.memberService = memberService;
 		this.storeService = storeService;
 		this.couponService = couponService;
 		this.productService = productService;
+		this.reviewService = reviewService;
 
 	}
 	
@@ -205,15 +208,20 @@ private final ProductService productService;
 		System.out.println("OrderedProductController 주문내역보기 " + new Date());
 		
 	    try {
-	        List<OrderedProductProduct> orderedProductProducts = orderedProductProductService.findByOrderedProductOrderedProductId(orderedProductId);
+	    	OrderedProduct orderedProduct = orderedProductService.findByOrderedProductId(orderedProductId);
 
-	        if (orderedProductProducts.isEmpty()) {
+	    	String memberId = orderedProduct.getMember().getMemberId();
+	    	
+	    	System.out.println("================== : " + memberId);
+	    	List<OrderedProductProduct> orderedProductProductList = orderedProductProductService.findByOrderedProductOrderedProductId(orderedProductId);
+
+	        if (orderedProductProductList.isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
 	        }
 
 	        List<Map<String, Object>> productDetailsList = new ArrayList<>();
 
-	        for (OrderedProductProduct orderedProductProduct : orderedProductProducts) {
+	        for (OrderedProductProduct orderedProductProduct : orderedProductProductList) {
 	            Map<String, Object> productDetails = new HashMap<>();
 	            int productId = orderedProductProduct.getProduct().getProductId();
 	            Product product = productService.findByProductId(productId);
@@ -221,6 +229,7 @@ private final ProductService productService;
 	            productDetails.put("productImgUrl", product.getProductImgUrl());
 	            productDetails.put("price", product.getPriceNumber());
 	            productDetails.put("orderedQuantity", orderedProductProduct.getOrderedQuantity());
+	            productDetails.put("review", orderedProductProduct.getReview());
 	            productDetailsList.add(productDetails);
 	        }
 
