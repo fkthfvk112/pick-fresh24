@@ -3,6 +3,8 @@ package mart.fresh.com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import mart.fresh.com.data.dto.ProductFilterDto;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.service.ProductService;
+import mart.fresh.com.util.JsonDataProcessor;
 
 
 @RequestMapping("/product")
@@ -25,6 +28,9 @@ public class ProductController {
 	public ProductController(ProductService productService) {
 		this.productService = productService;
 	}
+	
+	@Autowired
+    private JsonDataProcessor jsonDataProcessor;
 	
 	@GetMapping()
 	public List<Store> getNearStoreInfos(String productName) {
@@ -117,4 +123,18 @@ public class ProductController {
 		
 		productService.saveProduct(product);
 	}
+	
+	@GetMapping("/saveProducts")
+    public ResponseEntity<String> saveProducts() {
+        System.out.println("Emart24_fresh 제이손 --> DB 저장 중 ~~~~");
+        boolean isSavedSuccessfully = jsonDataProcessor.processJsonData();
+        if (isSavedSuccessfully) {
+            System.out.println("Emart24_fresh 제이손 --> DB 저장 성공 !!!!");
+            return ResponseEntity.status(HttpStatus.OK).body("DB 저장 성공");
+        } else {
+            System.out.println("Emart24_fresh 제이손 --> DB 저장 실패 !!!!");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("DB 저장 실패");
+        }
+    }
+
 }

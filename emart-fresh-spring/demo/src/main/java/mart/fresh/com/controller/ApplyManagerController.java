@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import mart.fresh.com.data.dto.ApplyEmailDto;
 import mart.fresh.com.data.dto.ApplyManagerDto;
+import mart.fresh.com.data.entity.ApplyManager;
 import mart.fresh.com.service.ApplyManagerService;
 import mart.fresh.com.service.EmailService;
 import mart.fresh.com.util.NaverOcrService;
@@ -47,6 +48,18 @@ private final NaverOcrService naverOcrService;
 		Page<ApplyManagerDto> applyList = applyManagerService.showApplyList(page-1, size);
 	    return applyList;
 	}
+	
+	@GetMapping("/myApply")
+	public ResponseEntity<ApplyManagerDto> getMyApply(String memberId) {
+		System.out.println("이거이거");
+		ApplyManagerDto dto =  applyManagerService.getMyApply(memberId);
+		if(dto == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+	    return ResponseEntity.ok().body(dto);
+	}
+	
 	
 	//내가 점주를 하겠다! 라고 신청
 	@PostMapping("/apply-requestapplymanager")

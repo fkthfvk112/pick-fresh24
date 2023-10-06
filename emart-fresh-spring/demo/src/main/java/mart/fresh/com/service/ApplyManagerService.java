@@ -11,5 +11,5 @@ public interface ApplyManagerService {
     boolean requestApplyManager(String memberId, MultipartFile file) throws IOException;
     Page<ApplyManagerDto> showApplyList(int page, int size);
     boolean applyManager(String memberId);
-    
+    ApplyManagerDto getMyApply(String memberId);
 }
