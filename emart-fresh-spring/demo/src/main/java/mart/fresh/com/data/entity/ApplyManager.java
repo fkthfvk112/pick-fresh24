@@ -30,4 +30,5 @@ public class ApplyManager {
     
     @Column(name = "certif_img_url")
     private String certifImgUrl;
+
 }

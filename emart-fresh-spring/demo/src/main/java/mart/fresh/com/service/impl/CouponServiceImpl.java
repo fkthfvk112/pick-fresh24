@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import mart.fresh.com.data.dao.CouponDao;
 import mart.fresh.com.data.dto.CouponDto;
-import mart.fresh.com.data.dto.CouponResponse;
 import mart.fresh.com.data.entity.Coupon;
 import mart.fresh.com.service.CouponService;
 
@@ -52,8 +51,8 @@ public class CouponServiceImpl implements CouponService {
 		return couponDao.findByCouponId(couponId);
 	}
 
-	public Page<CouponResponse> exceptCouponList(String memberId, int page, int size) {
-		Page<CouponResponse> couponList = couponDao.exceptCouponList(memberId, page, size);
+	public Page<CouponDto> exceptCouponList(String memberId, int page, int size) {
+		Page<CouponDto> couponList = couponDao.exceptCouponList(memberId, page, size);
 		return couponList;
 	}
 

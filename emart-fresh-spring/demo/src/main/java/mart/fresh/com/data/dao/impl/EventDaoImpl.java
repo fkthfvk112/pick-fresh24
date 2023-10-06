@@ -58,10 +58,9 @@ public class EventDaoImpl implements EventDao {
 	}
 
 	@Override
-	public Page<Event> nowEventList(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+	public List<Event> nowEventList() {
         Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-        return eventRepository.findByEventEndDateAfter(currentTime, pageable);
+        return eventRepository.findByEventEndDateAfterOrderByEventEndDateAsc(currentTime);
 	}
     
 }
