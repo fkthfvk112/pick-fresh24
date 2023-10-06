@@ -229,6 +229,7 @@ private final ProductService productService;
 	            productDetails.put("productImgUrl", product.getProductImgUrl());
 	            productDetails.put("price", product.getPriceNumber());
 	            productDetails.put("orderedQuantity", orderedProductProduct.getOrderedQuantity());
+	            productDetails.put("review", orderedProductProduct.getReview());
 	            productDetailsList.add(productDetails);
 	        }
 
