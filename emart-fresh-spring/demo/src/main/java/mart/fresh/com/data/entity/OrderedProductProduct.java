@@ -42,5 +42,4 @@ public class OrderedProductProduct {
     @JoinColumn(name = "review_id", nullable = true)
     private Review review;
     
-    
 }
