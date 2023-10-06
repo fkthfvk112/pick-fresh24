@@ -202,11 +202,13 @@ private final ProductService productService;
 	
 	@GetMapping("/getProductDetails")
 	public ResponseEntity<List<Map<String, Object>>> getProductDetails(@RequestParam("orderedProductId") int orderedProductId) {
-		System.out.println("OrderedProductController 주문내역보기 " + new Date());
+		System.out.println("OrderedProductController 주문내역보기 " + new Date() + "아이디" + orderedProductId);
 		
 	    try {
 	        List<OrderedProductProduct> orderedProductProducts = orderedProductProductService.findByOrderedProductOrderedProductId(orderedProductId);
 
+	        System.out.println("리스트" + orderedProductProducts);
+	        
 	        if (orderedProductProducts.isEmpty()) {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
 	        }

@@ -187,7 +187,7 @@ public class CartController {
 		String memberId = authentication.getName();
 		System.out.println("들어옴 ");
 
-		System.out.println("반환값 " + cartService.getMyCartStoreId(memberId));
+		System.out.println("반환값 123" + cartService.getMyCartStoreId(memberId));
 		return cartService.getMyCartStoreId(memberId);
 	}
 
