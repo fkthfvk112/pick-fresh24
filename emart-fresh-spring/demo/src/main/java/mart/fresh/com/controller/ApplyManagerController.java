@@ -4,7 +4,6 @@ package mart.fresh.com.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,12 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
 import mart.fresh.com.data.dto.ApplyEmailDto;
 import mart.fresh.com.data.dto.ApplyManagerDto;
 import mart.fresh.com.service.ApplyManagerService;
 import mart.fresh.com.service.EmailService;
-//import mart.fresh.com.util.NaverOcrService;
+import mart.fresh.com.util.NaverOcrService;
 
 
 @RequestMapping("/applymanager")
@@ -32,15 +30,15 @@ public class ApplyManagerController {
 
 private final ApplyManagerService applyManagerService;
 private final EmailService emailService;
-//private final NaverOcrService naverOcrService;
+private final NaverOcrService naverOcrService;
 
 	@Autowired
 	public ApplyManagerController(ApplyManagerService applyManagerService,
-//									NaverOcrService naverOcrService,						
+									NaverOcrService naverOcrService,						
 									EmailService emailService) {
 	    this.applyManagerService = applyManagerService;
 	    this.emailService = emailService;
-//	    this.naverOcrService = naverOcrService;
+	    this.naverOcrService = naverOcrService;
 	}
 
 	
@@ -57,7 +55,7 @@ private final EmailService emailService;
 		System.out.println("네임" + authentication.getName());
 		System.out.println("파일" + file.getOriginalFilename());
 	   try {
-//		   String extractedText = naverOcrService.callNaverCloudOcr(file);
+		   String extractedText = naverOcrService.callNaverCloudOcr(file);
 		   applyManagerService.requestApplyManager(authentication.getName(), file);
 			return ResponseEntity.ok().body("success");
 		} catch (IOException e) {

@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mart.fresh.com.data.dao.CouponDao;
 import mart.fresh.com.data.dto.CouponDto;
-import mart.fresh.com.data.dto.CouponResponse;
 import mart.fresh.com.data.entity.Coupon;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.CouponRepository;
@@ -77,8 +76,8 @@ public class CouponDaoImpl implements CouponDao {
 
 		Member member = mypageRepository.findMemberByMemberId(couponDto.getMemberId());
 
-		int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(
-				couponType, couponTitle, couponDto.getMemberId());
+		int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(couponType, couponTitle,
+				couponDto.getMemberId());
 
 		if (count > 0) {
 			return 0;
@@ -102,39 +101,47 @@ public class CouponDaoImpl implements CouponDao {
 		return couponRepository.findByCouponId(couponId);
 	}
 
-//	public Page<Coupon> allCouponList(int page, int size) {
-//		System.out.println("CouponDaoImpl allCouponList");
-//		int memberAuth = 2;
-//		Pageable pageable = PageRequest.of(page, size);
-//
-//		Page<Coupon> couponList = couponRepository.allCouponList(pageable, memberAuth);
-//		return couponList;
-//	}
-
-	public Page<CouponResponse> exceptCouponList(String memberId, int page, int size) {
+	public Page<CouponDto> exceptCouponList(String memberId, int page, int size) {
 		System.out.println("CouponDaoImpl exceptCouponList : " + memberId);
 		Pageable pageable = PageRequest.of(page, size);
 		int memberAuth = 2;
-		
+
 		Page<Coupon> couponList = new PageImpl<Coupon>(Collections.emptyList());
-		List<CouponResponse> responseList = new ArrayList<>();
+		List<CouponDto> responseList = new ArrayList<>();
 
 		couponList = couponRepository.exceptCouponList(pageable, memberAuth);
+		
 		if (memberId != null) {
-			for (Coupon coupon : couponList) {
-				int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(
-						coupon.getCouponType(), coupon.getCouponTitle(), memberId);
-				boolean isExisting = count > 0;
-				responseList.add(new CouponResponse(coupon, isExisting));
-			}
+		    for (Coupon coupon : couponList.getContent()) {
+		        int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(coupon.getCouponType(),
+		                coupon.getCouponTitle(), memberId);
+		        boolean isExisting = count > 0;
+
+		        CouponDto couponDto = new CouponDto();
+		        couponDto.setCouponId(coupon.getCouponId());
+		        couponDto.setMemberId(coupon.getMember().getMemberId());
+		        couponDto.setCouponExpirationDate(coupon.getCouponExpirationDate());
+		        couponDto.setCouponType(coupon.getCouponType());
+		        couponDto.setCouponTitle(coupon.getCouponTitle());
+		        couponDto.setExisting(isExisting);
+		        
+		        responseList.add(couponDto);
+		    }
 		} else {
-			for (Coupon coupon : couponList) {
-				boolean isExisting = false;
-				responseList.add(new CouponResponse(coupon, isExisting));
-			}
+		    for (Coupon coupon : couponList.getContent()) {
+		        CouponDto couponDto = new CouponDto();
+		        couponDto.setCouponId(coupon.getCouponId());
+		        couponDto.setMemberId(coupon.getMember().getMemberId());
+		        couponDto.setCouponExpirationDate(coupon.getCouponExpirationDate());
+		        couponDto.setCouponType(coupon.getCouponType());
+		        couponDto.setCouponTitle(coupon.getCouponTitle());
+		        couponDto.setExisting(false);
+		        
+		        responseList.add(couponDto);
+		    }
 		}
 
-		Page<CouponResponse> responses = new PageImpl<>(responseList, pageable, responseList.size());
+		Page<CouponDto> responses = new PageImpl<>(responseList, pageable, responseList.size());
 
 		return responses;
 	}

@@ -2,7 +2,6 @@ package mart.fresh.com.service;
 
 import org.springframework.data.domain.Page;
 import mart.fresh.com.data.dto.CouponDto;
-import mart.fresh.com.data.dto.CouponResponse;
 import mart.fresh.com.data.entity.Coupon;
 
 public interface CouponService {
@@ -15,6 +14,6 @@ public interface CouponService {
 
 	Coupon findByCouponId(int couponId);
 
-	Page<CouponResponse> exceptCouponList(String memberId, int page, int size);
+	Page<CouponDto> exceptCouponList(String memberId, int page, int size);
 	
 }

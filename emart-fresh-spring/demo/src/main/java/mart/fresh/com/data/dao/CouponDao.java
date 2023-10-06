@@ -2,7 +2,6 @@ package mart.fresh.com.data.dao;
 
 import org.springframework.data.domain.Page;
 import mart.fresh.com.data.dto.CouponDto;
-import mart.fresh.com.data.dto.CouponResponse;
 import mart.fresh.com.data.entity.Coupon;
 
 public interface CouponDao {
@@ -11,5 +10,5 @@ public interface CouponDao {
 	int createCoupon(CouponDto couponDto);
 	int couponDown(CouponDto couponDto);
 	Coupon findByCouponId(int couponId);
-	Page<CouponResponse> exceptCouponList(String memberId, int page, int size);
+	Page<CouponDto> exceptCouponList(String memberId, int page, int size);
 }

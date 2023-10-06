@@ -1,5 +1,7 @@
 package mart.fresh.com.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -46,6 +48,16 @@ public class EventServiceImpl implements EventService {
 		return dto;
 	}
 
+	private EventDto convertEventListToDto(Event eventEntity) {
+		EventDto dto = new EventDto();
+		dto.setEventId(eventEntity.getEventId());
+		dto.setEventTitle(eventEntity.getEventTitle());
+		dto.setEventBannerImage(eventEntity.getEventBannerImage());
+		dto.setEventDetailImage(eventEntity.getEventDetailImage());
+		dto.setEventStartDate(eventEntity.getEventStartDate());
+		dto.setEventEndDate(eventEntity.getEventEndDate());
+		return dto;
+	}
 	@Override
 	public Page<EventDto> eventList(int page, int size) {
 
@@ -77,12 +89,15 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Page<EventDto> nowEventList(int page, int size) {
-		Page<Event> eventEntityList = eventDao.nowEventList(page, size);
+	public List<EventDto> nowEventList() {
+		List<Event> eventEntityList = eventDao.nowEventList();
 
-		Page<EventDto> eventDtoPage = eventEntityList.map(this::convertEventToDto);
+	    List<EventDto> eventDtoList = new ArrayList<>();
+	    for (Event event : eventEntityList) {
+	        eventDtoList.add(convertEventListToDto(event));
+	    }
 
-		return eventDtoPage;
+		return eventDtoList;
 	}
 
 }

@@ -11,4 +11,5 @@ public class CouponDto {
     private Timestamp couponExpirationDate;
     private int couponType;
     private String couponTitle;
+    private boolean isExisting;
 }
