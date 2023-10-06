@@ -9,6 +9,7 @@ import mart.fresh.com.data.dao.CartDao;
 import mart.fresh.com.data.dao.CartProductDao;
 import mart.fresh.com.data.dto.CartInfoDto;
 import mart.fresh.com.data.entity.Cart;
+import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.service.CartService;
 
 @Service
@@ -27,13 +28,11 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public String addToCart(String memberId, String productName, int storeId, int requestQuantity) {
-
 		return cartDao.addToCart(memberId, productName, storeId, requestQuantity);
 	}
 
 	@Override
 	public String decreaseCartProductQuantity(String memberId) {
-
 		return cartDao.decreaseCartProductQuantity(memberId);
 	}
 
@@ -44,6 +43,11 @@ public class CartServiceImpl implements CartService {
 
 	public int getMyCartStoreId(String memberId) {
 		return cartDao.getMyCartStoreId(memberId);
+	}
+
+	@Override
+	public Cart findByMember(Member member) {
+		return cartDao.findByMember(member);
 	}
 
 }

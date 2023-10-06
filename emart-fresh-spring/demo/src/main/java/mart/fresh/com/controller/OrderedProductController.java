@@ -202,6 +202,8 @@ private final ProductService productService;
 	
 	@GetMapping("/getProductDetails")
 	public ResponseEntity<List<Map<String, Object>>> getProductDetails(@RequestParam("orderedProductId") int orderedProductId) {
+		System.out.println("OrderedProductController 주문내역보기 " + new Date());
+		
 	    try {
 	        List<OrderedProductProduct> orderedProductProducts = orderedProductProductService.findByOrderedProductOrderedProductId(orderedProductId);
 

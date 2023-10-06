@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +28,35 @@ public class EventController {
     }
 
     @GetMapping("/event-list")
-    public Page<EventDto> eventList(@RequestParam int page, @RequestParam int size) {
-        Page<EventDto> eventList = eventService.eventList(page - 1, size);
-        return eventList;
+    public ResponseEntity<Page<EventDto>> eventList(@RequestParam int page, @RequestParam int size) {
+    	   Page<EventDto> eventList = eventService.nowEventList(page - 1, size);
+           if(eventList != null && !eventList.isEmpty()) {
+   			  return ResponseEntity.ok(eventList);
+           } else {
+           	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+   	    }
+    }
+    
+    @GetMapping("/now-event-list")
+    public ResponseEntity<Page<EventDto>> nowEventList(@RequestParam int page, @RequestParam int size) {
+        Page<EventDto> eventList = eventService.nowEventList(page - 1, size);
+        if(eventList != null && !eventList.isEmpty()) {
+			  return ResponseEntity.ok(eventList);
+        } else {
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+        
     }
     
     @GetMapping("/detail")
-    public EventDto eventList(@RequestParam int eventId) {
+    public ResponseEntity<EventDto> eventList(@RequestParam int eventId) {
         EventDto eventDetail = eventService.eventDetail(eventId);
-        return eventDetail;
+        if(eventDetail != null) {
+			  return ResponseEntity.ok(eventDetail);
+      } else {
+      	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+      
     }
     
     

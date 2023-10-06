@@ -206,5 +206,10 @@ public class CartDaoImpl implements CartDao {
 
 		return cart.getStore().getStoreId();
 	}
+
+	@Override
+	public Cart findByMember(Member member) {
+		return cartRepository.findByMember(member);
+	}
 	
 }

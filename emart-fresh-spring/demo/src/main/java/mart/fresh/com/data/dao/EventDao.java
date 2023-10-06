@@ -8,4 +8,5 @@ public interface EventDao {
 	boolean eventUpdate(EventDto dto);
 	Page<Event> eventList(int page, int size);
 	Event eventDetail(int eventId);
+	Page<Event> nowEventList(int page, int size);
 }
