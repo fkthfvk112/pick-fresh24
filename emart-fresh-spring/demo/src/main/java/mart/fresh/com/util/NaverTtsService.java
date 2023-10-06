@@ -11,38 +11,39 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class NaverTtsService {
 
-    @Value("${naver.client.id}")
-    private String clientId;
+	@Value("${naver.cloud.client.id}")
+	private String clientId;
 
-    @Value("${naver.client.secret}")
-    private String clientSecret;
+	@Value("${naver.cloud.client.secret}")
+	private String clientSecret;
 
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 
-    public byte[] synthesizeSpeech(String text) {
-        RestTemplate restTemplate = restTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("X-NCP-APIGW-API-KEY-ID", clientId);
-        headers.set("X-NCP-APIGW-API-KEY", clientSecret);
+	public byte[] synthesizeSpeech(String text) {
+		RestTemplate restTemplate = restTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		headers.set("X-NCP-APIGW-API-KEY-ID", clientId);
+		headers.set("X-NCP-APIGW-API-KEY", clientSecret);
 
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("speaker", "nmeow");
-        map.add("speed", "-1");
-        map.add("text", text);
-        map.add("pitch", "-3");
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("speaker", "nmeow");
+		map.add("speed", "-1");
+		map.add("text", text);
+		map.add("pitch", "-3");
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
-        ResponseEntity<byte[]> response = restTemplate.postForEntity("https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts", request, byte[].class);
+		ResponseEntity<byte[]> response = restTemplate
+				.postForEntity("https://naveropenapi.apigw.ntruss.com/tts-premium/v1/tts", request, byte[].class);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return response.getBody();
-        } else {
-            throw new RuntimeException("Failed to synthesize speech: " + response.getStatusCode());
-        }
-    }
+		if (response.getStatusCode() == HttpStatus.OK) {
+			return response.getBody();
+		} else {
+			throw new RuntimeException("Failed to synthesize speech: " + response.getStatusCode());
+		}
+	}
 }
