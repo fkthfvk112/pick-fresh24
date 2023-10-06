@@ -39,6 +39,12 @@ public class OrderedProductProductServiceImpl implements OrderedProductProductSe
         return productService.findByProductId(productId);
     }
 
+	@Override
+	public OrderedProductProduct findByOrderedProductProductId(int orderedProductProductId) {
+		return orderedProductProductRepository.findByOrderedProductProductId(orderedProductProductId);
+	}
+
+
 
 	
 	
