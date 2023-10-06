@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,7 +31,7 @@ public class EventController {
 
     @GetMapping("/event-list")
     public ResponseEntity<Page<EventDto>> eventList(@RequestParam int page, @RequestParam int size) {
-    	   Page<EventDto> eventList = eventService.nowEventList(page - 1, size);
+    	   Page<EventDto> eventList = eventService.eventList(page, size);
            if(eventList != null && !eventList.isEmpty()) {
    			  return ResponseEntity.ok(eventList);
            } else {
@@ -38,8 +40,8 @@ public class EventController {
     }
     
     @GetMapping("/now-event-list")
-    public ResponseEntity<Page<EventDto>> nowEventList(@RequestParam int page, @RequestParam int size) {
-        Page<EventDto> eventList = eventService.nowEventList(page - 1, size);
+    public ResponseEntity<List<EventDto>> nowEventList() {
+    	List<EventDto> eventList = eventService.nowEventList();
         if(eventList != null && !eventList.isEmpty()) {
 			  return ResponseEntity.ok(eventList);
         } else {

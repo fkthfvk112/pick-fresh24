@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.CouponDto;
-import mart.fresh.com.data.dto.CouponResponse;
 import mart.fresh.com.service.CouponService;
 
 @RequestMapping("/coupon")
@@ -27,7 +26,7 @@ public class CouponController {
 	}
 
 	@GetMapping("/coupon-all")
-	public ResponseEntity<Page<CouponResponse>> allCouponList(Authentication authentication, @RequestParam int page,
+	public ResponseEntity<Page<CouponDto>> allCouponList(Authentication authentication, @RequestParam int page,
 			@RequestParam int size) {
 
 		String memberId = null;
@@ -35,7 +34,7 @@ public class CouponController {
 		if (authentication != null) {
 			memberId = authentication.getName();
 		}
-		Page<CouponResponse> exceptCouponList = couponService.exceptCouponList(memberId, page - 1, size);
+		Page<CouponDto> exceptCouponList = couponService.exceptCouponList(memberId, page - 1, size);
 		if (exceptCouponList != null && !exceptCouponList.isEmpty()) {
 			return ResponseEntity.ok(exceptCouponList);
 		} else {

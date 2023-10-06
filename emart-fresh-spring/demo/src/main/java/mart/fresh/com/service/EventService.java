@@ -1,5 +1,6 @@
 package mart.fresh.com.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 import mart.fresh.com.data.dto.EventDto;
@@ -13,6 +14,6 @@ public interface EventService {
 
 	EventDto eventDetail(int eventId);
 
-	Page<EventDto> nowEventList(int page, int size);
+	List<EventDto> nowEventList();
 
 }

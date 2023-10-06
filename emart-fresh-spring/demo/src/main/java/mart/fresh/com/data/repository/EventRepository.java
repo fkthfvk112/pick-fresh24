@@ -2,6 +2,7 @@ package mart.fresh.com.data.repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,5 +20,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
 	Event findByEventId(int eventId);
 
-	Page<Event> findByEventEndDateAfter(Timestamp currentTime, Pageable pageable);
+	List<Event> findByEventEndDateAfterOrderByEventEndDateAsc(Timestamp currentTime);
+;
 }
