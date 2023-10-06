@@ -110,6 +110,8 @@ public class CouponDaoImpl implements CouponDao {
 		List<CouponDto> responseList = new ArrayList<>();
 
 		couponList = couponRepository.exceptCouponList(pageable, memberAuth);
+		long totalCount = couponList.getTotalElements();
+		System.out.println("Total count of coupons: " + totalCount);
 		
 		if (memberId != null) {
 		    for (Coupon coupon : couponList.getContent()) {
@@ -141,7 +143,7 @@ public class CouponDaoImpl implements CouponDao {
 		    }
 		}
 
-		Page<CouponDto> responses = new PageImpl<>(responseList, pageable, responseList.size());
+		Page<CouponDto> responses = new PageImpl<>(responseList, pageable, totalCount);
 
 		return responses;
 	}
