@@ -8,5 +8,4 @@ public interface StoreRepository extends JpaRepository<Store, Integer>{
 
 	Store findByMemberMemberId(String memberId);
 	Store findByStoreId(int storeId);
-
 }
