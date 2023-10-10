@@ -6,6 +6,9 @@ import lombok.ToString;
 
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Data
 @Entity
 @Table(name = "review")
@@ -19,6 +22,7 @@ public class Review {
     @ManyToOne
     @ToString.Exclude
     @JoinColumn(name = "member_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     @Column(name = "product_title")

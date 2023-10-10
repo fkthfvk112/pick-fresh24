@@ -14,6 +14,7 @@ import mart.fresh.com.data.dao.OrderedProductDao;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
 import mart.fresh.com.data.entity.OrderedProduct;
 import mart.fresh.com.data.entity.OrderedProductProduct;
+import mart.fresh.com.data.repository.OrderedProductProductRepository;
 import mart.fresh.com.data.repository.OrderedProductRepository;
 import mart.fresh.com.service.OrderedProductService;
 import reactor.core.publisher.Flux;
@@ -29,6 +30,7 @@ public class OrderedProductServiceImpl implements OrderedProductService {
 
     private final OrderedProductDao orderedProductDao;
     private final OrderedProductRepository orderedProductRepository;
+    private final OrderedProductProductRepository orderedProductProductRepository;
 
     private FluxSink<MyOrderedProductDto> sink;
     private final Flux<MyOrderedProductDto> flux;
@@ -38,9 +40,11 @@ public class OrderedProductServiceImpl implements OrderedProductService {
     @Autowired
     public OrderedProductServiceImpl(OrderedProductDao orderedProductDao,
                                     OrderedProductRepository orderedProductRepository,
+                                    OrderedProductProductRepository orderedProductProductRepository,
                                     NaverTtsService naverTtsService) {
         this.orderedProductDao = orderedProductDao;
         this.orderedProductRepository = orderedProductRepository;
+        this.orderedProductProductRepository = orderedProductProductRepository;
         this.naverTtsService = naverTtsService;
         
         this.flux = Flux.<MyOrderedProductDto>create(emitter ->  this.sink = emitter, FluxSink.OverflowStrategy.BUFFER)
@@ -103,7 +107,7 @@ public class OrderedProductServiceImpl implements OrderedProductService {
         myOrderedProductDto.setProductImgUrl(orderedProductProduct.getProduct().getProductImgUrl());
         myOrderedProductDto.setOrderedQuantity(orderedProductProduct.getOrderedQuantity());
 
-        int myOrderedCount = orderedProductRepository.myOrderedCount(orderedProductProduct.getOrderedProduct().getMember().getMemberId());
+        int myOrderedCount = orderedProductProductRepository.countByOrderedProductOrderedProductId(orderedProductProduct.getOrderedProduct().getOrderedProductId());
         myOrderedProductDto.setMyOrderedCount(myOrderedCount);
 
         return myOrderedProductDto;
