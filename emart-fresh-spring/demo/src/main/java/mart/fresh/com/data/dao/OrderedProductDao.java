@@ -13,7 +13,7 @@ public interface OrderedProductDao {
 	List<OrderedProduct> findByMemberMemberId(String memberId);
 	void saveOrderedProduct(OrderedProduct orderedProduct);
 	Flux<OrderedProduct> getOrderedListByStoreId(String memberId);
-	OrderedProduct findByIsPickupAndMemberMemberId(String memberId);
+//	OrderedProduct findByIsPickupAndMemberMemberId(String memberId);
 	void completePickup(int orderedProductId);
 	OrderedProduct findByOrderedProductId(int orderedProductId);
 

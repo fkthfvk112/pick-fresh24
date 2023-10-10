@@ -35,11 +35,7 @@ public class CouponController {
 			memberId = authentication.getName();
 		}
 		Page<CouponDto> exceptCouponList = couponService.exceptCouponList(memberId, page - 1, size);
-		if (exceptCouponList != null && !exceptCouponList.isEmpty()) {
-			return ResponseEntity.ok(exceptCouponList);
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
+		return ResponseEntity.ok(exceptCouponList);
 	}
 
 	@GetMapping("/coupon-list")
@@ -47,12 +43,9 @@ public class CouponController {
 			@RequestParam int size) {
 		System.out.println("멤버 아이디" + authentication.getName());
 		Page<CouponDto> couponList = couponService.myCouponList(authentication.getName(), page - 1, size);
-		if (couponList != null && !couponList.isEmpty()) {
 			return ResponseEntity.ok(couponList);
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-	}
+		} 
+	
 
 	@PostMapping("/coupon-create")
 	public ResponseEntity<String> createCoupon(Authentication authentication, @RequestBody CouponDto couponDto) {
@@ -80,7 +73,7 @@ public class CouponController {
 			boolean isS = couponService.couponDown(couponDto);
 
 			if (isS == false) {
-				return ResponseEntity.ok("중복쿠폰");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복쿠폰다운");
 			}
 
 			System.out.println("쿠폰다운 완료");

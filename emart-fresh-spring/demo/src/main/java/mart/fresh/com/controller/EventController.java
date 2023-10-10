@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,92 +23,83 @@ import mart.fresh.com.service.EventService;
 @RequestMapping("/event")
 @RestController
 public class EventController {
-    private final EventService eventService;
+	private final EventService eventService;
 
-    @Autowired
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
+	@Autowired
+	public EventController(EventService eventService) {
+		this.eventService = eventService;
+	}
 
-    @GetMapping("/event-list")
-    public ResponseEntity<Page<EventDto>> eventList(@RequestParam int page, @RequestParam int size) {
-    	   Page<EventDto> eventList = eventService.eventList(page, size);
-           if(eventList != null && !eventList.isEmpty()) {
-   			  return ResponseEntity.ok(eventList);
-           } else {
-           	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-   	    }
-    }
-    
-    @GetMapping("/now-event-list")
-    public ResponseEntity<List<EventDto>> nowEventList() {
-    	List<EventDto> eventList = eventService.nowEventList();
-        if(eventList != null && !eventList.isEmpty()) {
-			  return ResponseEntity.ok(eventList);
-        } else {
-        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-	    }
-        
-    }
-    
-    @GetMapping("/detail")
-    public ResponseEntity<EventDto> eventList(@RequestParam int eventId) {
-        EventDto eventDetail = eventService.eventDetail(eventId);
-        if(eventDetail != null) {
-			  return ResponseEntity.ok(eventDetail);
-      } else {
-      	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-	    }
-      
-    }
-    
-    
-    @PostMapping("/event-update")
-    public String eventUpdate(@RequestParam("event_title") String eventTitle,
-            @RequestParam("event_banner_image") MultipartFile eventBannerImage,
-            @RequestParam("event_detail_image") MultipartFile eventDetailImage,
-            @RequestParam("event_start_date") String eventStartDate,
-            @RequestParam("event_end_date") String eventEndDate) throws IOException {
+	@GetMapping("/event-list")
+	public ResponseEntity<Page<EventDto>> eventList(@RequestParam int page, @RequestParam int size) {
+		Page<EventDto> eventList = eventService.eventList(page, size);
+		return ResponseEntity.ok(eventList);
+	}
 
-        System.out.println("EventController eventUpdate");
+	@GetMapping("/now-event-list")
+	public ResponseEntity<List<String>> nowEventList() {
+	    List<EventDto> eventList = eventService.nowEventList();
 
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date startParsedDate = dateFormat.parse(eventStartDate);
-            Date endParsedDate = dateFormat.parse(eventEndDate);
+	    List<String> noewEventList = eventList.stream()
+	                                          .map(EventDto::getEventBannerImage)
+	                                          .collect(Collectors.toList());
 
-            Timestamp startTimestamp = new Timestamp(startParsedDate.getTime());
-            Timestamp endTimestamp = new Timestamp(endParsedDate.getTime());
+	    return ResponseEntity.ok(noewEventList);
+	}
 
-            EventDto dto = new EventDto();
-            dto.setEventTitle(eventTitle);
 
-            // 이미지 업로드 및 URL 설정
-            String bannerImageUrl = eventService.uploadImage(eventBannerImage);
-            String detailImageUrl = eventService.uploadImage(eventDetailImage);
+	@GetMapping("/detail")
+	public ResponseEntity<EventDto> eventList(@RequestParam int eventId) {
+		EventDto eventDetail = eventService.eventDetail(eventId);
+		return ResponseEntity.ok(eventDetail);
+	}
 
-            if (bannerImageUrl != null && detailImageUrl != null) {
-                dto.setEventBannerImage(bannerImageUrl);
-                dto.setEventDetailImage(detailImageUrl);
-                dto.setEventStartDate(startTimestamp);
-                dto.setEventEndDate(endTimestamp);
+	@PostMapping("/event-update")
+	public String eventUpdate(@RequestParam("event_title") String eventTitle,
+			@RequestParam("event_banner_image") MultipartFile eventBannerImage,
+			@RequestParam("event_detail_image") MultipartFile eventDetailImage,
+			@RequestParam("event_start_date") String eventStartDate,
+			@RequestParam("event_end_date") String eventEndDate) throws IOException {
 
-                System.out.println("startTimestamp : " + startTimestamp + " endTimestamp : " + endTimestamp
-                        + " eventStartDate : " + eventStartDate);
+		System.out.println("EventController eventUpdate");
 
-                boolean saveSuccess = eventService.eventUpdate(dto);
+		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date startParsedDate = dateFormat.parse(eventStartDate);
+			Date endParsedDate = dateFormat.parse(eventEndDate);
 
-                if (saveSuccess) {
-                    return "success";
-                } else {
-                    return "fail";
-                }
-            } else {
-                return "fail"; // 이미지 업로드 실패
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "fail";
-        }
-    }
+			Timestamp startTimestamp = new Timestamp(startParsedDate.getTime());
+			Timestamp endTimestamp = new Timestamp(endParsedDate.getTime());
+
+			EventDto dto = new EventDto();
+			dto.setEventTitle(eventTitle);
+
+			// 이미지 업로드 및 URL 설정
+			String bannerImageUrl = eventService.uploadImage(eventBannerImage);
+			String detailImageUrl = eventService.uploadImage(eventDetailImage);
+
+			if (bannerImageUrl != null && detailImageUrl != null) {
+				dto.setEventBannerImage(bannerImageUrl);
+				dto.setEventDetailImage(detailImageUrl);
+				dto.setEventStartDate(startTimestamp);
+				dto.setEventEndDate(endTimestamp);
+
+				System.out.println("startTimestamp : " + startTimestamp + " endTimestamp : " + endTimestamp
+						+ " eventStartDate : " + eventStartDate);
+
+				boolean saveSuccess = eventService.eventUpdate(dto);
+
+				if (saveSuccess) {
+					return "success";
+				} else {
+					return "fail";
+				}
+			} else {
+				return "fail"; // 이미지 업로드 실패
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+	}
 }
