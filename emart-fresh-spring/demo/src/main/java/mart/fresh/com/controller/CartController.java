@@ -2,6 +2,7 @@ package mart.fresh.com.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -190,5 +191,26 @@ public class CartController {
 		System.out.println("반환값 " + cartService.getMyCartStoreId(memberId));
 		return cartService.getMyCartStoreId(memberId);
 	}
+	
+	@GetMapping("/myCartInfoCount")
+	public ResponseEntity<Integer> getCartItemCountByProductTitle(Authentication authentication) {
+	    String memberId = authentication.getName();
+	    System.out.println("CartController " + memberId + "의 장바구니 물품 개수 " + new Date());
+
+	    try {
+	        List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
+	        Map<String, Integer> itemCountMap = new HashMap<>();
+
+	        for (CartInfoDto cartInfo : cartInfoList) {
+	            String productTitle = cartInfo.getProductTitle();
+	            itemCountMap.put(productTitle, itemCountMap.getOrDefault(productTitle, 0) + 1);
+	        }
+
+	        return ResponseEntity.ok(itemCountMap.size());
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
+
 
 }
