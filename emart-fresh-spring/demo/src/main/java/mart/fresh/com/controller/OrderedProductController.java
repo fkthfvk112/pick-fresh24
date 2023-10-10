@@ -225,6 +225,8 @@ private final ProductService productService;
 	            Map<String, Object> productDetails = new HashMap<>();
 	            int productId = orderedProductProduct.getProduct().getProductId();
 	            Product product = productService.findByProductId(productId);
+	            
+	            productDetails.put("productId", orderedProductProduct.getOrderedProductProductId());
 	            productDetails.put("productName", product.getProductTitle());
 	            productDetails.put("productImgUrl", product.getProductImgUrl());
 	            productDetails.put("price", product.getPriceNumber());
@@ -232,7 +234,7 @@ private final ProductService productService;
 	            productDetails.put("review", orderedProductProduct.getReview());
 	            productDetailsList.add(productDetails);
 	        }
-
+	        
 	        return ResponseEntity.ok(productDetailsList);
 	    } catch (Exception e) {
 	        e.printStackTrace();

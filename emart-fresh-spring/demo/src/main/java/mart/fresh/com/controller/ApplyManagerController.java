@@ -54,7 +54,8 @@ private final NaverOcrService naverOcrService;
 		System.out.println("이거이거");
 		ApplyManagerDto dto =  applyManagerService.getMyApply(memberId);
 		if(dto == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			return ResponseEntity.ok().body(null);
+			//return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		
 	    return ResponseEntity.ok().body(dto);
@@ -68,7 +69,7 @@ private final NaverOcrService naverOcrService;
 		System.out.println("네임" + authentication.getName());
 		System.out.println("파일" + file.getOriginalFilename());
 	   try {
-		   String extractedText = naverOcrService.callNaverCloudOcr(file);
+		   //String extractedText = naverOcrService.callNaverCloudOcr(file);
 		   applyManagerService.requestApplyManager(authentication.getName(), file);
 			return ResponseEntity.ok().body("success");
 		} catch (IOException e) {

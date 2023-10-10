@@ -61,6 +61,8 @@ public class ProductDaoImpl implements ProductDao{
 		System.out.println("aaa" + productFilterDto.getSearchingTerm());
 		System.out.println("bbb" + productFilterDto.getEventNumber());
 		System.out.println("ccc" + productFilterDto.getSelect());
+		System.out.println("ddd" + offset);
+		System.out.println("eee" + limit);
 
 		List<Product> productEntityList = productRepository
 				.getProductDtoListByFilter(
