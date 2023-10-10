@@ -30,4 +30,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
 
 	int countByCouponTypeAndCouponTitleAndMemberMemberId(int couponType, String couponTitle, String memberId);
 
+	void deleteByMemberMemberIdAndCouponId(String memberId, int couponId);
+
 }

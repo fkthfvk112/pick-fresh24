@@ -1,5 +1,10 @@
 package mart.fresh.com.controller;
 
+import java.util.Date;
+import java.util.Map;
+
+import javax.print.DocFlavor.READER;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -35,11 +40,7 @@ public class CouponController {
 			memberId = authentication.getName();
 		}
 		Page<CouponDto> exceptCouponList = couponService.exceptCouponList(memberId, page - 1, size);
-		if (exceptCouponList != null && !exceptCouponList.isEmpty()) {
-			return ResponseEntity.ok(exceptCouponList);
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
+		return ResponseEntity.ok(exceptCouponList);
 	}
 
 	@GetMapping("/coupon-list")
@@ -47,12 +48,9 @@ public class CouponController {
 			@RequestParam int size) {
 		System.out.println("멤버 아이디" + authentication.getName());
 		Page<CouponDto> couponList = couponService.myCouponList(authentication.getName(), page - 1, size);
-		if (couponList != null && !couponList.isEmpty()) {
 			return ResponseEntity.ok(couponList);
-		} else {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
-	}
+		} 
+	
 
 	@PostMapping("/coupon-create")
 	public ResponseEntity<String> createCoupon(Authentication authentication, @RequestBody CouponDto couponDto) {
@@ -80,7 +78,7 @@ public class CouponController {
 			boolean isS = couponService.couponDown(couponDto);
 
 			if (isS == false) {
-				return ResponseEntity.ok("중복쿠폰");
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복쿠폰다운");
 			}
 
 			System.out.println("쿠폰다운 완료");
@@ -91,5 +89,27 @@ public class CouponController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
 		}
 	}
+	
+	@PostMapping("/coupon-delete")
+	public ResponseEntity<String> couponDelete(Authentication authentication, @RequestBody Map<String, Integer> request) {
+	    try {
+	        String memberId = authentication.getName();
+	        System.out.println("CartController " + memberId + "님의 쿠폰 삭제 " + new Date());
+
+	        if (!request.containsKey("couponId")) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                .body("coponId를 보내주세요.");
+	        }
+
+	        int couponId = request.get("couponId");
+	        couponService.deleteByMemberMemberIdAndCouponId(memberId, couponId);
+
+	        return ResponseEntity.status(HttpStatus.OK).build();
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	            .body("coupon-delete error : " + e.getMessage());
+	    }
+	}
+
 
 }
