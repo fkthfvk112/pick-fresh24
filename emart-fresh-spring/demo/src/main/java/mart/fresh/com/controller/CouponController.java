@@ -1,5 +1,10 @@
 package mart.fresh.com.controller;
 
+import java.util.Date;
+import java.util.Map;
+
+import javax.print.DocFlavor.READER;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -84,5 +89,27 @@ public class CouponController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
 		}
 	}
+	
+	@PostMapping("/coupon-delete")
+	public ResponseEntity<String> couponDelete(Authentication authentication, @RequestBody Map<String, Integer> request) {
+	    try {
+	        String memberId = authentication.getName();
+	        System.out.println("CartController " + memberId + "님의 쿠폰 삭제 " + new Date());
+
+	        if (!request.containsKey("couponId")) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                .body("coponId를 보내주세요.");
+	        }
+
+	        int couponId = request.get("couponId");
+	        couponService.deleteByMemberMemberIdAndCouponId(memberId, couponId);
+
+	        return ResponseEntity.status(HttpStatus.OK).build();
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	            .body("coupon-delete error : " + e.getMessage());
+	    }
+	}
+
 
 }

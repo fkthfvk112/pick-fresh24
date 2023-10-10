@@ -10,5 +10,6 @@ public interface OrderedProductProductService {
 	void saveOrderedProductProduct(OrderedProductProduct orderedProductProduct);
 	List<OrderedProductProduct> findByOrderedProductOrderedProductId(int orderedProductId);
 	Product getProductDetails(int productId);
+	OrderedProductProduct findByOrderedProductProductId(int orderedProductProductId);
 
 }

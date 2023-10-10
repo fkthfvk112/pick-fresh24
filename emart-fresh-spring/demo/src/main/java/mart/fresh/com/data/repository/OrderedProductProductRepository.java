@@ -15,5 +15,6 @@ public interface OrderedProductProductRepository extends JpaRepository<OrderedPr
 	@Query("SELECT COUNT(DISTINCT opp.orderedProduct.orderedProductId) " + "FROM OrderedProductProduct opp "
 			+ "WHERE opp.orderedProduct.member.memberId = :memberId")
 	long countUniqueOrderedProductsByMemberId(String memberId);
-
+  
+	OrderedProductProduct findByOrderedProductProductId(int orderedProductProductId);
 }
