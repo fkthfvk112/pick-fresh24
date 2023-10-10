@@ -56,4 +56,10 @@ public class CouponServiceImpl implements CouponService {
 		return couponList;
 	}
 
+	@Override
+	public void deleteByMemberMemberIdAndCouponId(String memberId, int couponId) {
+		couponDao.deleteByMemberMemberIdAndCouponId(memberId, couponId);
+		
+	}
+
 }

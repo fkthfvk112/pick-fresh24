@@ -148,4 +148,11 @@ public class CouponDaoImpl implements CouponDao {
 		return responses;
 	}
 
+	@Override
+	@Transactional
+	public void deleteByMemberMemberIdAndCouponId(String memberId, int couponId) {
+		couponRepository.deleteByMemberMemberIdAndCouponId(memberId, couponId);
+		
+	}
+
 }
