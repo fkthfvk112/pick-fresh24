@@ -205,7 +205,7 @@ private final ProductService productService;
 	
 	@GetMapping("/getProductDetails")
 	public ResponseEntity<List<Map<String, Object>>> getProductDetails(@RequestParam("orderedProductId") int orderedProductId) {
-		System.out.println("OrderedProductController 주문내역보기 " + new Date());
+		System.out.println("OrderedProductController 주문내역보기 " + new Date() + "아이디" + orderedProductId);
 		
 	    try {
 	    	OrderedProduct orderedProduct = orderedProductService.findByOrderedProductId(orderedProductId);
@@ -225,6 +225,8 @@ private final ProductService productService;
 	            Map<String, Object> productDetails = new HashMap<>();
 	            int productId = orderedProductProduct.getProduct().getProductId();
 	            Product product = productService.findByProductId(productId);
+	            
+	            productDetails.put("productId", orderedProductProduct.getOrderedProductProductId());
 	            productDetails.put("productName", product.getProductTitle());
 	            productDetails.put("productImgUrl", product.getProductImgUrl());
 	            productDetails.put("price", product.getPriceNumber());
@@ -233,7 +235,7 @@ private final ProductService productService;
 	            productDetails.put("orderedProductProductId", orderedProductProduct.getOrderedProductProductId());
 	            productDetailsList.add(productDetails);
 	        }
-
+	        
 	        return ResponseEntity.ok(productDetailsList);
 	    } catch (Exception e) {
 	        e.printStackTrace();

@@ -14,4 +14,5 @@ public interface StoreService {
 	StoreDto getStoreInfo(int storeId);
 	int addStore(@RequestBody StoreDtoWithId dto);
 	Store findByStoreId(int storeId);
+	int findStoreIdByMemberId(String storeId); 
 }

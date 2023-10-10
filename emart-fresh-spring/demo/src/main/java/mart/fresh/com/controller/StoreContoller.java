@@ -39,7 +39,6 @@ private final StoreService storeService;
 	@GetMapping("/get-storeinfo")
 	public ResponseEntity<StoreDto> getStoreInfo(int storeId) {
 		StoreDto storeDto = storeService.getStoreInfo(storeId);
-		System.out.println("디티오값" + storeDto);
 		if(storeDto == null) {
 			return ResponseEntity
 					.status(HttpStatus.NOT_FOUND)

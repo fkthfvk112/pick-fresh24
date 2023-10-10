@@ -28,5 +28,5 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 
     @Query("SELECT m FROM Member m WHERE m.verifyCodeExpiry <= :currentTime")
     List<Member> findExpiredVerificationCodes(LocalDateTime currentTime);
-        
+
 }
