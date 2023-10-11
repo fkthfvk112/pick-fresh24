@@ -32,7 +32,7 @@ public class EventController {
 
 	@GetMapping("/event-list")
 	public ResponseEntity<Page<EventDto>> eventList(@RequestParam int page, @RequestParam int size) {
-		Page<EventDto> eventList = eventService.eventList(page, size);
+		Page<EventDto> eventList = eventService.eventList(page-1, size);
 		return ResponseEntity.ok(eventList);
 	}
 

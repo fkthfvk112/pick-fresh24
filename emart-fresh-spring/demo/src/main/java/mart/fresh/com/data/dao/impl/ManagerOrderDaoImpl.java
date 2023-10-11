@@ -43,8 +43,9 @@ public class ManagerOrderDaoImpl implements ManagerOrderDao{
 	}
 
 	@Override
-	public List<ManagerOrderWithId> showMyOrder(int storeId) {
-		List<ManagerOrderWithId> orderList = managerOrderWithIdRepository.findByStoreId(storeId);
+	public List<ManagerOrderWithObj> showMyOrder(int storeId) {
+		List<ManagerOrderWithObj> orderList = managerOrderWithObjRepository.findByStoreStoreIdSortByDate(storeId);
+		System.out.println("다오" + orderList);
 		
 		return orderList;
 	}
