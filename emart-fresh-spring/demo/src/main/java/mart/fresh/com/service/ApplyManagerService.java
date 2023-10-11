@@ -12,4 +12,5 @@ public interface ApplyManagerService {
     Page<ApplyManagerDto> showApplyList(int page, int size);
     boolean applyManager(String memberId);
     ApplyManagerDto getMyApply(String memberId);
+	int countByMemberMemberId(String memberId);
 }

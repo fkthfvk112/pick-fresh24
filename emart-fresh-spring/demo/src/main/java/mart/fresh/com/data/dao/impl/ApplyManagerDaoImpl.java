@@ -75,5 +75,10 @@ public class ApplyManagerDaoImpl implements ApplyManagerDao {
 		return am;
 	}
 	
+	@Override
+	public int countByMemberMemberId(String memberId) {
+		return applyManagerRepository.countByMemberMemberId(memberId);
+	}
+	
 	
 }
