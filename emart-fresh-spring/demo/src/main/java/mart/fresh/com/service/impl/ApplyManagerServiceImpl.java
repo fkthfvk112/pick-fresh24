@@ -82,5 +82,10 @@ public class ApplyManagerServiceImpl implements ApplyManagerService {
 
 		return dto;
 	}
+	
+	@Override
+	public int countByMemberMemberId(String memberId) {
+		return applyManagerDao.countByMemberMemberId(memberId);
+	}
     
 }

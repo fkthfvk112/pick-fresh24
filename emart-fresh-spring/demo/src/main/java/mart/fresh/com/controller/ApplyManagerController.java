@@ -40,9 +40,9 @@ public class ApplyManagerController {
 	}
 
 	@GetMapping("/apply-showList")
-	public Page<ApplyManagerDto> showApplyList(@RequestParam int page, @RequestParam int size) {
+	public ResponseEntity<Page<ApplyManagerDto>> showApplyList(@RequestParam int page, @RequestParam int size) {
 		Page<ApplyManagerDto> applyList = applyManagerService.showApplyList(page - 1, size);
-		return applyList;
+		return ResponseEntity.ok(applyList);
 	}
 
 	@GetMapping("/myApply")
@@ -62,11 +62,15 @@ public class ApplyManagerController {
 		System.out.println("파일" + file.getOriginalFilename());
 
 		boolean isS = naverOcrService.callNaverCloudOcr(file);
-
-		if (isS) {
+		int count = applyManagerService.countByMemberMemberId(authentication.getName());
+		
+		if (isS && count == 0) {
 			applyManagerService.requestApplyManager(authentication.getName(), file);
 			return ResponseEntity.ok().body("success");
-		} else {
+		} else if(count > 0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("신청내역이 존재합니다.");
+		}
+		else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("사진 삽입 실패");
 		}
 	}

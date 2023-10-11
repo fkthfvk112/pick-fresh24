@@ -11,4 +11,5 @@ public interface ApplyManagerDao {
     Page<ApplyManager> showApplyList(int page, int size);
     int applyManager(String memberId);
     ApplyManager getMyApply(String memberId);
+	int countByMemberMemberId(String memberId);
 }

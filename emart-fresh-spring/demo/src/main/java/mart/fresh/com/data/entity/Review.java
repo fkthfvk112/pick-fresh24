@@ -22,9 +22,9 @@ public class Review {
     @ManyToOne
     @ToString.Exclude
     @JoinColumn(name = "member_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//  @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
-
+            
     @Column(name = "product_title")
     private String productTitle;
 
@@ -37,4 +37,7 @@ public class Review {
     @Column(name = "review_score")
     private int reviewScore;
 
-}
+}     
+
+
+                                                                                                                                                                                                                                                                                                                                                                                    
