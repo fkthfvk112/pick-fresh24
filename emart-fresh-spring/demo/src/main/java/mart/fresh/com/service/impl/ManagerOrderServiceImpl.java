@@ -2,6 +2,7 @@ package mart.fresh.com.service.impl;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,11 @@ import java.util.ArrayList;
 @Service
 public class ManagerOrderServiceImpl implements ManagerOrderService {
 	private final ManagerOrderDao managerOrderDao;
-
+	private final ModelMapper modelMapper;
 	@Autowired
-	public ManagerOrderServiceImpl(ManagerOrderDao managerOrderDao) {
+	public ManagerOrderServiceImpl(ManagerOrderDao managerOrderDao, ModelMapper modelMapper) {
 		this.managerOrderDao = managerOrderDao;
+		this.modelMapper = modelMapper;
 		
 	}//엔티티 객체 DTO객체 전환
 	@Override
@@ -47,6 +49,19 @@ public class ManagerOrderServiceImpl implements ManagerOrderService {
 	@Override
 	public List<ManagerOrderWithObj> getManagerOrderByFilter(int filter) {
 		return managerOrderDao.getManagerOrderByFilter(filter);
+	}
+	@Override
+	public List<ManagerOrderDto> showMyOrder(int storeId) {
+		List<ManagerOrderWithId> entityList = managerOrderDao.showMyOrder(storeId);
+		List<ManagerOrderDto> dtoList = new ArrayList();
+		
+		for(ManagerOrderWithId entity:entityList) {
+			ManagerOrderDto dto = modelMapper.map(entity, ManagerOrderDto.class);
+			dtoList.add(dto);
+		}
+		
+		
+		return dtoList;
 	}
 	
 }

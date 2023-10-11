@@ -41,5 +41,12 @@ public class ManagerOrderDaoImpl implements ManagerOrderDao{
 		System.out.println("---getManagerOrderByFilter dao" + orderList);
 		return orderList;
 	}
+
+	@Override
+	public List<ManagerOrderWithId> showMyOrder(int storeId) {
+		List<ManagerOrderWithId> orderList = managerOrderWithIdRepository.findByStoreId(storeId);
+		
+		return orderList;
+	}
 }
 
