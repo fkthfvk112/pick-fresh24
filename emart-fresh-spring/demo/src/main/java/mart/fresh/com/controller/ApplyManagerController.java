@@ -68,10 +68,10 @@ public class ApplyManagerController {
 			applyManagerService.requestApplyManager(authentication.getName(), file);
 			return ResponseEntity.ok().body("success");
 		} else if(count > 0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("신청내역이 존재합니다.");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("신청내역이 존재합니다.");
 		}
 		else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("사진 삽입 실패");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사진 삽입 실패");
 		}
 	}
 
