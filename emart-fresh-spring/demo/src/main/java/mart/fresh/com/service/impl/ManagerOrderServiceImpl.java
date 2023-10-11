@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import mart.fresh.com.data.dao.ManagerOrderDao;
 import mart.fresh.com.data.dto.ManagerOrderDto;
+import mart.fresh.com.data.dto.ManagerOrderObjDto;
 import mart.fresh.com.data.entity.ManagerOrderWithId;
 import mart.fresh.com.data.entity.ManagerOrderWithObj;
 import mart.fresh.com.service.ManagerOrderService;
@@ -51,12 +52,12 @@ public class ManagerOrderServiceImpl implements ManagerOrderService {
 		return managerOrderDao.getManagerOrderByFilter(filter);
 	}
 	@Override
-	public List<ManagerOrderDto> showMyOrder(int storeId) {
-		List<ManagerOrderWithId> entityList = managerOrderDao.showMyOrder(storeId);
-		List<ManagerOrderDto> dtoList = new ArrayList();
+	public List<ManagerOrderObjDto> showMyOrder(int storeId) {
+		List<ManagerOrderWithObj> entityList = managerOrderDao.showMyOrder(storeId);
+		List<ManagerOrderObjDto> dtoList = new ArrayList();
 		
-		for(ManagerOrderWithId entity:entityList) {
-			ManagerOrderDto dto = modelMapper.map(entity, ManagerOrderDto.class);
+		for(ManagerOrderWithObj entity:entityList) {
+			ManagerOrderObjDto dto = modelMapper.map(entity, ManagerOrderObjDto.class);
 			dtoList.add(dto);
 		}
 		

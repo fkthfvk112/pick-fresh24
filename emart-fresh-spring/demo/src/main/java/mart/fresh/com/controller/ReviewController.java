@@ -74,6 +74,7 @@ public class ReviewController {
 	@PostMapping("/add")
 	public ResponseEntity<String> addReview(Authentication authentication, @RequestBody ReviewRequestDto request) {
 		System.out.println("reviewController 리뷰 저장 ~ " + new Date());
+		System.out.println(request);
 		try {
 			String memberId = authentication.getName();
 			Member member = memberService.findByMemberId(memberId);
