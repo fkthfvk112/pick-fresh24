@@ -78,7 +78,9 @@ public class AdminDaoImpl implements AdminDao {
 				}
 				
 				//처리 후 주문 목록 드랍
-				managerOrderWithIdRepository.delete(mowi);
+				//managerOrderWithIdRepository.delete(mowi);
+				mowi.setManagerOrderStatus(true);
+				managerOrderWithIdRepository.save(mowi);
 	        }
 		}
 		return 1;
