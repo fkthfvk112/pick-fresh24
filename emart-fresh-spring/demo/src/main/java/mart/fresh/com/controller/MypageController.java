@@ -62,7 +62,7 @@ public class MypageController {
 	}
 
 	@PostMapping("/mypage-checkemail")
-	public ResponseEntity<String> checkEmail(Authentication authentication, @RequestParam String newEmail) {
+	public ResponseEntity<String> checkEmail(Authentication authentication, @RequestBody String newEmail) {
 		System.out.println("MypageController checkEmail");
 
 		boolean isS = mypageService.checkEmail(newEmail);
