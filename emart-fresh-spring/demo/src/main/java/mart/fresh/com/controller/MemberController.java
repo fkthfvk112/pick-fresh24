@@ -283,12 +283,13 @@ public class MemberController {
 			System.out.println("MemberController 네이버 로그아웃 " + new Date());
 
 			String naverAccessToken = requestBody.get("naverAccessToken");
+			System.out.println(naverAccessToken);
 			if (naverAccessToken != null) {
 				String naverLogoutUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete"
 						+ "&client_id=" + naverClientId
 						+ "&client_secret=" + naverClientSecret
 						+ "&access_token=" + naverAccessToken + "&service_provider=NAVER";
-
+				
 				ResponseEntity<String> response = restTemplate.postForEntity(naverLogoutUrl, null, String.class);
 
 				if (response.getStatusCode().is2xxSuccessful()) {

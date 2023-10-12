@@ -22,6 +22,13 @@ public class ReviewTestController {
 		System.out.println("ReviewTestController 글 등록 " + new Date());
 		return ResponseEntity.ok().body(authentication.getName()+"님의 리뷰 등록이 완료되었습니다.");
 	}	
+	
+	@PostMapping("/hhh")
+	public ResponseEntity<String> hello(){
+		System.out.println("결제취소 된거 확인중 ~~~~~~~~");
+		return ResponseEntity.ok(null);
+	}
+	
 	@GetMapping("/hello")
 	public String abc(Authentication auth) {
 		System.out.println("ㄻㄴㅇㄻㄴㅇㄹㄻㅇㄴ");

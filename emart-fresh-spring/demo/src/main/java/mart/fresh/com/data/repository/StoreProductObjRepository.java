@@ -27,4 +27,6 @@ public interface StoreProductObjRepository extends JpaRepository<StoreProduct, I
 			+ " JOIN FETCH sp.product "
 			+ "WHERE sp.store.storeId = :storeId ")
 	List<StoreProduct> findtStoreProuctByStoreId(@Param("storeId") int storeId);
+
+	StoreProduct findByStoreStoreIdAndProductProductId(int storeId, Integer productId);
 }
