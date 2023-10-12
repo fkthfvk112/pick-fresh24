@@ -219,51 +219,56 @@ public class CartDaoImpl implements CartDao {
 
 	@Override
 	public String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult) {
-	    Cart cart = cartRepository.findByMember_MemberId(memberId);
-	    Store store = cart.getStore();
+		Cart cart = cartRepository.findByMember_MemberId(memberId);
+		Store store = cart.getStore();
 
-	    Map<Integer, Integer> productInfoMap = productProcessResult.getProductInfoMap();
+		Map<Integer, Integer> productInfoMap = productProcessResult.getProductInfoMap();
 
-	    Map<Integer, Integer> successfulRecoveries = new HashMap<>();
+		Map<Integer, Integer> successfulRecoveries = new HashMap<>();
 
-	    for (Map.Entry<Integer, Integer> entry : productInfoMap.entrySet()) {
-	        Integer productId = entry.getKey();
-	        Integer recoveredQuantity = entry.getValue();
+		for (Map.Entry<Integer, Integer> entry : productInfoMap.entrySet()) {
+			Integer productId = entry.getKey();
+			Integer recoveredQuantity = entry.getValue();
 
-	        CartProduct cartProduct = cartProductRepository.findByCartCartIdAndProductProductId(cart.getCartId(), productId);
-	        StoreProduct storeProduct = storeProductObjRepository.findByStoreStoreIdAndProductProductId(store.getStoreId(), productId);
+			CartProduct cartProduct = cartProductRepository.findByCartCartIdAndProductProductId(cart.getCartId(),
+					productId);
+			StoreProduct storeProduct = storeProductObjRepository
+					.findByStoreStoreIdAndProductProductId(store.getStoreId(), productId);
 
-	        if (cartProduct == null || storeProduct == null) {
-	            System.out.println("productId " + productId + "인 상품을 찾지 못함.");
+			if (cartProduct == null || storeProduct == null) {
+				System.out.println("productId " + productId + "인 상품을 찾지 못함.");
 
-	            for (Map.Entry<Integer, Integer> successfulEntry : successfulRecoveries.entrySet()) {
-	                Integer successfulProductId = successfulEntry.getKey();
-	                Integer successfulRecoveredQuantity = successfulEntry.getValue();
+				for (Map.Entry<Integer, Integer> successfulEntry : successfulRecoveries.entrySet()) {
+					Integer successfulProductId = successfulEntry.getKey();
+					Integer successfulRecoveredQuantity = successfulEntry.getValue();
 
-	                CartProduct successfulCartProduct = cartProductRepository.findByCartCartIdAndProductProductId(cart.getCartId(), successfulProductId);
-	                StoreProduct successfulStoreProduct = storeProductObjRepository.findByStoreStoreIdAndProductProductId(store.getStoreId(), successfulProductId);
+					CartProduct successfulCartProduct = cartProductRepository
+							.findByCartCartIdAndProductProductId(cart.getCartId(), successfulProductId);
+					StoreProduct successfulStoreProduct = storeProductObjRepository
+							.findByStoreStoreIdAndProductProductId(store.getStoreId(), successfulProductId);
 
-	                successfulCartProduct.setCartProductQuantity(successfulCartProduct.getCartProductQuantity() - successfulRecoveredQuantity);
-	                cartProductRepository.save(successfulCartProduct);
+					successfulCartProduct.setCartProductQuantity(
+							successfulCartProduct.getCartProductQuantity() - successfulRecoveredQuantity);
+					cartProductRepository.save(successfulCartProduct);
 
-	                successfulStoreProduct.setStoreProductStock(successfulStoreProduct.getStoreProductStock() - successfulRecoveredQuantity);
-	                storeProductObjRepository.save(successfulStoreProduct);
-	            }
-	            return "notFoundProductId";
-	        }
+					successfulStoreProduct.setStoreProductStock(
+							successfulStoreProduct.getStoreProductStock() - successfulRecoveredQuantity);
+					storeProductObjRepository.save(successfulStoreProduct);
+				}
+				return "notFoundProductId";
+			}
 
-	        successfulRecoveries.put(productId, recoveredQuantity);
+			successfulRecoveries.put(productId, recoveredQuantity);
 
-	        cartProduct.setCartProductQuantity(cartProduct.getCartProductQuantity() + recoveredQuantity);
-	        cartProductRepository.save(cartProduct);
+			cartProduct.setCartProductQuantity(cartProduct.getCartProductQuantity() + recoveredQuantity);
+			cartProductRepository.save(cartProduct);
 
-	        storeProduct.setStoreProductStock(storeProduct.getStoreProductStock() + recoveredQuantity);
-	        storeProductObjRepository.save(storeProduct);
-	    }
+			storeProduct.setStoreProductStock(storeProduct.getStoreProductStock() + recoveredQuantity);
+			storeProductObjRepository.save(storeProduct);
+		}
 
-	    return "success";
+		return "success";
 	}
-
 
 	@Transactional
 	@Override
@@ -272,11 +277,11 @@ public class CartDaoImpl implements CartDao {
 		Store store = cart.getStore();
 		List<CartProduct> cartProductList = cartProductRepository.findCartProductListByCartId(cart.getCartId());
 		Map<Integer, Integer> productInfoMap = new HashMap<>();
-		
+
 		for (ProductInfoDto productInfo : productInfoList) {
 			String productTitle = productInfo.getProductTitle();
 			int productQuantity = productInfo.getProductQuantity();
-						
+
 			boolean productExistsInCart = cartProductList.stream()
 					.anyMatch(cartProduct -> cartProduct.getProduct().getProductTitle().equals(productTitle));
 
@@ -286,14 +291,14 @@ public class CartDaoImpl implements CartDao {
 			}
 
 			for (CartProduct cartProduct : cartProductList) {
-		        if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
-		            if (productQuantity > cartProduct.getCartProductQuantity()) {
-		                System.out.println("요청한 수량이 장바구니에 담긴 상품의 수량보다 많습니다. 해당 상품 : " + productTitle);
-		                throw new RuntimeException("tooMuchQuantity");
-		            }
-		            break;
-		        }
-		    }
+				if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
+					if (productQuantity > cartProduct.getCartProductQuantity()) {
+						System.out.println("요청한 수량이 장바구니에 담긴 상품의 수량보다 많습니다. 해당 상품 : " + productTitle);
+						throw new RuntimeException("tooMuchQuantity");
+					}
+					break;
+				}
+			}
 
 			List<StoreProduct> storeProductList = storeProductObjRepository
 					.findtStoreProuctByStoreId(store.getStoreId());
@@ -302,7 +307,7 @@ public class CartDaoImpl implements CartDao {
 
 			if (productQuantity > totalStock) {
 				System.out.println("요청한 수량이 가게에 총 재고보다 많습니다.");
-                throw new RuntimeException("lackOfStock");
+				throw new RuntimeException("lackOfStock");
 			}
 
 			int remainingQuantity = productQuantity;
@@ -321,19 +326,16 @@ public class CartDaoImpl implements CartDao {
 
 						for (CartProduct cartProduct : cartProductList) {
 							if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
-								cartProduct.setCartProductQuantity(cartProduct.getCartProductQuantity() - remainingQuantity);
-								if (cartProduct.getCartProductQuantity() == 0) {
-									cartProductRepository.delete(cartProduct);
-								} else {
-									cartProductRepository.save(cartProduct);
-								}
+								cartProduct.setCartProductQuantity(
+										cartProduct.getCartProductQuantity() - remainingQuantity);
+								cartProductRepository.save(cartProduct);
 								break;
 							}
 						}
 
 						System.out.println("productId[" + productId + "]인 " + productTitle + " 재고를 " + remainingQuantity
 								+ "만큼 감소시켰습니다.");
-						
+
 						productInfoMap.put(productId, remainingQuantity);
 						remainingQuantity = 0;
 					} else {
@@ -344,11 +346,7 @@ public class CartDaoImpl implements CartDao {
 						for (CartProduct cartProduct : cartProductList) {
 							if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
 								cartProduct.setCartProductQuantity(cartProduct.getCartProductQuantity() - currentStock);
-								if (cartProduct.getCartProductQuantity() == 0) {
-									cartProductRepository.delete(cartProduct);
-								} else {
-									cartProductRepository.save(cartProduct);
-								}
+								cartProductRepository.save(cartProduct);
 								break;
 							}
 						}
@@ -357,7 +355,7 @@ public class CartDaoImpl implements CartDao {
 					}
 				}
 			}
-			
+
 		}
 		System.out.println("제품 정보: " + productInfoMap);
 		return new ProductProcessResult("success", productInfoMap);

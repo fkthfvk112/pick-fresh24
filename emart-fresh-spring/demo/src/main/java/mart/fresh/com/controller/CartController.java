@@ -51,15 +51,25 @@ public class CartController {
 
 	@GetMapping("/getCartInfo")
 	public ResponseEntity<List<CartInfoDto>> getCartInfoByMember(Authentication authentication) {
-		String memberId = authentication.getName();
-		System.out.println("CartController " + memberId + "의 장바구니 확인 " + new Date());
-		List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
-		if (cartInfoList.isEmpty()) {
-			return ResponseEntity.noContent().build();
-		} else {
-			return ResponseEntity.ok(cartInfoList);
-		}
+	    String memberId = authentication.getName();
+	    System.out.println("CartController " + memberId + "의 장바구니 확인 " + new Date());
+	    
+	    List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
+	    List<CartInfoDto> filteredCartInfoList = new ArrayList<>();
+	    
+	    for (CartInfoDto cartInfo : cartInfoList) {
+	        if (cartInfo.getCartProductQuantity() > 0) {
+	            filteredCartInfoList.add(cartInfo);
+	        }
+	    }
+
+	    if (filteredCartInfoList.isEmpty()) {
+	        return ResponseEntity.noContent().build();
+	    } else {
+	        return ResponseEntity.ok(filteredCartInfoList);
+	    }
 	}
+
 
 	@PostMapping("/updateCartProductQuantity")
 	public ResponseEntity<?> updateCartProductQuantity(Authentication authentication,
@@ -249,8 +259,10 @@ public class CartController {
 			Map<String, Integer> itemCountMap = new HashMap<>();
 
 			for (CartInfoDto cartInfo : cartInfoList) {
-				String productTitle = cartInfo.getProductTitle();
-				itemCountMap.put(productTitle, itemCountMap.getOrDefault(productTitle, 0) + 1);
+				if (cartInfo.getCartProductQuantity() > 0) {
+	                String productTitle = cartInfo.getProductTitle();
+	                itemCountMap.put(productTitle, itemCountMap.getOrDefault(productTitle, 0) + 1);
+	            }
 			}
 
 			return ResponseEntity.ok(itemCountMap.size());
