@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.AddToCartDto;
 import mart.fresh.com.data.dto.CartInfoDto;
+import mart.fresh.com.data.dto.ProductInfoDto;
+import mart.fresh.com.data.dto.ProductProcessResult;
 import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.CartProduct;
 import mart.fresh.com.data.entity.Member;
@@ -39,7 +41,8 @@ public class CartController {
 	private final MemberService memberService;
 
 	@Autowired
-	public CartController(CartService cartService, CartProductService cartProductService, MemberService memberService, StoreService storeService) {
+	public CartController(CartService cartService, CartProductService cartProductService, MemberService memberService,
+			StoreService storeService) {
 		this.cartService = cartService;
 		this.cartProductService = cartProductService;
 		this.memberService = memberService;
@@ -137,7 +140,6 @@ public class CartController {
 		}
 	}
 
-
 	@PostMapping("/changeCart/yes")
 	public ResponseEntity<String> clearCartProducts(Authentication authentication, @RequestBody AddToCartDto dto) {
 		try {
@@ -145,20 +147,20 @@ public class CartController {
 			Member member = memberService.findByMemberId(memberId);
 			System.out.println("CartController " + memberId + "의 장바구니 교체 " + new Date());
 			Cart cart = cartService.findByMember(member);
-			
+
 			if (cart == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found for memberId: " + memberId);
-            }
-	        cartProductService.removeAllProductsFromCart(cart.getCartId());
-	        System.out.println("삭제 완료");
-	        
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found for memberId: " + memberId);
+			}
+			cartProductService.removeAllProductsFromCart(cart.getCartId());
+			System.out.println("삭제 완료");
+
 			int storeId = dto.getStoreId();
-			Store store = storeService.findByStoreId(storeId);			
+			Store store = storeService.findByStoreId(storeId);
 			cart.setStore(store);
-            cartService.saveCart(cart);
-            
-            return ResponseEntity.ok(cartService.addToCart(authentication.getName(), dto.getProductName(),
-            		storeId, dto.getRequestQuantity()));
+			cartService.saveCart(cart);
+
+			return ResponseEntity.ok(cartService.addToCart(authentication.getName(), dto.getProductName(), storeId,
+					dto.getRequestQuantity()));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Error clearing cart products: " + e.getMessage());
@@ -183,6 +185,51 @@ public class CartController {
 		return cartService.decreaseCartProductQuantity(authentication.getName());
 	}
 
+	@PostMapping("/decreaseCartProduct1")
+	public ResponseEntity<ProductProcessResult> decreaseCartProductQuantity1(Authentication authentication,
+	        @RequestBody List<ProductInfoDto> productInfoList) {
+	    String memberId = authentication.getName();
+	    System.out.println("CartController 결제로 재고 깍기 " + new Date());
+
+	    try {
+	        ProductProcessResult productProcessResult = cartService.decreaseCartProductQuantity1(memberId, productInfoList);
+	        return ResponseEntity.ok(new ProductProcessResult("재고 깍기 성공", productProcessResult.getProductInfoMap()));
+	    } catch (RuntimeException ex) {
+	        String errorMessage = ex.getMessage();
+	        Map<Integer, Integer> productInfoMap = new HashMap<>();
+
+	        if (errorMessage.equals("notFoundCartProduct")) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body(new ProductProcessResult("장바구니에 해당 상품이 없습니다.", productInfoMap));
+	        } else if (errorMessage.equals("tooMuchQuantity")) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(new ProductProcessResult("요청 수량이 장바구니의 수량보다 많습니다.", productInfoMap));
+	        } else if (errorMessage.equals("lackOfStock")) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(new ProductProcessResult("요청 수량이 가게 재고보다 많습니다.", productInfoMap));
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(new ProductProcessResult("예상치 못한 오류 발생", productInfoMap));
+	        }
+	    }
+	}
+
+
+	@PostMapping("/recoverCartProduct")
+	public ResponseEntity<String> recoverCartProductQuantity(Authentication authentication, @RequestBody ProductProcessResult productProcessResult) {
+	    String memberId = authentication.getName();
+	    System.out.println("CartController 결제 취소로 재고 회복 " + new Date());
+
+	    String result = cartService.recoverCartProductQuantity(memberId, productProcessResult);
+
+	    if (result.equals("success")) {
+	        return ResponseEntity.ok("재고 회복 성공");
+	    } else {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+	    }
+	}
+
+
 	@GetMapping("/myCartStoreId")
 	public int getMyCartStoreId(Authentication authentication) {
 		String memberId = authentication.getName();
@@ -191,26 +238,25 @@ public class CartController {
 		System.out.println("반환값 123" + cartService.getMyCartStoreId(memberId));
 		return cartService.getMyCartStoreId(memberId);
 	}
-	
+
 	@GetMapping("/myCartInfoCount")
 	public ResponseEntity<Integer> getCartItemCountByProductTitle(Authentication authentication) {
-	    String memberId = authentication.getName();
-	    System.out.println("CartController " + memberId + "의 장바구니 물품 개수 " + new Date());
+		String memberId = authentication.getName();
+		System.out.println("CartController " + memberId + "의 장바구니 물품 개수 " + new Date());
 
-	    try {
-	        List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
-	        Map<String, Integer> itemCountMap = new HashMap<>();
+		try {
+			List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
+			Map<String, Integer> itemCountMap = new HashMap<>();
 
-	        for (CartInfoDto cartInfo : cartInfoList) {
-	            String productTitle = cartInfo.getProductTitle();
-	            itemCountMap.put(productTitle, itemCountMap.getOrDefault(productTitle, 0) + 1);
-	        }
+			for (CartInfoDto cartInfo : cartInfoList) {
+				String productTitle = cartInfo.getProductTitle();
+				itemCountMap.put(productTitle, itemCountMap.getOrDefault(productTitle, 0) + 1);
+			}
 
-	        return ResponseEntity.ok(itemCountMap.size());
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-	    }
+			return ResponseEntity.ok(itemCountMap.size());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
-
 
 }

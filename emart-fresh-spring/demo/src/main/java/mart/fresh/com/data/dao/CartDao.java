@@ -3,6 +3,8 @@ package mart.fresh.com.data.dao;
 import java.util.List;
 
 import mart.fresh.com.data.dto.CartInfoDto;
+import mart.fresh.com.data.dto.ProductInfoDto;
+import mart.fresh.com.data.dto.ProductProcessResult;
 import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.Member;
 
@@ -13,5 +15,7 @@ public interface CartDao {
 	void saveCart(Cart cart);
 	int getMyCartStoreId(String memberId);
 	Cart findByMember(Member member);
+	String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult);
+	ProductProcessResult decreaseCartProductQuantity1(String memberId, List<ProductInfoDto> productInfoList);
 }
 
