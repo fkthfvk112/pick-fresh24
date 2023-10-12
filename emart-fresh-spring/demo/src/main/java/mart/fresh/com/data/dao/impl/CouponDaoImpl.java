@@ -2,6 +2,7 @@ package mart.fresh.com.data.dao.impl;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,6 +44,16 @@ public class CouponDaoImpl implements CouponDao {
 
 		// CouponDto에서 필요한 데이터 추출
 		Timestamp couponExpirationDate = couponDto.getCouponExpirationDate();
+		
+		if (couponExpirationDate != null) {
+			 Calendar calendar = Calendar.getInstance();
+			    calendar.setTimeInMillis(couponExpirationDate.getTime());
+			    calendar.set(Calendar.HOUR_OF_DAY, 23);
+			    calendar.set(Calendar.MINUTE, 59);
+			    calendar.set(Calendar.SECOND, 59);
+			    couponExpirationDate.setTime(calendar.getTimeInMillis());
+		}
+
 		int couponType = couponDto.getCouponType();
 		String couponTitle = couponDto.getCouponTitle();
 
@@ -78,6 +89,8 @@ public class CouponDaoImpl implements CouponDao {
 
 		int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(couponType, couponTitle,
 				couponDto.getMemberId());
+		
+		System.out.println("countByCouponTypeAndCouponTitleAndMemberMemberId : " + count);
 
 		if (count > 0) {
 			return 0;

@@ -1,6 +1,7 @@
 package mart.fresh.com.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.MemberDto;
 import mart.fresh.com.data.dto.MypageDto;
+import mart.fresh.com.data.dto.StoreSalseDto;
 import mart.fresh.com.service.EmailService;
 import mart.fresh.com.service.MypageService;
 
@@ -49,7 +51,8 @@ public class MypageController {
 	public ResponseEntity<String> changePassword(Authentication authentication, @RequestBody MemberDto memberDto) {
 		System.out.println("MypageController changepassword");
 
-		boolean isS = mypageService.changePassword(authentication.getName(), memberDto.getMemberPw(), memberDto.getNewPw());
+		boolean isS = mypageService.changePassword(authentication.getName(), memberDto.getMemberPw(),
+				memberDto.getNewPw());
 
 		if (isS) {
 			return ResponseEntity.ok("비밀번호변경 성공");
@@ -94,7 +97,7 @@ public class MypageController {
 
 		String newEmail = memberDto.getMemberEmail();
 		String verificationCode = memberDto.getVerifyCode();
-		
+
 		int count = mypageService.changeEmail(authentication.getName(), newEmail, verificationCode);
 
 		if (count == 0) {
@@ -102,6 +105,16 @@ public class MypageController {
 		} else {
 			return ResponseEntity.badRequest().body("이메일변경 실패");
 		}
+	}
+
+	@GetMapping("/saleschart")
+	public ResponseEntity<String> salesChart(Authentication authentication) {
+
+		System.out.println("MypageController salesChart");
+
+		List<StoreSalseDto> count = mypageService.salesChart(authentication.getName());
+
+		return ResponseEntity.ok("매출현황 표시");
 	}
 
 }

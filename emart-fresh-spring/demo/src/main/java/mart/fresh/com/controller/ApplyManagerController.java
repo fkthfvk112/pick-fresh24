@@ -1,6 +1,5 @@
 package mart.fresh.com.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-import mart.fresh.com.data.dto.ApplyEmailDto;
 import mart.fresh.com.data.dto.ApplyManagerDto;
-import mart.fresh.com.data.entity.ApplyManager;
 import mart.fresh.com.service.ApplyManagerService;
 import mart.fresh.com.service.EmailService;
 import mart.fresh.com.util.NaverOcrService;

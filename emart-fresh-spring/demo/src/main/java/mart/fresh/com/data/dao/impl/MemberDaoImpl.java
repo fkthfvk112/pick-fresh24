@@ -159,7 +159,9 @@ public class MemberDaoImpl implements MemberDao {
       return memberRepository.findByMemberId(memberId);
    }
 
-
-
+	@Override
+	public int findMemberAuthByMemberId(String memberId) {
+		return memberRepository.findMemberAuthByMemberId(memberId);
+	}
 
 }

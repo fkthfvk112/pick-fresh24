@@ -32,4 +32,6 @@ public interface MemberDao {
 
     Member findMemberId(String memberId);
 
+	int findMemberAuthByMemberId(String memberId);
+
 }
