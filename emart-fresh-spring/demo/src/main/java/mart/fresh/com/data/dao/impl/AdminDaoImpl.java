@@ -62,7 +62,6 @@ public class AdminDaoImpl implements AdminDao {
 				
 				//이미 product id와 sotre id가 일치하는 테이블 존재
 				if(sp!= null) {
-					System.out.println("존재합니다요!!");
 					int stock = sp.getStoreProductStock();
 					int updatedStock = mowi.getManagerOrderQuantity() + stock;
 					sp.setStoreProductStock(updatedStock);
@@ -79,10 +78,12 @@ public class AdminDaoImpl implements AdminDao {
 				}
 				
 				//처리 후 주문 목록 드랍
-				managerOrderWithIdRepository.delete(mowi);
+				//managerOrderWithIdRepository.delete(mowi);
+				mowi.setManagerOrderStatus(true);
+				managerOrderWithIdRepository.save(mowi);
 	        }
 		}
-		return 0;
+		return 1;
 	}
 
 }

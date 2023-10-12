@@ -1,5 +1,8 @@
 package mart.fresh.com.data.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -40,6 +43,7 @@ public class OrderedProductProduct {
     @OneToOne
     @ToString.Exclude
     @JoinColumn(name = "review_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Review review;
     
 }

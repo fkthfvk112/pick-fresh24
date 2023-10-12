@@ -38,28 +38,32 @@ public class ReviewController {
 	private final OrderedProductProductService orderedProductProductService;
 
 	@Autowired
-	public ReviewController(ReviewService reviewService, MemberService memberService, OrderedProductProductService orderedProductProductService) {
+	public ReviewController(ReviewService reviewService, MemberService memberService,
+			OrderedProductProductService orderedProductProductService) {
 		this.reviewService = reviewService;
 		this.memberService = memberService;
 		this.orderedProductProductService = orderedProductProductService;
 	}
 
 	@GetMapping("/review-list")
-	public Page<ReviewDto> myReviewList(Authentication authentication, @RequestParam int page, @RequestParam int size) {
+	public ResponseEntity<Page<ReviewDto>> myReviewList(Authentication authentication, @RequestParam int page,
+			@RequestParam int size) {
 
 		Page<ReviewDto> reviewList = reviewService.myReviewList(authentication.getName(), page - 1, size);
-		return reviewList;
+
+		return ResponseEntity.ok(reviewList);
+
 	}
 
 	@PostMapping("/review-delete")
-	public String myReviewDelete(@RequestParam int reviewId) {
+	public ResponseEntity<String> myReviewDelete(@RequestParam int reviewId) {
 
 		boolean isS = reviewService.myReviewDelete(reviewId);
 
 		if (isS) {
-			return "삭제";
+			return ResponseEntity.ok("리뷰삭제 성공");
 		} else {
-			return "삭제실패";
+			return ResponseEntity.badRequest().body("리뷰삭제 실패");
 		}
 	}
 
@@ -74,6 +78,7 @@ public class ReviewController {
 	@PostMapping("/add")
 	public ResponseEntity<String> addReview(Authentication authentication, @RequestBody ReviewRequestDto request) {
 		System.out.println("reviewController 리뷰 저장 ~ " + new Date());
+		System.out.println(request);
 		try {
 			String memberId = authentication.getName();
 			Member member = memberService.findByMemberId(memberId);
@@ -86,7 +91,8 @@ public class ReviewController {
 			Review review = request.getReview();
 
 			int orderedProductProductId = request.getOrderedProductProductId();
-			OrderedProductProduct orderedProductProduct = orderedProductProductService.findByOrderedProductProductId(orderedProductProductId);
+			OrderedProductProduct orderedProductProduct = orderedProductProductService
+					.findByOrderedProductProductId(orderedProductProductId);
 
 			if (review.getReviewContent() == null || review.getReviewContent().isEmpty()) {
 				System.out.println("리뷰 저장 실패: 필수 정보가 누락됨");

@@ -18,4 +18,8 @@ public interface ManagerOrderWithIdRepository extends JpaRepository<ManagerOrder
 	List<ManagerOrderWithId> getManagerOrderByDate(@Param("date") Date searchingDate);
 	
 	ManagerOrderWithId findById(int id);
+	
+	@Query("SELECT mo FROM ManagerOrderWithId mo "
+			+ "WHERE mo.storeId = :storeId")
+	List<ManagerOrderWithId> findByStoreId(@Param("storeId") int storeId);
 }

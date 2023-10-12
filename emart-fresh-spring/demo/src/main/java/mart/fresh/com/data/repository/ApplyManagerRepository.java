@@ -41,4 +41,6 @@ public interface ApplyManagerRepository extends JpaRepository<ApplyManager, Inte
 			+ "FROM ApplyManager am "
 			+ "WHERE am.member.memberId = :memberId ")
 	ApplyManager findByMemberId(@Param("memberId") String memberId);
+	
+	int countByMemberMemberId(String memberId);
 }
