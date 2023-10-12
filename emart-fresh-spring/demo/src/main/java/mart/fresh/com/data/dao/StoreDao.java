@@ -12,4 +12,5 @@ public interface StoreDao {
 	Store getStoreInfo(int storeId);
 	int addStore(StoreDtoWithId dto);
 	public Store findByStoreId(int storeId);
+	Store findStoreByMemberId(String memberId);
 }
