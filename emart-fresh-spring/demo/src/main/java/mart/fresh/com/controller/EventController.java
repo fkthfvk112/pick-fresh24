@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import mart.fresh.com.data.dto.EventDto;
 import mart.fresh.com.service.EventService;
+import mart.fresh.com.service.MemberService;
 
 @RequestMapping("/event")
 @RestController
 public class EventController {
 	private final EventService eventService;
+	private final MemberService memberService;
 
 	@Autowired
-	public EventController(EventService eventService) {
+	public EventController(EventService eventService, MemberService memberService) {
 		this.eventService = eventService;
+		this.memberService = memberService;
 	}
 
 	@GetMapping("/event-list")
@@ -37,16 +44,18 @@ public class EventController {
 	}
 
 	@GetMapping("/now-event-list")
-	public ResponseEntity<List<String>> nowEventList() {
+	public ResponseEntity<List<Map<String, Object>>> nowEventList() {
 	    List<EventDto> eventList = eventService.nowEventList();
 
-	    List<String> noewEventList = eventList.stream()
-	                                          .map(EventDto::getEventBannerImage)
-	                                          .collect(Collectors.toList());
+	    List<Map<String, Object>> nowEventList = eventList.stream().map(eventDto -> {
+	        Map<String, Object> eventMap = new HashMap<>();
+	        eventMap.put("eventId", eventDto.getEventId());
+	        eventMap.put("eventBannerImage", eventDto.getEventBannerImage());
+	        return eventMap;
+	    }).collect(Collectors.toList());
 
-	    return ResponseEntity.ok(noewEventList);
+	    return ResponseEntity.ok(nowEventList);
 	}
-
 
 	@GetMapping("/detail")
 	public ResponseEntity<EventDto> eventList(@RequestParam int eventId) {
@@ -55,14 +64,26 @@ public class EventController {
 	}
 
 	@PostMapping("/event-update")
-	public String eventUpdate(@RequestParam("event_title") String eventTitle,
-			@RequestParam("event_banner_image") MultipartFile eventBannerImage,
-			@RequestParam("event_detail_image") MultipartFile eventDetailImage,
-			@RequestParam("event_start_date") String eventStartDate,
-			@RequestParam("event_end_date") String eventEndDate) throws IOException {
+	public ResponseEntity<String> eventUpdate(Authentication authentication,
+											@RequestParam("event_title") String eventTitle,
+											@RequestParam("event_banner_image") MultipartFile eventBannerImage,
+											@RequestParam("event_detail_image") MultipartFile eventDetailImage,
+											@RequestParam("event_start_date") String eventStartDate,
+											@RequestParam("event_end_date") String eventEndDate) throws IOException {
 
 		System.out.println("EventController eventUpdate");
 
+	    if (StringUtils.hasText(eventTitle) || eventBannerImage.isEmpty() || eventDetailImage.isEmpty() ||
+	            StringUtils.hasText(eventStartDate) || StringUtils.hasText(eventEndDate)) {
+	            return ResponseEntity.badRequest().body("필수 입력값이 누락되었습니다.");
+	        }
+	    
+		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+		
+		if(memberAuth != 2) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("관리자 권한이 필요합니다.");
+		}
+		
 		try {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date startParsedDate = dateFormat.parse(eventStartDate);
@@ -90,16 +111,16 @@ public class EventController {
 				boolean saveSuccess = eventService.eventUpdate(dto);
 
 				if (saveSuccess) {
-					return "success";
+					return ResponseEntity.ok("이벤트생성 완료");
 				} else {
-					return "fail";
+					return ResponseEntity.badRequest().body("이벤트생성 실패");
 				}
-			} else {
-				return "fail"; // 이미지 업로드 실패
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "fail";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
 		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다. 관리자에게 연락하세요.");
+
 	}
 }

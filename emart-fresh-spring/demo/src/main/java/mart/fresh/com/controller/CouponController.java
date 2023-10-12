@@ -2,9 +2,6 @@ package mart.fresh.com.controller;
 
 import java.util.Date;
 import java.util.Map;
-
-import javax.print.DocFlavor.READER;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,16 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.CouponDto;
 import mart.fresh.com.service.CouponService;
+import mart.fresh.com.service.MemberService;
 
 @RequestMapping("/coupon")
 @RestController
 public class CouponController {
 
 	private final CouponService couponService;
+	private final MemberService memberService;
 
 	@Autowired
-	public CouponController(CouponService couponService) {
+	public CouponController(CouponService couponService, MemberService memberService) {
 		this.couponService = couponService;
+		this.memberService = memberService;
 	}
 
 	@GetMapping("/coupon-all")
@@ -46,6 +46,7 @@ public class CouponController {
 	@GetMapping("/coupon-list")
 	public ResponseEntity<Page<CouponDto>> myCouponList(Authentication authentication, @RequestParam int page,
 			@RequestParam int size) {
+
 		System.out.println("멤버 아이디" + authentication.getName());
 		Page<CouponDto> couponList = couponService.myCouponList(authentication.getName(), page - 1, size);
 			return ResponseEntity.ok(couponList);
@@ -54,8 +55,15 @@ public class CouponController {
 
 	@PostMapping("/coupon-create")
 	public ResponseEntity<String> createCoupon(Authentication authentication, @RequestBody CouponDto couponDto) {
+		
 		System.out.println("CouponController createCoupon");
-
+		
+		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+		
+		if(memberAuth != 2) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("관리자 권한이 필요합니다.");
+		}
+		
 		try {
 			couponDto.setMemberId(authentication.getName());
 			couponService.createCoupon(couponDto);
@@ -78,7 +86,7 @@ public class CouponController {
 			boolean isS = couponService.couponDown(couponDto);
 
 			if (isS == false) {
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("중복쿠폰다운");
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("중복쿠폰다운");
 			}
 
 			System.out.println("쿠폰다운 완료");

@@ -256,5 +256,11 @@ public class MemberServiceImpl implements MemberService {
    public Member findByMemberId(String memberId) {
       return memberDao.findMemberId(memberId);
    }
+   
+   @Override
+   public int findMemberAuthByMemberId(String memberId) {
+      return memberDao.findMemberAuthByMemberId(memberId);
+   }
+   
 
 }

@@ -1,7 +1,6 @@
 package mart.fresh.com.data.entity;
 
 import java.sql.Timestamp;
-
 import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;

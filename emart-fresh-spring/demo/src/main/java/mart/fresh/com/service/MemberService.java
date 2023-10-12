@@ -33,4 +33,6 @@ public interface MemberService {
 
     Member findByMemberId(String memberId);
     
+	int findMemberAuthByMemberId(String memberId);
+    
 }

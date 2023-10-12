@@ -51,6 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public boolean myReviewDelete(int reviewId) {
     	int myReviewDelete = reviewDao.myReviewDelete(reviewId);
+    	System.out.println(" myReviewDelete myReviewDelete : " + myReviewDelete);
     	return myReviewDelete>0?true:false;
     }
     
