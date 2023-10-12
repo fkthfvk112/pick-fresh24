@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.util.StringUtils;
@@ -42,12 +44,17 @@ public class EventController {
 	}
 
 	@GetMapping("/now-event-list")
-	public ResponseEntity<List<String>> nowEventList() {
-		List<EventDto> eventList = eventService.nowEventList();
+	public ResponseEntity<List<Map<String, Object>>> nowEventList() {
+	    List<EventDto> eventList = eventService.nowEventList();
 
-		List<String> noewEventList = eventList.stream().map(EventDto::getEventBannerImage).collect(Collectors.toList());
+	    List<Map<String, Object>> nowEventList = eventList.stream().map(eventDto -> {
+	        Map<String, Object> eventMap = new HashMap<>();
+	        eventMap.put("eventId", eventDto.getEventId());
+	        eventMap.put("eventBannerImage", eventDto.getEventBannerImage());
+	        return eventMap;
+	    }).collect(Collectors.toList());
 
-		return ResponseEntity.ok(noewEventList);
+	    return ResponseEntity.ok(nowEventList);
 	}
 
 	@GetMapping("/detail")
