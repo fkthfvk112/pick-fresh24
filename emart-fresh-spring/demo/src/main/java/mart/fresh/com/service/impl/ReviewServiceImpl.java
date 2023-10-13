@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import mart.fresh.com.data.dao.ReviewDao;
 import mart.fresh.com.data.dto.ReviewDto;
+import mart.fresh.com.data.dto.ReviewSummaryDto;
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Review;
 import mart.fresh.com.data.repository.ProductRepository;
 import mart.fresh.com.service.ReviewService;
@@ -74,6 +76,11 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public void save(Review review) {
 		reviewDao.save(review);
+	}
+
+	@Override
+	public List<ReviewSummaryDto> findTopNProductsByReviewScore(int n) {
+		return reviewDao.findTopNProductsByReviewScore(n);
 	}
 
 }

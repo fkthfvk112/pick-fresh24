@@ -27,12 +27,15 @@ import reactor.core.publisher.Flux;
 import mart.fresh.com.data.dto.OrderedInfoDto;
 import mart.fresh.com.data.dto.OrderedProductInfoDto;
 import mart.fresh.com.data.dto.OrderedProductProductDto;
+import mart.fresh.com.data.dto.ReviewSummaryDto;
 import mart.fresh.com.data.entity.Coupon;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.entity.OrderedProduct;
 import mart.fresh.com.data.entity.OrderedProductProduct;
 import mart.fresh.com.data.entity.Product;
+import mart.fresh.com.data.entity.Review;
 import mart.fresh.com.data.entity.Store;
+import mart.fresh.com.data.repository.ReviewRepository;
 import mart.fresh.com.service.CouponService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.OrderedProductProductService;
@@ -242,5 +245,17 @@ private final ProductService productService;
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
 	}
+	
+	@GetMapping("/topProductListByReview")
+    public ResponseEntity<List<ReviewSummaryDto>> getTopProductListByReview(@RequestParam int n) {
+		System.out.println("OrderedProductController 리뷰 탑 N productList 보기 " + new Date());
+		try {
+            List<ReviewSummaryDto> topProductList = reviewService.findTopNProductsByReviewScore(n);
+            return ResponseEntity.ok(topProductList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
 }

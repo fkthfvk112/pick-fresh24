@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import mart.fresh.com.data.dao.ReviewDao;
+import mart.fresh.com.data.dto.ReviewSummaryDto;
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Review;
 import mart.fresh.com.data.repository.ReviewRepository;
 
@@ -52,6 +54,12 @@ public class ReviewDaoImpl implements ReviewDao{
 	@Override
 	public void save(Review review) {
 		reviewRepository.save(review);
+	}
+
+	@Override
+	public List<ReviewSummaryDto> findTopNProductsByReviewScore(int n) {
+        List<ReviewSummaryDto> topProductList = reviewRepository.findTopNProductsByReviewScore(n);
+		return topProductList.subList(0, Math.min(n, topProductList.size()));
 	}
 	
 }

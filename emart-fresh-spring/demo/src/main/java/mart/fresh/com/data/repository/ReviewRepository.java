@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import jakarta.transaction.Transactional;
+import mart.fresh.com.data.dto.ReviewSummaryDto;
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, String>{
@@ -36,4 +38,10 @@ public interface ReviewRepository extends JpaRepository<Review, String>{
 	List<Review> getProductReviewByProductTitle(
 			@Param("productTitle") String productTitle, 
 			@Param("select") int select);
+
+    @Query("SELECT new mart.fresh.com.data.dto.ReviewSummaryDto(r.productTitle, AVG(r.reviewScore)) " +
+            "FROM Review r " +
+            "GROUP BY r.productTitle " +
+            "ORDER BY AVG(r.reviewScore) DESC")
+	List<ReviewSummaryDto> findTopNProductsByReviewScore(int n);
 }
