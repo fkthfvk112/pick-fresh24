@@ -19,9 +19,8 @@ public interface MypageRepository extends JpaRepository<Member, String> {
 	int changePassword(@Param("memberId") String memberId, @Param("memberPw") String memberPw,
 			@Param("newPw") String newPw);
 
-	@Query("SELECT COUNT(m) " + "FROM Member m " + "WHERE m.memberEmail = :newEmail")
-	int checkEmail(String newEmail);
-
+	int countByMemberEmail(String memberEmail);
+	
 	Member findMemberByMemberId(String memberId);
 
 	Member findByMemberIdAndVerifyCode(String memberId, String verificationCode);

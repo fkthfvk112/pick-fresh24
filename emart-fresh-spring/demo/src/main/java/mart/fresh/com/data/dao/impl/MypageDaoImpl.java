@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import jakarta.transaction.Transactional;
 import mart.fresh.com.data.dao.MypageDao;
 import mart.fresh.com.data.dto.MypageDto;
-import mart.fresh.com.data.dto.StoreSalseDto;
+import mart.fresh.com.data.dto.StoreSalesAmountDto;
 import mart.fresh.com.data.entity.ApplyManager;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.MypageRepository;
@@ -56,8 +56,8 @@ public class MypageDaoImpl implements MypageDao {
 	}
 
 	@Override
-	public int checkEmail(String newEmail) {
-		return mypageRepository.checkEmail(newEmail);
+	public int checkEmail(String memberEmail) {
+		return mypageRepository.countByMemberEmail(memberEmail);
 	}
 
 	@Override
@@ -102,13 +102,6 @@ public class MypageDaoImpl implements MypageDao {
 		} else {
 			return 0;
 		}
-	}
-
-	// 구현 중
-	@Override
-	public List<StoreSalseDto> salesChart(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

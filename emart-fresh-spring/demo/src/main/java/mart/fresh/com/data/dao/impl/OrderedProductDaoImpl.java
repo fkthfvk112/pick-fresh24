@@ -1,6 +1,7 @@
 package mart.fresh.com.data.dao.impl;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -83,13 +84,6 @@ private final StoreRepository storeRepository;
 	    return Flux.fromIterable(orderedProduct);
 	}
 
-//	@Override
-//	public OrderedProduct findByIsPickupAndMemberMemberId(String memberId) {
-//		boolean isPickup = false;
-//		
-//		OrderedProduct orderedProduct = orderedProductRepository.findByIsPickupAndMemberMemberId(isPickup, memberId);
-//		return orderedProduct;
-//	}
 
 	@Override
 	public List<OrderedProduct> findByMemberMemberId(String memberId) {
@@ -129,6 +123,12 @@ private final StoreRepository storeRepository;
 	public OrderedProduct findByOrderedProductId(int orderedProductId) {
 		return orderedProductRepository.findByOrderedProductId(orderedProductId);
 	}
+
+//	@Override
+//	public List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetween(int storeId, Timestamp startDate,
+//			Timestamp endDate) {
+//		return orderedProductRepository.findByStoreStoreIdAndOrderedDateBetween(storeId, startDate, endDate) ;
+//	}
 
 
 }

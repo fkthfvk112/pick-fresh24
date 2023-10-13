@@ -1,5 +1,6 @@
 package mart.fresh.com.data.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
@@ -13,8 +14,7 @@ public interface OrderedProductDao {
 	List<OrderedProduct> findByMemberMemberId(String memberId);
 	void saveOrderedProduct(OrderedProduct orderedProduct);
 	Flux<OrderedProduct> getOrderedListByStoreId(String memberId);
-//	OrderedProduct findByIsPickupAndMemberMemberId(String memberId);
 	void completePickup(int orderedProductId);
 	OrderedProduct findByOrderedProductId(int orderedProductId);
-
+//	List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetween(int storeId, Timestamp startDate, Timestamp endDate);
 }
