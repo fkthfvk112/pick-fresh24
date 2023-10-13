@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
+import mart.fresh.com.data.dto.OrderedCountDto;
 import mart.fresh.com.service.OrderedProductService;
 import reactor.core.publisher.Flux;
 import mart.fresh.com.data.dto.OrderedInfoDto;
@@ -257,5 +258,18 @@ private final ProductService productService;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+	
+	@GetMapping("/topProductListByOrderedCount")
+    public ResponseEntity<List<OrderedCountDto>> getTopProductListByOrderedCount(@RequestParam int n) {
+		System.out.println("OrderedProductController 판매량 탑 N productList 보기 " + new Date());
+        try {
+            List<OrderedCountDto> topProductList = orderedProductProductService.findProductsByOrderedCount(n);
+            return ResponseEntity.ok(topProductList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+	
 
 }
