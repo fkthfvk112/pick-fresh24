@@ -22,17 +22,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
+import mart.fresh.com.data.dto.OrderedCountDto;
 import mart.fresh.com.service.OrderedProductService;
 import reactor.core.publisher.Flux;
 import mart.fresh.com.data.dto.OrderedInfoDto;
 import mart.fresh.com.data.dto.OrderedProductInfoDto;
 import mart.fresh.com.data.dto.OrderedProductProductDto;
+import mart.fresh.com.data.dto.ReviewSummaryDto;
 import mart.fresh.com.data.entity.Coupon;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.entity.OrderedProduct;
 import mart.fresh.com.data.entity.OrderedProductProduct;
 import mart.fresh.com.data.entity.Product;
+import mart.fresh.com.data.entity.Review;
 import mart.fresh.com.data.entity.Store;
+import mart.fresh.com.data.repository.ReviewRepository;
 import mart.fresh.com.service.CouponService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.OrderedProductProductService;
@@ -205,7 +209,7 @@ private final ProductService productService;
 	
 	@GetMapping("/getProductDetails")
 	public ResponseEntity<List<Map<String, Object>>> getProductDetails(@RequestParam("orderedProductId") int orderedProductId) {
-		System.out.println("OrderedProductController 주문내역보기 " + new Date());
+		System.out.println("OrderedProductController 주문내역보기 " + new Date() + "아이디" + orderedProductId);
 		
 	    try {
 	    	OrderedProduct orderedProduct = orderedProductService.findByOrderedProductId(orderedProductId);
@@ -225,6 +229,8 @@ private final ProductService productService;
 	            Map<String, Object> productDetails = new HashMap<>();
 	            int productId = orderedProductProduct.getProduct().getProductId();
 	            Product product = productService.findByProductId(productId);
+	            
+	            productDetails.put("productId", orderedProductProduct.getOrderedProductProductId());
 	            productDetails.put("productName", product.getProductTitle());
 	            productDetails.put("productImgUrl", product.getProductImgUrl());
 	            productDetails.put("price", product.getPriceNumber());
@@ -233,12 +239,37 @@ private final ProductService productService;
 	            productDetails.put("orderedProductProductId", orderedProductProduct.getOrderedProductProductId());
 	            productDetailsList.add(productDetails);
 	        }
-
+	        
 	        return ResponseEntity.ok(productDetailsList);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
 	}
+	
+	@GetMapping("/topProductListByReview")
+    public ResponseEntity<List<ReviewSummaryDto>> getTopProductListByReview(@RequestParam int n) {
+		System.out.println("OrderedProductController 리뷰 탑 N productList 보기 " + new Date());
+		try {
+            List<ReviewSummaryDto> topProductList = reviewService.findTopNProductsByReviewScore(n);
+            return ResponseEntity.ok(topProductList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+	
+	@GetMapping("/topProductListByOrderedCount")
+    public ResponseEntity<List<OrderedCountDto>> getTopProductListByOrderedCount(@RequestParam int n) {
+		System.out.println("OrderedProductController 판매량 탑 N productList 보기 " + new Date());
+        try {
+            List<OrderedCountDto> topProductList = orderedProductProductService.findProductsByOrderedCount(n);
+            return ResponseEntity.ok(topProductList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+	
 
 }

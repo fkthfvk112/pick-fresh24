@@ -3,6 +3,9 @@ package mart.fresh.com.data.dao;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+
+import mart.fresh.com.data.dto.ReviewSummaryDto;
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Review;
 
 public interface ReviewDao {
@@ -10,4 +13,5 @@ public interface ReviewDao {
 	int myReviewDelete(int reviewId);
 	List<Review> getProductReviewByProductTitle(String productTitle, int select);
 	void save(Review review);
+	List<ReviewSummaryDto> findTopNProductsByReviewScore(int n);
 }

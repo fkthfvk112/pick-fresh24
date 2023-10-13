@@ -24,4 +24,6 @@ public interface ManagerOrderWithObjRepository extends JpaRepository<ManagerOrde
 	        + "ORDER BY mo.store.storeId ASC")
 	List<ManagerOrderWithObj> getManagerOrderByDate(@Param("date") Date searchingDate);
 
+    @Query("SELECT mo FROM ManagerOrderWithObj mo WHERE mo.store.storeId = :storeId ORDER BY mo.managerOrderDate DESC")
+	List<ManagerOrderWithObj> findByStoreStoreIdSortByDate(int storeId);
 }

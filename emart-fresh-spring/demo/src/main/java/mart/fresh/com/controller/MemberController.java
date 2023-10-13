@@ -148,6 +148,12 @@ public class MemberController {
 					Map<String, Object> responseMap = new HashMap<>();
 					responseMap.put("tokens", tokens);
 					responseMap.put("loginType", loginType);
+					
+					Cart cart = new Cart();
+					if (cart.getMember() == null) {
+		                cart.setMember(member);
+		                cartService.saveCart(cart);
+		            }
 
 					return ResponseEntity.ok().body(responseMap); // 로그인 성공 시 JWT 및 리프레시 토큰 반환
 				} else {
@@ -207,6 +213,12 @@ public class MemberController {
 					responseMap.put("tokens", tokens);
 					responseMap.put("loginType", loginType);
 
+					Cart cart = new Cart();
+					if (cart.getMember() == null) {
+		                cart.setMember(member);
+		                cartService.saveCart(cart);
+		            }
+					
 					return ResponseEntity.ok().body(responseMap); // 로그인 성공 시 JWT 및 리프레시 토큰 반환
 				} else {
 					System.out.println("네이버 로그인 토큰 발행 실패 " + new Date());
@@ -283,12 +295,13 @@ public class MemberController {
 			System.out.println("MemberController 네이버 로그아웃 " + new Date());
 
 			String naverAccessToken = requestBody.get("naverAccessToken");
+			System.out.println(naverAccessToken);
 			if (naverAccessToken != null) {
 				String naverLogoutUrl = "https://nid.naver.com/oauth2.0/token?grant_type=delete"
 						+ "&client_id=" + naverClientId
 						+ "&client_secret=" + naverClientSecret
 						+ "&access_token=" + naverAccessToken + "&service_provider=NAVER";
-
+				
 				ResponseEntity<String> response = restTemplate.postForEntity(naverLogoutUrl, null, String.class);
 
 				if (response.getStatusCode().is2xxSuccessful()) {

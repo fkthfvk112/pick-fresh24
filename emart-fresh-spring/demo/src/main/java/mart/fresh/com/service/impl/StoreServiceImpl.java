@@ -53,5 +53,15 @@ public class StoreServiceImpl implements StoreService {
 	public Store findByStoreId(int storeId) {
 		return storeDao.findByStoreId(storeId);
 	}
+
+
+	@Override
+	public int findStoreIdByMemberId(String memberId) {
+		
+		Store store = storeDao.findStoreByMemberId(memberId);
+		int storeId = store.getStoreId();
+		
+		return storeId;
+	}
 }
 

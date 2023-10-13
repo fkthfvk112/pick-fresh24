@@ -41,8 +41,11 @@ public class AdminController {
 	
 	@PostMapping("/handle-order")
 	public String handleOrder(@RequestBody List<Integer> orderNum) {
-		System.out.println("오더 넘버들 " + orderNum);
-		adminService.insertOrderIntoStoreProduct(orderNum);
+		int success = adminService.insertOrderIntoStoreProduct(orderNum);
+		if(success == 1) {
+			//상태 처리 로직 추가
+		}
+
 		return "success";//수정
 	}
 }

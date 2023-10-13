@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import mart.fresh.com.data.dto.OrderedCountDto;
 import mart.fresh.com.data.entity.OrderedProductProduct;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.repository.OrderedProductProductRepository;
@@ -42,6 +43,12 @@ public class OrderedProductProductServiceImpl implements OrderedProductProductSe
 	@Override
 	public OrderedProductProduct findByOrderedProductProductId(int orderedProductProductId) {
 		return orderedProductProductRepository.findByOrderedProductProductId(orderedProductProductId);
+	}
+
+	@Override
+	public List<OrderedCountDto> findProductsByOrderedCount(int n) {
+		List<OrderedCountDto> topNProductList = orderedProductProductRepository.findProductsByOrderedCount(n);
+		return topNProductList.subList(0, Math.min(n, topNProductList.size()));
 	}
 
 

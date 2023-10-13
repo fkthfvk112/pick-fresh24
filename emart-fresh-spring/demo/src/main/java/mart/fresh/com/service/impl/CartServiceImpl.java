@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import mart.fresh.com.data.dao.CartDao;
 import mart.fresh.com.data.dao.CartProductDao;
 import mart.fresh.com.data.dto.CartInfoDto;
+import mart.fresh.com.data.dto.ProductInfoDto;
+import mart.fresh.com.data.dto.ProductProcessResult;
 import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.service.CartService;
@@ -48,6 +50,17 @@ public class CartServiceImpl implements CartService {
 	@Override
 	public Cart findByMember(Member member) {
 		return cartDao.findByMember(member);
+	}
+
+	@Override
+	public String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult) {
+		return cartDao.recoverCartProductQuantity(memberId, productProcessResult);
+	}
+
+	@Override
+	public ProductProcessResult decreaseCartProductQuantity1(String memberId, List<ProductInfoDto> productInfoList) {
+		return cartDao.decreaseCartProductQuantity1(memberId, productInfoList);
+		
 	}
 
 }
