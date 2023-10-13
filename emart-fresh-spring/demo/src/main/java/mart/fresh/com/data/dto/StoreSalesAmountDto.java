@@ -5,8 +5,7 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Data
-public class StoreSalseDto {
-    private int storeId;
+public class StoreSalesAmountDto {
     private Timestamp orderedDate;
     private int totalAmount;
 }

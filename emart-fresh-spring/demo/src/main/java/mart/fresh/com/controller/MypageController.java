@@ -1,9 +1,13 @@
 package mart.fresh.com.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
+import org.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.MemberDto;
 import mart.fresh.com.data.dto.MypageDto;
-import mart.fresh.com.data.dto.StoreSalseDto;
+import mart.fresh.com.data.dto.StoreSalesAmountDto;
 import mart.fresh.com.service.EmailService;
+import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.MypageService;
 
 @RequestMapping("/mypage")
@@ -24,11 +29,13 @@ import mart.fresh.com.service.MypageService;
 public class MypageController {
 	private final MypageService mypageService;
 	private final EmailService emailService;
+	private final MemberService memberService;
 
 	@Autowired
-	public MypageController(MypageService mypageService, EmailService emailService) {
+	public MypageController(MypageService mypageService, EmailService emailService, MemberService memberService) {
 		this.mypageService = mypageService;
 		this.emailService = emailService;
+		this.memberService = memberService;
 	}
 
 	// 인증번호 생성 (임의로 6자리 숫자로 생성하도록 설정)
@@ -47,74 +54,128 @@ public class MypageController {
 		return ResponseEntity.ok(mypageInfo);
 	}
 
-	@PostMapping("/mypage-changepassword")
-	public ResponseEntity<String> changePassword(Authentication authentication, @RequestBody MemberDto memberDto) {
-		System.out.println("MypageController changepassword");
-
-		boolean isS = mypageService.changePassword(authentication.getName(), memberDto.getMemberPw(),
-				memberDto.getNewPw());
-
-		if (isS) {
-			return ResponseEntity.ok("비밀번호변경 성공");
-		} else {
-			return ResponseEntity.badRequest().body("비밀번호변경 실패");
-		}
-	}
-
 	@PostMapping("/mypage-checkemail")
-	public ResponseEntity<String> checkEmail(Authentication authentication, @RequestBody String newEmail) {
-		System.out.println("MypageController checkEmail");
+	   public ResponseEntity<String> checkEmail(Authentication authentication, @RequestBody String newEmail) {
+	      System.out.println("MypageController checkEmail : " + newEmail);
 
-		boolean isS = mypageService.checkEmail(newEmail);
+	      if(StringUtils.isEmpty(newEmail)) {
+	         return ResponseEntity.badRequest().body("입력 값이 없습니다.");
+	      }
+	      
+	      JSONObject jsonobject = new JSONObject(newEmail);
+	      String memberEmail = jsonobject.getString("newEmail").trim();
+	      
+	      
+	      boolean isS = mypageService.checkEmail(memberEmail);
 
-		if (isS) {
-			return ResponseEntity.badRequest().body("사용중인 이메일");
-		}
+	      System.out.println(" mypageService.checkEmail   mypageService.checkEmail : " + isS);
+	      
+	      if (isS) {
+	         return ResponseEntity.badRequest().body("사용중인 이메일");
+	      }
 
-		MypageDto member = mypageService.getMemberAndIsAppliedByMemberId(authentication.getName());
+	      MypageDto member = mypageService.getMemberAndIsAppliedByMemberId(authentication.getName());
 
-		if (member != null) {
-			String recipientEmail = newEmail; // 수신자 이메일 주소 설정
-			String subject = "[emart24 fresh] 이메일 변경 건 인증번호 메일입니다.";
+	      if (member != null) {
+	         String recipientEmail = memberEmail; // 수신자 이메일 주소 설정
+	         String subject = "[emart24 fresh] 이메일 변경 건 인증번호 메일입니다.";
 
-			String verificationCode = generateVerificationCode();
+	         String verificationCode = generateVerificationCode();
 
-			LocalDateTime currentTime = LocalDateTime.now();
-			LocalDateTime expiryTime = currentTime.plusMinutes(5);
+	         LocalDateTime currentTime = LocalDateTime.now();
+	         LocalDateTime expiryTime = currentTime.plusMinutes(5);
 
-			emailService.sendEmailVerificationCode(member.getMemberName(), recipientEmail, subject, verificationCode);
-			mypageService.saveVerificationCode(authentication.getName(), verificationCode, expiryTime);
+	         emailService.sendEmailVerificationCode(member.getMemberName(), recipientEmail, subject, verificationCode);
+	         mypageService.saveVerificationCode(authentication.getName(), verificationCode, expiryTime);
+	         
+	         System.out.println("이메일변경 메일발송 성공 이메일 변경 인증번호 : " + verificationCode);
+	         return ResponseEntity.ok("이메일변경 메일발송 성공");
+	      
+	      }
+	      return ResponseEntity.badRequest().body("이메일변경 메일발송 실패");
+	   }
 
-			return ResponseEntity.ok("이메일변경 메일발송 성공");
-		}
-		return ResponseEntity.badRequest().body("이메일변경 메일발송 실패");
-	}
+	   @PostMapping("/mypage-changeemail")
+	   public ResponseEntity<String> changeEmail(Authentication authentication, @RequestBody MemberDto memberDto) {
 
-	@PostMapping("/mypage-changeemail")
-	public ResponseEntity<String> changeEmail(Authentication authentication, MemberDto memberDto) {
+	      System.out.println("MypageController changeEmail");
 
-		System.out.println("MypageController changeEmail");
+	      String newEmail = memberDto.getMemberEmail();
+	      String verificationCode = memberDto.getVerifyCode();
+	      
+	      System.out.println("MypageController changeEmail verificationCode verificationCode: " + memberDto.toString());
 
-		String newEmail = memberDto.getMemberEmail();
-		String verificationCode = memberDto.getVerifyCode();
+	      int count = mypageService.changeEmail(authentication.getName(), newEmail, verificationCode);
 
-		int count = mypageService.changeEmail(authentication.getName(), newEmail, verificationCode);
+	      if (count == 1) {
+	         return ResponseEntity.ok("이메일변경 성공");
+	      } else {
+	         return ResponseEntity.badRequest().body("이메일변경 실패");
+	      }
+	   }
 
-		if (count == 0) {
-			return ResponseEntity.ok("이메일변경 성공");
-		} else {
-			return ResponseEntity.badRequest().body("이메일변경 실패");
-		}
-	}
 
-	@GetMapping("/saleschart")
-	public ResponseEntity<String> salesChart(Authentication authentication) {
-
-		System.out.println("MypageController salesChart");
-
-		List<StoreSalseDto> count = mypageService.salesChart(authentication.getName());
-
-		return ResponseEntity.ok("매출현황 표시");
-	}
-
+//	@GetMapping("/saleschart")
+//	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(Authentication authentication, Timestamp startDate, Timestamp endDate) {
+//
+//		System.out.println("MypageController salesChart");
+//
+//		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+//		
+//		if(memberAuth != 1) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+//		}
+//		
+//		if(startDate == null) {	startDate = new Timestamp(System.currentTimeMillis()); }
+//		if(endDate == null) { endDate = new Timestamp(System.currentTimeMillis()); }
+//		if(endDate.compareTo(startDate) > 0) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); }
+//		
+//		
+//		List<StoreSalesAmountDto> salesList = mypageService.salesChart(authentication.getName(), startDate, endDate);
+//
+//		return ResponseEntity.ok(salesList);
+//	}
+	
+//	@GetMapping("/typechart")
+//	public ResponseEntity<String> typeChart(Authentication authentication, Timestamp date) {
+//
+//		System.out.println("MypageController typeChart");
+//		
+//		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+//		
+//		if(memberAuth != 1) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+//		}
+//		
+//		if(date == null) {
+//			date = new Timestamp(System.currentTimeMillis()); 
+//		}
+//		
+//		List<StoreSalseDto> count = mypageService.salesChart(authentication.getName());
+//
+//		return ResponseEntity.ok("타입 판매비율 표시");
+//	}
+//	
+//	@GetMapping("/titlechart")
+//	public ResponseEntity<String> titleChart(Authentication authentication, Timestamp date) {
+//
+//		System.out.println("MypageController titleChart");
+//
+//		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+//		
+//		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+//		
+//		if(memberAuth != 1) {
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+//		}
+//		
+//		if(date == null) {
+//			date = new Timestamp(System.currentTimeMillis()); 
+//		}
+//		
+//		List<StoreSalseDto> count = mypageService.salesChart(authentication.getName());
+//
+//		return ResponseEntity.ok("인기물품 순위 표시");
+//	}
+	
 }
