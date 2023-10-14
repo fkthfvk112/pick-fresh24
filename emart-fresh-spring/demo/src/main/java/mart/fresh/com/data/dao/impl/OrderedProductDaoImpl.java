@@ -125,8 +125,9 @@ private final StoreRepository storeRepository;
 	}
 
 //	@Override
-//	public List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetween(int storeId, Timestamp startDate,
-//			Timestamp endDate) {
+//	public List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetween(int storeId,
+//																		Timestamp startDate, Timestamp endDate) {
+//		System.out.println("OrderedProductDaoImpl OrderedProductDaoImpl 여긴 들어오니 ? : ");
 //		return orderedProductRepository.findByStoreStoreIdAndOrderedDateBetween(storeId, startDate, endDate) ;
 //	}
 

@@ -1,7 +1,9 @@
 package mart.fresh.com.controller;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import org.json.JSONObject;
@@ -23,6 +25,9 @@ import mart.fresh.com.data.dto.StoreSalesAmountDto;
 import mart.fresh.com.service.EmailService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.MypageService;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @RequestMapping("/mypage")
 @RestController
@@ -95,6 +100,18 @@ public class MypageController {
 	      return ResponseEntity.badRequest().body("이메일변경 메일발송 실패");
 	   }
 
+		@PostMapping("/mypage-changepassword")
+		public ResponseEntity<String> changePassword(Authentication authentication,
+										@RequestParam String memberPw,
+										@RequestParam String newPw) {
+			System.out.println("MypageController changepassword");
+			
+			boolean isS = mypageService.changePassword(authentication.getName(), memberPw, newPw);
+			
+			if(isS) { return ResponseEntity.ok("비밀번호변경 성공");	}
+				else { return ResponseEntity.badRequest().body("비밀번호변경 실패"); }
+		}
+		
 	   @PostMapping("/mypage-changeemail")
 	   public ResponseEntity<String> changeEmail(Authentication authentication, @RequestBody MemberDto memberDto) {
 
@@ -107,34 +124,39 @@ public class MypageController {
 
 	      int count = mypageService.changeEmail(authentication.getName(), newEmail, verificationCode);
 
-	      if (count == 1) {
-	         return ResponseEntity.ok("이메일변경 성공");
-	      } else {
-	         return ResponseEntity.badRequest().body("이메일변경 실패");
-	      }
+	      if (count == 1) { return ResponseEntity.ok("이메일변경 성공"); }
+	      	else { return ResponseEntity.badRequest().body("이메일변경 실패"); }
 	   }
 
 
-//	@GetMapping("/saleschart")
-//	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(Authentication authentication, Timestamp startDate, Timestamp endDate) {
+//	   @GetMapping("/saleschart")
+//	   public ResponseEntity<List<StoreSalesAmountDto>> salesChart(@RequestParam String memberId, @RequestParam String startDate, @RequestParam String endDate) {
+//	       
+//	       System.out.println("MypageController salesChart");
 //
-//		System.out.println("MypageController salesChart");
+//	       try {
+//	           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//	           LocalDateTime startParsedDateTime = LocalDateTime.parse(startDate, formatter);
+//	           LocalDateTime endParsedDateTime = LocalDateTime.parse(endDate, formatter);
 //
-//		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
-//		
-//		if(memberAuth != 1) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-//		}
-//		
-//		if(startDate == null) {	startDate = new Timestamp(System.currentTimeMillis()); }
-//		if(endDate == null) { endDate = new Timestamp(System.currentTimeMillis()); }
-//		if(endDate.compareTo(startDate) > 0) { return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); }
-//		
-//		
-//		List<StoreSalesAmountDto> salesList = mypageService.salesChart(authentication.getName(), startDate, endDate);
+//	           System.out.println("startParsedDateTime startParsedDateTime : " + startParsedDateTime + " endParsedDateTime endParsedDateTime : " + endParsedDateTime);
 //
-//		return ResponseEntity.ok(salesList);
-//	}
+//	           int memberAuth = memberService.findMemberAuthByMemberId(memberId);
+//	           
+//	           System.out.println("memberAuth memberAuth 2222 : " + memberAuth);
+//	           
+//	           System.out.println("startParsedDateTime : " + startParsedDateTime + " endParsedDateTime : " + endParsedDateTime);
+//	           
+//	           List<StoreSalesAmountDto> salesList = mypageService.salesChart(memberId, startParsedDateTime, endParsedDateTime);
+//	           
+//	           System.out.println("MypageController salesChart MypageController salesChart : " + salesList.toString());
+//	           return ResponseEntity.ok(salesList);
+//	       } catch (Exception e) {
+//	           System.out.println("에러났어 : " + e.getStackTrace());
+//	           e.printStackTrace();
+//	           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//	       }
+//	   }
 	
 //	@GetMapping("/typechart")
 //	public ResponseEntity<String> typeChart(Authentication authentication, Timestamp date) {
