@@ -67,7 +67,7 @@ public class EventController {
 	}
 
 	@PostMapping("/event-update")
-	   public ResponseEntity<String> eventUpdat1e(Authentication authentication, @RequestBody EventUpdateDto eventDto) throws IOException {
+	   public ResponseEntity<String> eventUpdate(Authentication authentication, @RequestBody EventUpdateDto eventDto) throws IOException {
 	      System.out.println("EventController eventUpdate1 : " + eventDto.toString());
 	      
 	      String eventTitle = eventDto.getEventTitle();

@@ -87,8 +87,8 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 //	@Override
-//	public List<StoreSalesAmountDto> salesChart(String memberId, Timestamp startDate, Timestamp endDate) {
-//
+//	public List<StoreSalesAmountDto> salesChart(String memberId, LocalDateTime startDate, LocalDateTime endDate) {
+//		System.out.println("MypageServiceImpl MypageServiceImpl salesChart : ");
 //		Store store = storeDao.findByMemberMemberId(memberId);
 //		
 //		List<OrderedProduct> salesEntityList = orderedProductDao.findByStoreStoreIdAndOrderedDateBetween(store.getStoreId(), startDate, endDate);

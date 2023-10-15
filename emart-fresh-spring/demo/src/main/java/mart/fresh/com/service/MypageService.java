@@ -13,5 +13,5 @@ public interface MypageService {
 	boolean checkEmail(String memberEmail);
 	boolean saveVerificationCode(String memberId, String verificationCode, LocalDateTime expiryTime);
 	int changeEmail(String memberId, String newEmail, String verificationCode);
-//	List<StoreSalesAmountDto> salesChart(String memberId, Timestamp startDate, Timestamp endDate);
+//	List<StoreSalesAmountDto> salesChart(String memberId, LocalDateTime startDate, LocalDateTime endDate);
 }
