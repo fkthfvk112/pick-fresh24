@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import mart.fresh.com.data.dao.ProductDao;
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.GetStoreInDisDto;
+import mart.fresh.com.data.dto.GetStoreInDisMapDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
 import mart.fresh.com.data.entity.Store;
@@ -29,6 +30,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<StoreDto> getStoreWitnNByProductName(GetStoreInDisDto dto) {
 		return storeDao.getStoreWitnNByProductName(dto) ;
+	}
+	
+	@Override
+	public List<StoreDto> getStoreWitnNByProductNameMap(GetStoreInDisMapDto dto) {
+		return storeDao.getStoreWitnNByProductNameMap(dto);
 	}
 
 
@@ -63,5 +69,6 @@ public class StoreServiceImpl implements StoreService {
 		
 		return storeId;
 	}
+
 }
 

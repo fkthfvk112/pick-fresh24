@@ -22,6 +22,11 @@ public interface StoreProductObjRepository extends JpaRepository<StoreProduct, I
 			@Param("productNames") List<String> productNames,
 			@Param("productSize") int productSize);
 	
+	@Query("SELECT DISTINCT sp.store FROM StoreProduct sp " +
+		       "WHERE (:productName IS NULL OR :productName = '' OR sp.product.productTitle = :productName)")
+	List<Store> findStoreByProductNamesMap(@Param("productName") String productName);
+	
+	
 	@Query("SELECT sp "
 			+ "FROM StoreProduct sp"
 			+ " JOIN FETCH sp.product "
