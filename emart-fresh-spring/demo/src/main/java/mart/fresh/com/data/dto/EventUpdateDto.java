@@ -11,5 +11,4 @@ public class EventUpdateDto {
     private MultipartFile eventDetailImage;
     private String eventStartDate;
     private String eventEndDate;
-	
 }
