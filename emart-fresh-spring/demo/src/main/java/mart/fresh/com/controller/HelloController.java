@@ -14,6 +14,6 @@ public class HelloController {
 	public ResponseEntity<String> helloTest(){
 		System.out.println("helloController 테스트용입니다 " + new Date());
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok().body("succes~~");
 	}
 }
