@@ -72,7 +72,6 @@ public class StoreServiceImpl implements StoreService {
 		return storeId;
 	}
 
-
 	@Override
 	public List<StoreListDto> getStoresWithNANDStoreName(double userLatitude, double userLongitude, int n, String partOfStoreName) {
 		List<Store> storeList = storeDao.getStoreWitnNByProductName(userLatitude, userLongitude, n, partOfStoreName);

@@ -151,6 +151,7 @@ public class StoreDaoImpl implements StoreDao {
 		System.out.println("스토어"  +store);
 		return store;
 
+
 	}
 
 	@Override
@@ -164,7 +165,6 @@ public class StoreDaoImpl implements StoreDao {
         double maxLongitude = userLongitude + deltaLon;
         
         return storeRepository.findStoreWitnNByProductName(minLatitude, maxLatitude, minLongitude, maxLongitude, partOfStoreName);
-        
         
 	}
 
