@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import mart.fresh.com.data.dto.MemberDto;
 import mart.fresh.com.data.dto.MypageDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
+import mart.fresh.com.data.dto.StoreSalesProductTitleDto;
 import mart.fresh.com.data.dto.StoreSalesProductTypeDto;
 import mart.fresh.com.service.EmailService;
 import mart.fresh.com.service.MemberService;
@@ -138,48 +139,6 @@ public class MypageController {
 	}
 	
 	
-	
-
-//	@GetMapping("/saleschart")
-//	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(@RequestParam String memberId,
-//			@RequestParam String startDate, @RequestParam String endDate) {
-//
-//		System.out.println("MypageController salesChart");
-//
-////		String memberId = authentication.getName();
-//		int memberAuth = memberService.findMemberAuthByMemberId(memberId);
-//
-//		// 추후 ExceptionHandler로 점주권한이 필요하다는 메세지 추가 필요
-//		if (memberAuth != 1) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-//		}
-//
-//		
-//		try {
-//			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//
-//			LocalDate startDateParsed = LocalDate.parse(startDate, formatter);
-//			LocalDateTime startParsedDateTime = startDateParsed.atStartOfDay();
-//			Timestamp startParsedTimestamp = convertToTimestamp(startParsedDateTime);
-//
-//			LocalDate endDateParsed = LocalDate.parse(endDate, formatter);
-//			LocalDateTime endParsedDateTime = endDateParsed.atStartOfDay();
-//			Timestamp endParsedTimestamp = convertToTimestamp(endParsedDateTime);
-//
-//			System.out.println(
-//					"startParsedTimestamp : " + startParsedTimestamp + " endParsedTimestamp : " + endParsedTimestamp);
-//
-//			List<StoreSalesAmountDto> salesList = mypageService.salesChart(memberId, startParsedTimestamp,
-//					endParsedTimestamp);
-//
-//			System.out.println("MypageController salesChart MypageController salesChart : " + salesList.toString());
-//			return ResponseEntity.ok(salesList);
-//		} catch (Exception e) {
-//			System.out.println("에러났어 : " + e.getStackTrace());
-//			e.printStackTrace();
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//		}
-//	}
 
 	
 	@GetMapping("/saleschart")
@@ -219,11 +178,12 @@ public class MypageController {
 	}
 	
 	@GetMapping("/typechart")
-	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
+//	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
+	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(Authentication authentication, @RequestParam String searchDate, @RequestParam String period) {
 
 		System.out.println("MypageController typechart");
 
-//		String memberId = authentication.getName();
+		String memberId = authentication.getName();
 		int memberAuth = memberService.findMemberAuthByMemberId(memberId);
 
 		// 추후 ExceptionHandler로 점주권한이 필요하다는 메세지 추가 필요
@@ -253,69 +213,38 @@ public class MypageController {
 		}
 	}
 	
-//	@GetMapping("/typechart")
-//	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(@RequestParam String memberId,
-//			@RequestParam String startDate, @RequestParam String endDate) {
-//
-//		System.out.println("MypageController typeChart");
-//
-////		String memberId = authentication.getName();
-//		int memberAuth = memberService.findMemberAuthByMemberId(memberId);
-//
-//		// 추후 ExceptionHandler로 점주권한이 필요하다는 메세지 추가 필요
-//		if (memberAuth != 1) {
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-//		}
-//		
-//		
-//		try {
-//			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//
-//			LocalDate startDateParsed = LocalDate.parse(startDate, formatter);
-//			LocalDateTime startParsedDateTime = startDateParsed.atStartOfDay();
-//			Timestamp startParsedTimestamp = convertToTimestamp(startParsedDateTime);
-//
-//			LocalDate endDateParsed = LocalDate.parse(endDate, formatter);
-//			LocalDateTime endParsedDateTime = endDateParsed.atStartOfDay();
-//			Timestamp endParsedTimestamp = convertToTimestamp(endParsedDateTime);
-//
-//			System.out.println(
-//					"startParsedTimestamp : " + startParsedTimestamp + " endParsedTimestamp : " + endParsedTimestamp);
-//
-//			List<StoreSalesProductTypeDto> salesProductTypeList = mypageService.salesProductTypeList(memberId, startParsedTimestamp,
-//					endParsedTimestamp);
-//
-//			System.out.println("MypageController salesChart MypageController salesChart : " + salesProductTypeList.toString());
-//			return ResponseEntity.ok(salesProductTypeList);
-//		} catch (Exception e) {
-//			System.out.println("StoreSalesProductTypeDto 에러났어 : " + e.getStackTrace());
-//			e.printStackTrace();
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//		}
-//	}
+	@GetMapping("/titlechart")
+//	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
+	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(Authentication authentication, @RequestParam String searchDate, @RequestParam String period) {
+		System.out.println("MypageController titlechart");
 
-//	@GetMapping("/titlechart")
-//	public ResponseEntity<String> titleChart(Authentication authentication, Timestamp date) {
-//
-//		System.out.println("MypageController titleChart");
-//
-//		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
-//		int memberAuth = memberService.findMemberAuthByMemberId(memberId);
-//
-////	 추후 ExceptionHandler로 점주권한이 필요하다는 메세지 추가 필요
-//		if (memberAuth != 1)
-//
-//		{
-//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-//		}
-//
-//		if (date == null) {
-//			date = new Timestamp(System.currentTimeMillis());
-//		}
-//
-//		List<StoreSalseDto> count = mypageService.salesChart(authentication.getName());
-//
-//		return ResponseEntity.ok("인기물품 순위 표시");
-//	}
+		String memberId = authentication.getName();
+		int memberAuth = memberService.findMemberAuthByMemberId(memberId);
 
+		// 추후 ExceptionHandler로 점주권한이 필요하다는 메세지 추가 필요
+		if (memberAuth != 1) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+		}
+
+		
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+			LocalDate searchDateParsed = LocalDate.parse(searchDate, formatter);
+			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
+			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
+
+
+			System.out.println("searchTimestamp : " + searchTimestamp);
+
+			List<StoreSalesProductTitleDto> titleChartList = mypageService.productTitleChart(memberId, searchTimestamp, period);
+
+			System.out.println("MypageController typechart MypageController typechart : " + titleChartList.toString());
+			return ResponseEntity.ok(titleChartList);
+		} catch (Exception e) {
+			System.out.println("에러났어 : " + e.getStackTrace());
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+	}
 }

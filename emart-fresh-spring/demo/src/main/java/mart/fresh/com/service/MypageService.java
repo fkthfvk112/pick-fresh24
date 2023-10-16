@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import mart.fresh.com.data.dto.MypageDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
+import mart.fresh.com.data.dto.StoreSalesProductTitleDto;
 import mart.fresh.com.data.dto.StoreSalesProductTypeDto;
 
 
@@ -16,4 +17,5 @@ public interface MypageService {
 	int changeEmail(String memberId, String newEmail, String verificationCode);
 	List<StoreSalesAmountDto> salesChart(String memberId, Timestamp searchDate, String period);
 	List<StoreSalesProductTypeDto> productTypeChart(String memberId, Timestamp searchDate, String period);
+	List<StoreSalesProductTitleDto> productTitleChart(String memberId, Timestamp searchDate, String period);
 }

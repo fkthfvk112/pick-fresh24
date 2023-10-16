@@ -16,6 +16,7 @@ import mart.fresh.com.data.dao.OrderedProductDao;
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.MypageDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
+import mart.fresh.com.data.dto.StoreSalesProductTitleDto;
 import mart.fresh.com.data.dto.StoreSalesProductTypeDto;
 import mart.fresh.com.data.entity.ApplyManager;
 import mart.fresh.com.data.entity.Member;
@@ -246,4 +247,67 @@ public class MypageServiceImpl implements MypageService {
 	}
 
 
+	@Override
+	public List<StoreSalesProductTitleDto> productTitleChart(String memberId, Timestamp searchDate, String period) {
+	    System.out.println("MypageServiceImpl productTitleChart : ");
+
+	    Store store = storeDao.findByMemberMemberId(memberId);
+	    List<OrderedProductProduct> salesTitleEntityList = orderedProductDao
+	            .findByOrderedProductStoreStoreIdAndOrderedProductOrderedDateBetweenOrderByOrderedDateAsc(store.getStoreId(), searchDate, period);
+
+	    System.out.println("MypageServiceImpl productTitleChart : " + salesTitleEntityList.toString());
+
+	    switch (period) {
+	    case "주간":
+	        return processWeeklyProductTitleData(salesTitleEntityList);
+	    case "월간":
+	        return processMonthlyProductTitleData(salesTitleEntityList);
+	    case "연간":
+	        return processYearlyProductTitleData(salesTitleEntityList);
+	    default:
+	        throw new IllegalArgumentException("Invalid period value");
+	    }
+	}
+
+	private List<StoreSalesProductTitleDto> processWeeklyProductTitleData(List<OrderedProductProduct> salesTitleEntityList) {
+	    Map<String, StoreSalesProductTitleDto> salesMap = new HashMap<>();
+	    for (OrderedProductProduct salesData : salesTitleEntityList) {
+	        String productTitle = salesData.getProduct().getProductTitle();
+
+	        salesMap.putIfAbsent(productTitle, new StoreSalesProductTitleDto());
+	        StoreSalesProductTitleDto existingDto = salesMap.get(productTitle);
+	        
+	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
+	        existingDto.setProductTitle(productTitle);
+	    }
+	    return new ArrayList<>(salesMap.values());
+	}
+
+	private List<StoreSalesProductTitleDto> processMonthlyProductTitleData(List<OrderedProductProduct> salesEntityList) {
+	    Map<String, StoreSalesProductTitleDto> salesMap = new HashMap<>();
+	    for (OrderedProductProduct salesData : salesEntityList) {
+	        String productTitle = salesData.getProduct().getProductTitle();
+
+	        salesMap.putIfAbsent(productTitle, new StoreSalesProductTitleDto());
+	        StoreSalesProductTitleDto existingDto = salesMap.get(productTitle);
+
+	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
+	        existingDto.setProductTitle(productTitle);
+	    }
+	    return new ArrayList<>(salesMap.values());
+	}
+
+	private List<StoreSalesProductTitleDto> processYearlyProductTitleData(List<OrderedProductProduct> salesEntityList) {
+	    Map<String, StoreSalesProductTitleDto> salesMap = new HashMap<>();
+	    for (OrderedProductProduct salesData : salesEntityList) {
+	        String productTitle = salesData.getProduct().getProductTitle();
+
+	        salesMap.putIfAbsent(productTitle, new StoreSalesProductTitleDto());
+	        StoreSalesProductTitleDto existingDto = salesMap.get(productTitle);
+
+	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
+	        existingDto.setProductTitle(productTitle);
+	    }
+	    return new ArrayList<>(salesMap.values());
+	}
 }
