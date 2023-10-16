@@ -1,6 +1,7 @@
 package mart.fresh.com.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.GetStoreInDisDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
+import mart.fresh.com.data.dto.StoreListDto;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.service.StoreService;
 
@@ -63,5 +65,25 @@ public class StoreServiceImpl implements StoreService {
 		
 		return storeId;
 	}
+
+
+	@Override
+	public List<StoreListDto> getStoresWithNANDStoreName(double userLatitude, double userLongitude, int n, String partOfStoreName) {
+		List<Store> storeList = storeDao.getStoreWitnNByProductName(userLatitude, userLongitude, n, partOfStoreName);
+		
+		List<StoreListDto> storeListDto = storeList.stream().map(this::convertToDto).collect(Collectors.toList());
+        
+        return storeListDto;
+	}
+	
+	private StoreListDto convertToDto(Store store) {
+        StoreListDto storeDto = new StoreListDto();
+        storeDto.setStoreId(store.getStoreId());
+        storeDto.setStoreName(store.getStoreName());
+        storeDto.setStoreAddress(store.getStoreAddress());
+        storeDto.setStoreLongitude(store.getStoreLongitude());
+        storeDto.setStoreLatitude(store.getStoreLatitude());
+        return storeDto;
+    }
 }
 

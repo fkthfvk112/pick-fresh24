@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import mart.fresh.com.data.dao.StoreDao;
@@ -109,6 +110,21 @@ public class StoreDaoImpl implements StoreDao {
 		Store store = storeRepository.findByMemberMemberId(memberId);
 		System.out.println("스토어"  +store);
 		return store;
+	}
+
+	@Override
+	public List<Store> getStoreWitnNByProductName(double userLatitude, double userLongitude, int n, String partOfStoreName) {
+		double deltaLat = n / 111.0;
+        double deltaLon = n / (111.0 * Math.cos(Math.toRadians(userLatitude)));
+        
+        double minLatitude = userLatitude - deltaLat;
+        double maxLatitude = userLatitude + deltaLat;
+        double minLongitude = userLongitude - deltaLon;
+        double maxLongitude = userLongitude + deltaLon;
+        
+        return storeRepository.findStoreWitnNByProductName(minLatitude, maxLatitude, minLongitude, maxLongitude, partOfStoreName);
+        
+        
 	}
 
 }

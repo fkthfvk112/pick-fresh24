@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.GetStoreInDisDto;
+import mart.fresh.com.data.dto.GetStoreRequestDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
+import mart.fresh.com.data.dto.StoreListDto;
+import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.service.StoreService;
 
 @RequestMapping("/store")
@@ -58,4 +62,16 @@ private final StoreService storeService;
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
 		}
 	}
+	
+	@GetMapping("/get-storeList")
+    public ResponseEntity<List<StoreListDto>> getStoresWithNANDStoreName(@ModelAttribute GetStoreRequestDto requestDto) {
+        List<StoreListDto> storeList = storeService.getStoresWithNANDStoreName(
+                requestDto.getUserLatitude(),
+                requestDto.getUserLongitude(),
+                requestDto.getN(),
+                requestDto.getPartOfStoreName()
+        );
+
+        return ResponseEntity.ok(storeList);
+    }
 }
