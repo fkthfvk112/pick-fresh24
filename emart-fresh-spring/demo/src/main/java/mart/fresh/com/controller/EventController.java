@@ -17,12 +17,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import mart.fresh.com.data.dto.EventDto;
 import mart.fresh.com.data.dto.EventUpdateDto;
 import mart.fresh.com.service.EventService;
@@ -125,5 +125,5 @@ public class EventController {
 	      }
 	      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다. 관리자에게 연락하세요.");
 
-	   }
+	}
 }
