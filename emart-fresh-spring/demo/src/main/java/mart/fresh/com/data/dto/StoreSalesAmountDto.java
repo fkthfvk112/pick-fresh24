@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class StoreSalesAmountDto {
+	private int quarter;
     private Timestamp orderedDate;
     private int totalAmount;
 }

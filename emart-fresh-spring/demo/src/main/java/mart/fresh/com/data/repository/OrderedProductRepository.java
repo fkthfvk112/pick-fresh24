@@ -29,6 +29,8 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 
 	OrderedProduct findByOrderedProductId(int orderedProductId);
 
-	List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetween(int storeId, Timestamp startDate, Timestamp endDate);
+//	List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetweenOrderByOrderedDateAsc(int storeId, Timestamp startDate, Timestamp endDate);
+	
+	List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetweenOrderByOrderedDateAsc(int storeId, Timestamp startDate, Timestamp endDate);
 	
 }
