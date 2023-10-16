@@ -1,5 +1,6 @@
 package mart.fresh.com.data.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,6 @@ public interface OrderedProductProductRepository extends JpaRepository<OrderedPr
 			+ "FROM OrderedProductProduct opp " + "INNER JOIN opp.product p " + "GROUP BY p.productTitle "
 			+ "ORDER BY COUNT(*) DESC")
 	List<OrderedCountDto> findProductsByOrderedCount(int n);
+	
+	List<OrderedProductProduct> findByOrderedProductStoreStoreIdAndOrderedProductOrderedDateBetweenOrderByOrderedProductOrderedDateAsc(int storeId, Timestamp startDate, Timestamp endDate);
 }

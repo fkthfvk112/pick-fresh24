@@ -1,5 +1,6 @@
 package mart.fresh.com.data.repository;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -18,8 +19,6 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 	Page<OrderedProductProduct> getOrderedProductProductByMemberId(@Param("memberId") String memberId,
 			@Param("orderedDel") boolean orderedDel, Pageable pageable);
 
-//	OrderedProduct findByIsPickupAndMemberMemberId(boolean isPickup, String memberId);
-
 	List<OrderedProduct> findByMemberMemberId(String memberId);
 
 	@Query("SELECT CASE WHEN COUNT(op) > 0 THEN true ELSE false END " + "FROM OrderedProduct op "
@@ -30,4 +29,8 @@ public interface OrderedProductRepository extends JpaRepository<OrderedProduct, 
 
 	OrderedProduct findByOrderedProductId(int orderedProductId);
 
+//	List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetweenOrderByOrderedDateAsc(int storeId, Timestamp startDate, Timestamp endDate);
+	
+	List<OrderedProduct> findByStoreStoreIdAndOrderedDateBetweenOrderByOrderedDateAsc(int storeId, Timestamp startDate, Timestamp endDate);
+	
 }

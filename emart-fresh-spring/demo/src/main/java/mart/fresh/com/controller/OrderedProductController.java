@@ -81,7 +81,7 @@ private final ProductService productService;
 	}
 	
 	
-	@CrossOrigin(origins = {"http://localhost:3000", "http://3.133.246.238"})
+//	@CrossOrigin(origins = {"http://localhost:3000", "http://pick-fresh24.com/", "https://pick-fresh24.com/"})
 	@GetMapping(value = "/storeordered-list", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 	public Flux<MyOrderedProductDto> getOrderedlistByStoreId(@RequestParam String memberId) {
 

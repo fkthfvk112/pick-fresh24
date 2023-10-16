@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.GetStoreInDisDto;
+import mart.fresh.com.data.dto.GetStoreInDisMapDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
 import mart.fresh.com.data.entity.Member;
@@ -39,6 +40,40 @@ public class StoreDaoImpl implements StoreDao {
 		List<Store> stores = storeProductObjRepository.findStoreByProductNames(
 				searchDto.getProductNames(),
 				searchDto.getProductNames().size());
+		
+		
+		List<StoreDto> storeDtos = new ArrayList();
+		
+		for(Store store:stores) {
+			double storeLatitude = store.getStoreLatitude();
+			double storeLongitude = store.getStoreLongitude();
+			double distance = StoreUtils.haversineDistance(
+					storeLatitude, storeLongitude, searchDto.getUserLatitude(), searchDto.getUserLongitude()
+					);
+			
+			if(distance <= searchDto.getMaxDis()) {
+				StoreDto dto = new StoreDto();
+				
+				dto.setStoreId(store.getStoreId());
+				dto.setStoreName(store.getStoreName());
+				dto.setStoreAddress(store.getStoreAddress());
+				// dto.setMemberId(store.getMemberId());
+				dto.setStoreLatitude(store.getStoreLatitude());
+				dto.setStoreLongitude(store.getStoreLongitude());		
+				storeDtos.add(dto);
+			}
+		}
+		
+		System.out.println("-----getStoreWitnNByProductName" + storeDtos);
+		
+		return storeDtos;
+	}
+	
+	@Override
+	public List<StoreDto> getStoreWitnNByProductNameMap(GetStoreInDisMapDto searchDto) {
+		
+		List<Store> stores = storeProductObjRepository.findStoreByProductNamesMap(
+				searchDto.getProductName());
 		
 		
 		List<StoreDto> storeDtos = new ArrayList();
@@ -106,10 +141,16 @@ public class StoreDaoImpl implements StoreDao {
 	}
 
 	@Override
+
+	public Store findByMemberMemberId(String memberId) {
+		return storeRepository.findByMemberMemberId(memberId);
+	}
+	
 	public Store findStoreByMemberId(String memberId) {
 		Store store = storeRepository.findByMemberMemberId(memberId);
 		System.out.println("스토어"  +store);
 		return store;
+
 	}
 
 	@Override

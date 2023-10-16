@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.GetStoreInDisDto;
 import mart.fresh.com.data.dto.GetStoreRequestDto;
+import mart.fresh.com.data.dto.GetStoreInDisMapDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
 import mart.fresh.com.data.dto.StoreListDto;
@@ -31,11 +32,22 @@ private final StoreService storeService;
 		this.storeService = storeService;
 	}
 	
+	
+	//다수의 물품 선택
 	@PostMapping("/get-store-witnin-n")
 	public List<StoreDto> getStoreWitnNByProductName(@RequestBody GetStoreInDisDto dto) {
 		if(dto == null || dto.getProductNames().size() == 0) return  null;
 		System.out.println("파람" + dto.toString());
 		List<StoreDto> nearStoreList = storeService.getStoreWitnNByProductName(dto);
+		
+		return nearStoreList;
+	}
+	
+	//하나의 물품만 선택
+	@GetMapping("get-store-witnin-n-map")
+	public List<StoreDto> getStoreWitnNByProductNameMap(GetStoreInDisMapDto dto) {
+		System.out.println("파람" + dto.toString());
+		List<StoreDto> nearStoreList = storeService.getStoreWitnNByProductNameMap(dto);
 		
 		return nearStoreList;
 	}
