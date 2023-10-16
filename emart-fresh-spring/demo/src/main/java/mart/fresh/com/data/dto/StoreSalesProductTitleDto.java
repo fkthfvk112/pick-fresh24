@@ -1,5 +1,11 @@
 package mart.fresh.com.data.dto;
 
-public class StoreSalesProductTitleDto {
+import java.sql.Timestamp;
 
+import lombok.Data;
+
+@Data
+public class StoreSalesProductTitleDto {
+	private String productTitle;
+	private int orderedQuantity;	
 }

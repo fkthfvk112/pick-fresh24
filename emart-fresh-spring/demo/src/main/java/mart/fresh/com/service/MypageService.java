@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import mart.fresh.com.data.dto.MypageDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
+import mart.fresh.com.data.dto.StoreSalesProductTypeDto;
 
 
 public interface MypageService {
@@ -13,5 +14,6 @@ public interface MypageService {
 	boolean checkEmail(String memberEmail);
 	boolean saveVerificationCode(String memberId, String verificationCode, LocalDateTime expiryTime);
 	int changeEmail(String memberId, String newEmail, String verificationCode);
-//	List<StoreSalesAmountDto> salesChart(String memberId, LocalDateTime startDate, LocalDateTime endDate);
+	List<StoreSalesAmountDto> salesChart(String memberId, Timestamp searchDate, String period);
+	List<StoreSalesProductTypeDto> productTypeChart(String memberId, Timestamp searchDate, String period);
 }
