@@ -195,15 +195,15 @@ public class CartController {
 		return cartService.decreaseCartProductQuantity(authentication.getName());
 	}
 
-	@PostMapping("/decreaseCartProduct1")
-	public ResponseEntity<ProductProcessResult> decreaseCartProductQuantity1(Authentication authentication,
+	@PostMapping("/decreaseStoreProduct")
+	public ResponseEntity<ProductProcessResult> decreaseStoreProductQuantity(Authentication authentication,
 	        @RequestBody List<ProductInfoDto> productInfoList) {
 	    String memberId = authentication.getName();
-	    System.out.println("CartController 결제로 재고 깍기 " + new Date());
+	    System.out.println("CartController 결제버튼 누르면 가게 재고 깍기 " + new Date());
 
 	    try {
-	        ProductProcessResult productProcessResult = cartService.decreaseCartProductQuantity1(memberId, productInfoList);
-	        return ResponseEntity.ok(new ProductProcessResult("재고 깍기 성공", productProcessResult.getProductInfoMap()));
+	        ProductProcessResult productProcessResult = cartService.decreaseStoretProductQuantity(memberId, productInfoList);
+	        return ResponseEntity.ok(new ProductProcessResult("가게 재고 깍기 성공", productProcessResult.getProductInfoMap()));
 	    } catch (RuntimeException ex) {
 	        String errorMessage = ex.getMessage();
 	        Map<Integer, Integer> productInfoMap = new HashMap<>();
@@ -223,7 +223,31 @@ public class CartController {
 	        }
 	    }
 	}
+	
+	@PostMapping("/decreaseCartProduct1")
+	public ResponseEntity<ProductProcessResult> decreaseCartProductQuantity1(Authentication authentication,
+			@RequestBody List<ProductInfoDto> productInfoList) {
+		String memberId = authentication.getName();
+	    System.out.println("CartController 결제 완료 시 장바구니 재고 깍기 " + new Date());
+	    try {
+	        ProductProcessResult productProcessResult = cartService.decreaseCartProductQuantity(memberId, productInfoList);
+	        return ResponseEntity.ok(new ProductProcessResult("장바구니 재고 깍기 성공", productProcessResult.getProductInfoMap()));
+	    } catch (RuntimeException ex) {
+	        String errorMessage = ex.getMessage();
+	        Map<Integer, Integer> productInfoMap = new HashMap<>();
 
+	        if (errorMessage.equals("notFoundCartProduct")) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body(new ProductProcessResult("장바구니에 해당 상품이 없습니다.", productInfoMap));
+	        } else if (errorMessage.equals("tooMuchQuantity")) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(new ProductProcessResult("요청 수량이 장바구니의 수량보다 많습니다.", productInfoMap));
+	        } else {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                    .body(new ProductProcessResult("예상치 못한 오류 발생", productInfoMap));
+	        }
+	    }
+	}
 
 	@PostMapping("/recoverCartProduct")
 	public ResponseEntity<String> recoverCartProductQuantity(Authentication authentication, @RequestBody ProductProcessResult productProcessResult) {

@@ -272,7 +272,7 @@ public class CartDaoImpl implements CartDao {
 
 	@Transactional
 	@Override
-	public ProductProcessResult decreaseCartProductQuantity1(String memberId, List<ProductInfoDto> productInfoList) {
+	public ProductProcessResult decreaseStoretProductQuantity(String memberId, List<ProductInfoDto> productInfoList) {
 		Cart cart = cartRepository.findByMember_MemberId(memberId);
 		Store store = cart.getStore();
 		List<CartProduct> cartProductList = cartProductRepository.findCartProductListByCartId(cart.getCartId());
@@ -324,15 +324,6 @@ public class CartDaoImpl implements CartDao {
 						storeProduct.setStoreProductStock(currentStock - remainingQuantity);
 						storeProductObjRepository.save(storeProduct);
 
-						for (CartProduct cartProduct : cartProductList) {
-							if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
-								cartProduct.setCartProductQuantity(
-										cartProduct.getCartProductQuantity() - remainingQuantity);
-								cartProductRepository.save(cartProduct);
-								break;
-							}
-						}
-
 						System.out.println("productId[" + productId + "]인 " + productTitle + " 재고를 " + remainingQuantity
 								+ "만큼 감소시켰습니다.");
 
@@ -343,13 +334,6 @@ public class CartDaoImpl implements CartDao {
 						storeProduct.setStoreProductStock(0);
 						storeProductObjRepository.save(storeProduct);
 
-						for (CartProduct cartProduct : cartProductList) {
-							if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
-								cartProduct.setCartProductQuantity(cartProduct.getCartProductQuantity() - currentStock);
-								cartProductRepository.save(cartProduct);
-								break;
-							}
-						}
 						productInfoMap.put(productId, currentStock);
 						System.out.println("productId[" + productId + "]인 " + productTitle + " 재고가 부족하여 모두 소진되었습니다.");
 					}
@@ -360,7 +344,53 @@ public class CartDaoImpl implements CartDao {
 		System.out.println("제품 정보: " + productInfoMap);
 		return new ProductProcessResult("success", productInfoMap);
 	}
+	
+	@Transactional
+	@Override
+	public ProductProcessResult decreaseCartProductQuantity(String memberId, List<ProductInfoDto> productInfoList) {
+		Cart cart = cartRepository.findByMember_MemberId(memberId);
+		List<CartProduct> cartProductList = cartProductRepository.findCartProductListByCartId(cart.getCartId());
+		Map<Integer, Integer> productInfoMap = new HashMap<>();
 
+		for (ProductInfoDto productInfo : productInfoList) {
+			String productTitle = productInfo.getProductTitle();
+			int productQuantity = productInfo.getProductQuantity();
+
+			boolean productExistsInCart = cartProductList.stream()
+					.anyMatch(cartProduct -> cartProduct.getProduct().getProductTitle().equals(productTitle));
+
+			if (!productExistsInCart) {
+				System.out.println(productTitle + "이[가] " + memberId + "의 장바구니에 없습니다");
+				throw new RuntimeException("notFoundCartProduct");
+			}
+
+			for (CartProduct cartProduct : cartProductList) {
+				if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
+					if (productQuantity > cartProduct.getCartProductQuantity()) {
+						System.out.println("요청한 수량이 장바구니에 담긴 상품의 수량보다 많습니다. 해당 상품 : " + productTitle);
+						throw new RuntimeException("tooMuchQuantity");
+					}
+					break;
+				}
+			}
+			
+			for (CartProduct cartProduct : cartProductList) {
+				int productId = cartProduct.getProduct().getProductId();
+				if (cartProduct.getProduct().getProductTitle().equals(productTitle)) {
+					cartProduct.setCartProductQuantity(
+							cartProduct.getCartProductQuantity() - productQuantity);
+					cartProductRepository.save(cartProduct);
+	                productInfoMap.put(productId, cartProduct.getCartProductQuantity());
+					break;
+				}
+			}
+			
+		}
+		System.out.println("제품 정보: " + productInfoMap);
+		return new ProductProcessResult("success", productInfoMap);
+	}
+	
+	
 	private int getTotalStockForProduct(List<StoreProduct> storeProductList, String productTitle) {
 		int totalStock = 0;
 		for (StoreProduct storeProduct : storeProductList) {

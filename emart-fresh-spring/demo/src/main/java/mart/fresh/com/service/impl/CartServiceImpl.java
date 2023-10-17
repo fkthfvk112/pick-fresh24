@@ -58,9 +58,14 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public ProductProcessResult decreaseCartProductQuantity1(String memberId, List<ProductInfoDto> productInfoList) {
-		return cartDao.decreaseCartProductQuantity1(memberId, productInfoList);
+	public ProductProcessResult decreaseStoretProductQuantity(String memberId, List<ProductInfoDto> productInfoList) {
+		return cartDao.decreaseStoretProductQuantity(memberId, productInfoList);
 		
+	}
+
+	@Override
+	public ProductProcessResult decreaseCartProductQuantity(String memberId, List<ProductInfoDto> productInfoList) {
+		return cartDao.decreaseCartProductQuantity(memberId, productInfoList);
 	}
 
 }

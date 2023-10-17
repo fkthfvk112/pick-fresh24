@@ -16,6 +16,7 @@ public interface CartDao {
 	int getMyCartStoreId(String memberId);
 	Cart findByMember(Member member);
 	String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult);
-	ProductProcessResult decreaseCartProductQuantity1(String memberId, List<ProductInfoDto> productInfoList);
+	ProductProcessResult decreaseStoretProductQuantity(String memberId, List<ProductInfoDto> productInfoList);
+	ProductProcessResult decreaseCartProductQuantity(String memberId, List<ProductInfoDto> productInfoList);
 }
 
