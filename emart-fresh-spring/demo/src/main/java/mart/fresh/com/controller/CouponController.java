@@ -110,8 +110,8 @@ public class CouponController {
 	        }
 
 	        int couponId = request.get("couponId");
-	        couponService.deleteByMemberMemberIdAndCouponId(memberId, couponId);
-
+	        //couponService.deleteByMemberMemberIdAndCouponId(memberId, couponId);
+	        couponService.updateCouponDel(memberId, couponId);
 	        return ResponseEntity.status(HttpStatus.OK).build();
 	    } catch (Exception e) {
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

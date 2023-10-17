@@ -62,4 +62,10 @@ public class CouponServiceImpl implements CouponService {
 		
 	}
 
+	@Override
+	public void updateCouponDel(String memberId, int couponId) {
+		couponDao.updateCouponDel(memberId, couponId);
+		
+	}
+
 }
