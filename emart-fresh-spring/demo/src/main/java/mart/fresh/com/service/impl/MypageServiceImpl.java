@@ -15,6 +15,7 @@ import mart.fresh.com.data.dao.MypageDao;
 import mart.fresh.com.data.dao.OrderedProductDao;
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.MypageDto;
+import mart.fresh.com.data.dto.ProductDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
 import mart.fresh.com.data.dto.StoreSalesProductTitleDto;
 import mart.fresh.com.data.dto.StoreSalesProductTypeDto;
@@ -309,5 +310,10 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setProductTitle(productTitle);
 	    }
 	    return new ArrayList<>(salesMap.values());
+	}
+
+	@Override
+	public boolean productRegistration(ProductDto dto) {
+		return mypageDao.productRegistration(dto);
 	}
 }

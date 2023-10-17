@@ -1,14 +1,15 @@
 package mart.fresh.com.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import org.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +20,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.multipart.MultipartFile;
 import mart.fresh.com.data.dto.MemberDto;
 import mart.fresh.com.data.dto.MypageDto;
+import mart.fresh.com.data.dto.ProductDto;
+import mart.fresh.com.data.dto.ProductRegistrationDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
 import mart.fresh.com.data.dto.StoreSalesProductTitleDto;
 import mart.fresh.com.data.dto.StoreSalesProductTypeDto;
 import mart.fresh.com.service.EmailService;
+import mart.fresh.com.service.EventService;
 import mart.fresh.com.service.MemberService;
 import mart.fresh.com.service.MypageService;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @RequestMapping("/mypage")
 @RestController
@@ -37,12 +41,15 @@ public class MypageController {
 	private final MypageService mypageService;
 	private final EmailService emailService;
 	private final MemberService memberService;
+	private final EventService eventService;
 
 	@Autowired
-	public MypageController(MypageService mypageService, EmailService emailService, MemberService memberService) {
+	public MypageController(MypageService mypageService, EmailService emailService, MemberService memberService,
+			EventService eventService) {
 		this.mypageService = mypageService;
 		this.emailService = emailService;
 		this.memberService = memberService;
+		this.eventService = eventService;
 	}
 
 	// 인증번호 생성 (임의로 6자리 숫자로 생성하도록 설정)
@@ -65,7 +72,7 @@ public class MypageController {
 	public ResponseEntity<String> checkEmail(Authentication authentication, @RequestBody String newEmail) {
 		System.out.println("MypageController checkEmail : " + newEmail);
 
-		if (StringUtils.isEmpty(newEmail)) {
+		if (!StringUtils.hasText(newEmail)) {
 			return ResponseEntity.badRequest().body("입력 값이 없습니다.");
 		}
 
@@ -137,13 +144,11 @@ public class MypageController {
 	private Timestamp convertToTimestamp(LocalDateTime dateTime) {
 		return Timestamp.valueOf(dateTime);
 	}
-	
-	
 
-	
 	@GetMapping("/saleschart")
 //	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
-	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(Authentication authentication, @RequestParam String searchDate, @RequestParam String period) {
+	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(Authentication authentication,
+			@RequestParam String searchDate, @RequestParam String period) {
 
 		System.out.println("MypageController salesChart");
 
@@ -155,14 +160,12 @@ public class MypageController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 
-		
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 			LocalDate searchDateParsed = LocalDate.parse(searchDate, formatter);
 			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
 			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
-
 
 			System.out.println("searchTimestamp : " + searchTimestamp);
 
@@ -176,10 +179,11 @@ public class MypageController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-	
+
 	@GetMapping("/typechart")
 //	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
-	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(Authentication authentication, @RequestParam String searchDate, @RequestParam String period) {
+	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(Authentication authentication,
+			@RequestParam String searchDate, @RequestParam String period) {
 
 		System.out.println("MypageController typechart");
 
@@ -191,7 +195,6 @@ public class MypageController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 
-		
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -199,10 +202,10 @@ public class MypageController {
 			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
 			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
 
-
 			System.out.println("searchTimestamp : " + searchTimestamp);
 
-			List<StoreSalesProductTypeDto> typeChartList = mypageService.productTypeChart(memberId, searchTimestamp, period);
+			List<StoreSalesProductTypeDto> typeChartList = mypageService.productTypeChart(memberId, searchTimestamp,
+					period);
 
 			System.out.println("MypageController typechart MypageController typechart : " + typeChartList.toString());
 			return ResponseEntity.ok(typeChartList);
@@ -212,10 +215,11 @@ public class MypageController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
-	
+
 	@GetMapping("/titlechart")
 //	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
-	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(Authentication authentication, @RequestParam String searchDate, @RequestParam String period) {
+	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(Authentication authentication,
+			@RequestParam String searchDate, @RequestParam String period) {
 		System.out.println("MypageController titlechart");
 
 		String memberId = authentication.getName();
@@ -226,7 +230,6 @@ public class MypageController {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
 
-		
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -234,10 +237,10 @@ public class MypageController {
 			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
 			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
 
-
 			System.out.println("searchTimestamp : " + searchTimestamp);
 
-			List<StoreSalesProductTitleDto> titleChartList = mypageService.productTitleChart(memberId, searchTimestamp, period);
+			List<StoreSalesProductTitleDto> titleChartList = mypageService.productTitleChart(memberId, searchTimestamp,
+					period);
 
 			System.out.println("MypageController typechart MypageController typechart : " + titleChartList.toString());
 			return ResponseEntity.ok(titleChartList);
@@ -246,5 +249,92 @@ public class MypageController {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
+	}
+
+	@PostMapping("/product-registration")
+	public ResponseEntity<String> productRegistration(@RequestBody ProductRegistrationDto productDto)
+			throws IOException  {
+		
+//	   public ResponseEntity<String> productRegistration(Authentication authentication, @RequestBody ProductRegistrationDto productDto) throws IOException {
+		System.out.println("mypageController ProductRegistration : ");
+
+//	      String memberId = authentication.getName();
+//	      int memberAuth = memberService.findMemberAuthByMemberId(memberId);
+
+//	      if(memberAuth != 2) {
+//	         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("관리자 권한이 필요합니다.");
+//	      }
+
+		String productTitle = productDto.getProductTitle();
+		MultipartFile productImage = productDto.getProductImg();
+		int priceNumber = Integer.parseInt(productDto.getPriceNumber());
+		int productType = Integer.parseInt(productDto.getProductType());
+
+		if (!StringUtils.hasText(productTitle) || productImage.isEmpty() || priceNumber <= 0 || productType <= 0) {
+			return ResponseEntity.badRequest().body("필수 입력값이 누락되었습니다.");
+		}
+
+		try {
+
+			ProductDto dto = new ProductDto();
+
+			// 이미지 업로드 및 URL 설정
+			String productImgUrl = eventService.uploadImage(productImage);
+
+			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+			DecimalFormat decimalFormat = new DecimalFormat("#,### 원");
+
+			if (StringUtils.hasText(productImgUrl)) {
+				dto.setProductImgUrl(productImgUrl);
+				dto.setPriceNumber(priceNumber);
+				dto.setPriceString(decimalFormat.format(priceNumber));
+				dto.setCreatedAt(currentTime);
+				dto.setProductEvent(0);
+				dto.setProductTimeSale(0);
+				dto.setProductType(productType);
+				dto.setProductTitle(productTitle);
+
+				switch (productType) {
+				case 1:
+					Instant expirationInstant1 = currentTime.toInstant().plus(7, ChronoUnit.DAYS);
+					Timestamp expirationTimestamp1 = Timestamp.from(expirationInstant1);
+					dto.setProductExpirationDate(expirationTimestamp1);
+					break;
+				case 2:
+					Instant expirationInstant2 = currentTime.toInstant().plus(1, ChronoUnit.DAYS);
+					Timestamp expirationTimestamp2 = Timestamp.from(expirationInstant2);
+					dto.setProductExpirationDate(expirationTimestamp2);
+					break;
+				case 3:
+				case 4:
+					Instant expirationInstant34 = currentTime.toInstant().plus(3, ChronoUnit.DAYS);
+					Timestamp expirationTimestamp34 = Timestamp.from(expirationInstant34);
+					dto.setProductExpirationDate(expirationTimestamp34);
+					break;
+				case 5:
+					Instant expirationInstant5 = currentTime.toInstant().plus(1, ChronoUnit.DAYS);
+					Timestamp expirationTimestamp5 = Timestamp.from(expirationInstant5);
+					dto.setProductExpirationDate(expirationTimestamp5);
+					break;
+				default:
+					return ResponseEntity.badRequest().body("상품정보 등록 중 오류가 발생했습니다.");
+				}
+
+				System.out.println("dto : " + dto.toString());
+
+				boolean saveSuccess = mypageService.productRegistration(dto);
+
+				if (saveSuccess) {
+					return ResponseEntity.ok("상품등록 완료");
+				} else {
+					return ResponseEntity.badRequest().body("상품등록 실패");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("예외 에러 : " + e.getMessage());
+		}
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("알 수 없는 오류가 발생했습니다. 관리자에게 연락하세요.");
+
 	}
 }
