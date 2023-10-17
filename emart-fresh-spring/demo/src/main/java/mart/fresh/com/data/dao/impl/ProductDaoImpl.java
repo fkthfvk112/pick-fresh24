@@ -8,22 +8,28 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import java.util.Collections;
 
 import mart.fresh.com.data.dao.ProductDao;
 import mart.fresh.com.data.dto.ProductDto;
 import mart.fresh.com.data.dto.ProductFilterDto;
+import mart.fresh.com.data.dto.ProductWithOrderCountDto;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
+import mart.fresh.com.data.repository.OrderedProductProductRepository;
 import mart.fresh.com.data.repository.ProductRepository;
 
 @Component
 public class ProductDaoImpl implements ProductDao{
 	
 	private final ProductRepository productRepository;
+	private final OrderedProductProductRepository orderedProductProductRepository;
 	
 	@Autowired
-	public ProductDaoImpl(ProductRepository productRepository) {
+	public ProductDaoImpl(ProductRepository productRepository,
+			OrderedProductProductRepository orderedProductProductRepository) {
 		this.productRepository = productRepository;
+		this.orderedProductProductRepository = orderedProductProductRepository;
 	}
 	
 	@Override
@@ -54,6 +60,30 @@ public class ProductDaoImpl implements ProductDao{
 		return productList;
 	}
 
+	
+	public void orderByOrderNumber(List<ProductWithOrderCountDto> productList) {
+		Collections.sort(productList, (item1, item2) -> Integer.compare(item2.getOrderCount(), item1.getOrderCount()));
+	}
+	
+	
+	public int getOrderNumberByProductName(String productName) {
+		int count = orderedProductProductRepository.countOrderByProductName(productName);
+		
+		return count;
+	}
+	
+	public <T> List<T> sliceList(List<T> list, int offset, int limit) {
+	    List<T> resultList = new ArrayList<T>();
+	    int start = (offset)*limit;
+	    int end = Math.min(start + limit, list.size());
+	    
+	    for(int i = start; i < end; i++) {
+	    	resultList.add(list.get(i));
+	    }
+	    
+	    return resultList;
+	}
+
 	@Override
 	public List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
 		System.out.println("-------getProductDtoListByFilter");
@@ -63,47 +93,113 @@ public class ProductDaoImpl implements ProductDao{
 		System.out.println("ccc" + productFilterDto.getSelect());
 		System.out.println("ddd" + offset);
 		System.out.println("eee" + limit);
-
-		List<Product> productEntityList = productRepository
-				.getProductDtoListByFilter(
-					productFilterDto.getSearchingTerm(),
-					productFilterDto.getEventNumber(),
-					productFilterDto.getSelect(),
-					PageRequest.of(offset, limit));//페이징 offset limit
 		
-		System.out.println(productEntityList);
-		
-		/* 중복 이름 처리, 중복 이름이 존재하면 아예 보여주지 않도록 함*/
-		List<ProductDto> dtoList = new ArrayList();
-		
-		for(Product product:productEntityList) {
-			boolean isContain = false;
+		if(productFilterDto.getSelect() == 3) {
+			List<Product> productEntityList = productRepository
+					.getProductDtoListByFilterNotPagable(
+						productFilterDto.getSearchingTerm(),
+						productFilterDto.getEventNumber());
 			
-			for(ProductDto dto:dtoList) {
-				String dtoProductName = dto.getProductTitle();
-				String entityProductName = product.getProductTitle();
-				if(dtoProductName.equals(entityProductName)) {
-					isContain = true;
-					break;
-				}
+			List<ProductWithOrderCountDto> productWithOrderCount = new ArrayList<>();
+			
+			for(Product product: productEntityList) {
+				int orderCount = getOrderNumberByProductName(product.getProductTitle());
+				System.out.println("오더 카운트" + orderCount);
+				ProductWithOrderCountDto pod = new ProductWithOrderCountDto();
+				pod.setProductId(product.getProductId());
+				pod.setPriceNumber(product.getPriceNumber());
+				pod.setPriceString(product.getPriceString());
+				pod.setProductTitle(product.getProductTitle());
+				pod.setProductExpirationDate(product.getProductExpirationDate());
+				pod.setProductType(product.getProductType());
+				pod.setProductImgUrl(product.getProductImgUrl());
+				pod.setProductEvent(product.getProductEvent());
+				pod.setCreatedAt(product.getCreatedAt());
+				pod.setProductTimeSale(product.getProductTimeSale());
+				pod.setOrderCount(orderCount);
+				productWithOrderCount.add(pod);
 			}
-			if(isContain) continue;
+			orderByOrderNumber(productWithOrderCount);
 			
-			ProductDto dto = new ProductDto();
-	        dto.setProductId(product.getProductId());
-	        dto.setPriceNumber(product.getPriceNumber());
-	        dto.setPriceString(product.getPriceString());
-	        dto.setProductTitle(product.getProductTitle());
-	        dto.setProductExpirationDate(product.getProductExpirationDate());
-	        dto.setProductType(product.getProductType());
-	        dto.setProductImgUrl(product.getProductImgUrl());
-	        dto.setProductEvent(product.getProductEvent());
-	        dto.setCreatedAt(product.getCreatedAt());
-	        dto.setProductTimeSale(product.getProductTimeSale());
-	        dtoList.add(dto);
+			System.out.println("결과값 " + productWithOrderCount);
+
+			/* 중복 이름 처리, 중복 이름이 존재하면 아예 보여주지 않도록 함*/
+			List<ProductDto> dtoList = new ArrayList();
+			
+			for(ProductWithOrderCountDto product:productWithOrderCount) {
+				boolean isContain = false;
+				
+				for(ProductDto dto:dtoList) {
+					String dtoProductName = dto.getProductTitle();
+					String entityProductName = product.getProductTitle();
+					if(dtoProductName.equals(entityProductName)) {
+						isContain = true;
+						break;
+					}
+				}
+				if(isContain) continue;
+				
+				ProductDto dto = new ProductDto();
+		        dto.setProductId(product.getProductId());
+		        dto.setPriceNumber(product.getPriceNumber());
+		        dto.setPriceString(product.getPriceString());
+		        dto.setProductTitle(product.getProductTitle());
+		        dto.setProductExpirationDate(product.getProductExpirationDate());
+		        dto.setProductType(product.getProductType());
+		        dto.setProductImgUrl(product.getProductImgUrl());
+		        dto.setProductEvent(product.getProductEvent());
+		        dto.setCreatedAt(product.getCreatedAt());
+		        dto.setProductTimeSale(product.getProductTimeSale());
+		        dtoList.add(dto);
+			}
+			
+			
+			return sliceList(dtoList, offset, limit);
 		}
 		
-		return dtoList;
+		else {
+			
+			List<Product> productEntityList = productRepository
+					.getProductDtoListByFilter(
+						productFilterDto.getSearchingTerm(),
+						productFilterDto.getEventNumber(),
+						productFilterDto.getSelect(),
+						PageRequest.of(offset, limit));//페이징 offset limit
+			
+			System.out.println(productEntityList);
+			
+			/* 중복 이름 처리, 중복 이름이 존재하면 아예 보여주지 않도록 함*/
+			List<ProductDto> dtoList = new ArrayList();
+			
+			for(Product product:productEntityList) {
+				boolean isContain = false;
+				
+				for(ProductDto dto:dtoList) {
+					String dtoProductName = dto.getProductTitle();
+					String entityProductName = product.getProductTitle();
+					if(dtoProductName.equals(entityProductName)) {
+						isContain = true;
+						break;
+					}
+				}
+				if(isContain) continue;
+				
+				ProductDto dto = new ProductDto();
+		        dto.setProductId(product.getProductId());
+		        dto.setPriceNumber(product.getPriceNumber());
+		        dto.setPriceString(product.getPriceString());
+		        dto.setProductTitle(product.getProductTitle());
+		        dto.setProductExpirationDate(product.getProductExpirationDate());
+		        dto.setProductType(product.getProductType());
+		        dto.setProductImgUrl(product.getProductImgUrl());
+		        dto.setProductEvent(product.getProductEvent());
+		        dto.setCreatedAt(product.getCreatedAt());
+		        dto.setProductTimeSale(product.getProductTimeSale());
+		        dtoList.add(dto);
+			}
+			
+			return dtoList;
+		}
 	}
 
 	@Override
