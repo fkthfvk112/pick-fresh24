@@ -1,6 +1,8 @@
 package mart.fresh.com.data.dao;
 
 import java.time.LocalDateTime;
+
+import mart.fresh.com.data.dto.ProductDto;
 import mart.fresh.com.data.entity.Member;
 
 
@@ -10,4 +12,5 @@ public interface MypageDao {
 	int checkEmail(String memberEmail);
 	int saveVerificationCode(String memberId, String verificationCode, LocalDateTime expiryTime);
 	int changeEmail(String memberId, String newEmail, String verificationCode);
+	boolean productRegistration(ProductDto dto);
 }

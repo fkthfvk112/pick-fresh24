@@ -80,6 +80,13 @@ public class CouponController {
 	@PostMapping("/coupon-down")
 	public ResponseEntity<String> couponDown(Authentication authentication, @RequestBody CouponDto couponDto) {
 		System.out.println("CouponController couponDown");
+		
+		
+		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
+		
+		if(memberAuth != 0) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("일반회원만 쿠폰을 받을 수 있습니다.");
+		}
 
 		try {
 			couponDto.setMemberId(authentication.getName());
@@ -106,7 +113,7 @@ public class CouponController {
 
 	        if (!request.containsKey("couponId")) {
 	            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-	                .body("coponId를 보내주세요.");
+	                .body("couponId를 보내주세요.");
 	        }
 
 	        int couponId = request.get("couponId");
