@@ -40,6 +40,8 @@ public class CouponController {
 			memberId = authentication.getName();
 		}
 		Page<CouponDto> exceptCouponList = couponService.exceptCouponList(memberId, page - 1, size);
+		
+		System.out.println("CouponController exceptCouponList : " + exceptCouponList.toString());
 		return ResponseEntity.ok(exceptCouponList);
 	}
 
