@@ -26,7 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 		       + "WHERE sp.store.storeId = :storeId")
 	List<Product> getProductsByStoreId(@Param("storeId") int storeId);
 	 
-	 
+	  
 	 //수정...?
 	 @Query("SELECT p FROM Product p "
 		       + "WHERE p.productTitle LIKE CONCAT('%', :searchingTerm, '%') "
@@ -57,7 +57,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 			@Param("storeId") int storeId,
 			Pageable pageable
 			);
-	 
+	  
 	@Query("SELECT DISTINCT p.productImgUrl " + "FROM Product p " + "WHERE p.productTitle = :productTitle")
 	String getProductImgUrlByProductTitle(String productTitle);
 
