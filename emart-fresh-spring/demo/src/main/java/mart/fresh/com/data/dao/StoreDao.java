@@ -18,5 +18,6 @@ public interface StoreDao {
 	Store findByMemberMemberId(String memberId);
 
 	Store findStoreByMemberId(String memberId);
+	List<Store> getStoreWitnNByProductName(double userLatitude, double userLongitude, int n, String partOfStoreName);
 
 }
