@@ -281,7 +281,10 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
 	        existingDto.setProductTitle(productTitle);
 	    }
-	    return new ArrayList<>(salesMap.values());
+	    
+	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
+	    return resultList.size() > 7 ? resultList.subList(0, 7) : resultList;
+
 	}
 
 	private List<StoreSalesProductTitleDto> processMonthlyProductTitleData(List<OrderedProductProduct> salesEntityList) {
@@ -295,7 +298,10 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
 	        existingDto.setProductTitle(productTitle);
 	    }
-	    return new ArrayList<>(salesMap.values());
+	    
+	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
+	    return resultList.size() > 7 ? resultList.subList(0, 7) : resultList;
+
 	}
 
 	private List<StoreSalesProductTitleDto> processYearlyProductTitleData(List<OrderedProductProduct> salesEntityList) {
@@ -309,7 +315,10 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
 	        existingDto.setProductTitle(productTitle);
 	    }
-	    return new ArrayList<>(salesMap.values());
+	    
+	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
+	    return resultList.size() > 7 ? resultList.subList(0, 7) : resultList;
+
 	}
 
 	@Override
