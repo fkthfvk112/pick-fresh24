@@ -218,7 +218,7 @@ public class CartDaoImpl implements CartDao {
 	}
 
 	@Override
-	public String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult) {
+	public String recoverStoreProductQuantity(String memberId, ProductProcessResult productProcessResult) {
 		Cart cart = cartRepository.findByMember_MemberId(memberId);
 		Store store = cart.getStore();
 

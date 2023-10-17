@@ -53,7 +53,7 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult) {
+	public String recoverStoreProductQuantity(String memberId, ProductProcessResult productProcessResult) {
 		return cartDao.recoverCartProductQuantity(memberId, productProcessResult);
 	}
 

@@ -249,15 +249,15 @@ public class CartController {
 	    }
 	}
 
-	@PostMapping("/recoverCartProduct")
-	public ResponseEntity<String> recoverCartProductQuantity(Authentication authentication, @RequestBody ProductProcessResult productProcessResult) {
+	@PostMapping("/recoverStoreProduct")
+	public ResponseEntity<String> recoverStoreProductQuantity(Authentication authentication, @RequestBody ProductProcessResult productProcessResult) {
 	    String memberId = authentication.getName();
-	    System.out.println("CartController 결제 취소로 재고 회복 " + new Date());
+	    System.out.println("CartController 결제 취소로 가게 재고 회복 " + new Date());
 
-	    String result = cartService.recoverCartProductQuantity(memberId, productProcessResult);
+	    String result = cartService.recoverStoreProductQuantity(memberId, productProcessResult);
 
 	    if (result.equals("success")) {
-	        return ResponseEntity.ok("재고 회복 성공");
+	        return ResponseEntity.ok("가게 재고 회복 성공");
 	    } else {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
 	    }
