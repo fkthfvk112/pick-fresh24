@@ -230,26 +230,18 @@ public class CartDaoImpl implements CartDao {
 			Integer productId = entry.getKey();
 			Integer recoveredQuantity = entry.getValue();
 
-			CartProduct cartProduct = cartProductRepository.findByCartCartIdAndProductProductId(cart.getCartId(),
-					productId);
 			StoreProduct storeProduct = storeProductObjRepository
 					.findByStoreStoreIdAndProductProductId(store.getStoreId(), productId);
 
-			if (cartProduct == null || storeProduct == null) {
+			if (storeProduct == null) {
 				System.out.println("productId " + productId + "인 상품을 찾지 못함.");
 
 				for (Map.Entry<Integer, Integer> successfulEntry : successfulRecoveries.entrySet()) {
 					Integer successfulProductId = successfulEntry.getKey();
 					Integer successfulRecoveredQuantity = successfulEntry.getValue();
 
-					CartProduct successfulCartProduct = cartProductRepository
-							.findByCartCartIdAndProductProductId(cart.getCartId(), successfulProductId);
 					StoreProduct successfulStoreProduct = storeProductObjRepository
 							.findByStoreStoreIdAndProductProductId(store.getStoreId(), successfulProductId);
-
-					successfulCartProduct.setCartProductQuantity(
-							successfulCartProduct.getCartProductQuantity() - successfulRecoveredQuantity);
-					cartProductRepository.save(successfulCartProduct);
 
 					successfulStoreProduct.setStoreProductStock(
 							successfulStoreProduct.getStoreProductStock() - successfulRecoveredQuantity);
@@ -259,9 +251,6 @@ public class CartDaoImpl implements CartDao {
 			}
 
 			successfulRecoveries.put(productId, recoveredQuantity);
-
-			cartProduct.setCartProductQuantity(cartProduct.getCartProductQuantity() + recoveredQuantity);
-			cartProductRepository.save(cartProduct);
 
 			storeProduct.setStoreProductStock(storeProduct.getStoreProductStock() + recoveredQuantity);
 			storeProductObjRepository.save(storeProduct);
