@@ -57,13 +57,17 @@ public class CartController {
 	    List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
 	    List<CartInfoDto> filteredCartInfoList = new ArrayList<>();
 	    
+	    System.out.println("getCartIngfo - cartInfoList" + cartInfoList);
 	    for (CartInfoDto cartInfo : cartInfoList) {
 	        if (cartInfo.getCartProductQuantity() > 0) {
 	            filteredCartInfoList.add(cartInfo);
 	        }
 	    }
+	    System.out.println("getCartIngfo - filteredCartInfoList" + filteredCartInfoList);
 
 	    if (filteredCartInfoList.isEmpty()) {
+		    System.out.println("no content");
+
 	        return ResponseEntity.noContent().build();
 	    } else {
 	        return ResponseEntity.ok(filteredCartInfoList);
