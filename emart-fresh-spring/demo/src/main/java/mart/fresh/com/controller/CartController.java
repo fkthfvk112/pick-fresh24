@@ -59,6 +59,9 @@ public class CartController {
 	    
 	    for (CartInfoDto cartInfo : cartInfoList) {
 	        if (cartInfo.getCartProductQuantity() > 0) {
+	        	Store store = storeService.findByStoreId(cartInfo.getStoreId());
+	        	String storeName = store.getStoreName();
+	        	cartInfo.setStoreName(storeName);
 	            filteredCartInfoList.add(cartInfo);
 	        }
 	    }

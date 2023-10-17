@@ -17,10 +17,10 @@ public interface CartRepository extends JpaRepository<Cart, Integer>{
     List<Cart> findByMemberMemberId(String memberId);
     Cart findByMember(Member member);
     
-    @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.productImgUrl, p.priceNumber, p.productTimeSale, cp.cartProductQuantity, c.store.storeId) " +
+    @Query("SELECT NEW mart.fresh.com.data.dto.CartInfoDto(c.cartId, cp.cartProductId, p.productId, p.productTitle, p.productImgUrl, p.priceNumber, p.productTimeSale, cp.cartProductQuantity, c.store.storeId, c.store.storeName) " +
     	       "FROM CartProduct cp " +
     	       "JOIN cp.cart c " +
-    	       "JOIN cp.product p " +
+    	       "JOIN cp.product p " + 
     	       "WHERE c.member.memberId = :memberId")
     	List<CartInfoDto> getCartInfoByMemberId(@Param("memberId") String memberId);
     
