@@ -58,12 +58,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 			Pageable pageable
 			);
 	 
-	 @Query("SELECT p.productImgUrl "
-			 + "FROM Product p "
-			 + "WHERE p.productTitle = :productTitle")
-	 String getProductImgUrlByProductTitle(String productTitle);
-	 
-	 
+	@Query("SELECT DISTINCT p.productImgUrl " + "FROM Product p " + "WHERE p.productTitle = :productTitle")
+	String getProductImgUrlByProductTitle(String productTitle);
+
 	 @Query("SELECT p FROM Product p WHERE p.productExpirationDate <= :sixHoursFromNow")
 	 List<Product> findProductTimeSale(LocalDateTime sixHoursFromNow);
 
@@ -71,4 +68,3 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	Product findByProductId(int productId);
 	 
 }
-
