@@ -53,14 +53,19 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public String recoverCartProductQuantity(String memberId, ProductProcessResult productProcessResult) {
-		return cartDao.recoverCartProductQuantity(memberId, productProcessResult);
+	public String recoverStoreProductQuantity(String memberId, ProductProcessResult productProcessResult) {
+		return cartDao.recoverStoreProductQuantity(memberId, productProcessResult);
 	}
 
 	@Override
-	public ProductProcessResult decreaseCartProductQuantity1(String memberId, List<ProductInfoDto> productInfoList) {
-		return cartDao.decreaseCartProductQuantity1(memberId, productInfoList);
+	public ProductProcessResult decreaseStoretProductQuantity(String memberId, List<ProductInfoDto> productInfoList) {
+		return cartDao.decreaseStoretProductQuantity(memberId, productInfoList);
 		
+	}
+
+	@Override
+	public ProductProcessResult decreaseCartProductQuantity(String memberId, List<ProductInfoDto> productInfoList) {
+		return cartDao.decreaseCartProductQuantity(memberId, productInfoList);
 	}
 
 }

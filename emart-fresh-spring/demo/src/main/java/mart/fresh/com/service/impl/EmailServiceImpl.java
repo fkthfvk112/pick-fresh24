@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
 	              
 	              htmlContent.append("<p style='font-size: 10px;'>홈페이지에서 리스트를 확인해주세요.<br><br>");
 	              htmlContent.append(
-	                    "<a href='http://localhost:9100/LoginJwt' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
+	                    "<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
 
 	              htmlContent.append("</div></body></html>");
 
@@ -111,7 +111,7 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("<p style='font-size: 10px;'>타인이 고객님의 계정정보를 도용해 인증을 요청했을 수 있습니다.</p>");
 			htmlContent.append("<p style='font-size: 10px;'>계정정보 유출이 의심된다면 ‘내정보’에서 비밀번호를 변경해주세요.<br><br>");
 			htmlContent.append(
-					"<a href='http://localhost:9100/LoginJwt' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>비밀번호 변경</b></a>");
+					"<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>비밀번호 변경</b></a>");
 
 			htmlContent.append("</div></body></html>");
 
@@ -177,7 +177,7 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("<p style='font-size: 10px;'>타인이 고객님의 계정정보를 도용해 인증을 요청했을 수 있습니다.</p>");
 			htmlContent.append("<p style='font-size: 10px;'>계정정보 유출이 의심된다면 ‘내정보’에서 비밀번호를 변경해주세요.<br><br>");
 			htmlContent.append(
-					"<a href='http://localhost:9100/LoginJwt' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>비밀번호 변경</b></a>");
+					"<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>비밀번호 변경</b></a>");
 			htmlContent.append("</div></body></html>");
 
 			helper.setText(htmlContent.toString(), true);
@@ -224,7 +224,7 @@ public class EmailServiceImpl implements EmailService {
               
               htmlContent.append("<p style='font-size: 10px;'>홈페이지에서 인증번호를 입력해주세요.<br><br>");
               htmlContent.append(
-                    "<a href='http://localhost:9100/mypage' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
+                    "<a href='http://pick-fresh24.com/mypage' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
 
               htmlContent.append("</div></body></html>");
 
