@@ -18,5 +18,7 @@ public interface CouponService {
 
 	void deleteByMemberMemberIdAndCouponId(String memberId, int couponId);
 
+	void updateCouponDel(String memberId, int couponId);
+
 	
 }

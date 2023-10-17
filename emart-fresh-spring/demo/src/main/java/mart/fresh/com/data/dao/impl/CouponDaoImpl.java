@@ -168,4 +168,11 @@ public class CouponDaoImpl implements CouponDao {
 
 	}
 
+	@Override
+	public void updateCouponDel(String memberId, int couponId) {
+		Coupon coupon = couponRepository.findByCouponId(couponId);
+		coupon.setCouponDel(true);
+		couponRepository.save(coupon);
+	}
+
 }
