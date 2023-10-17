@@ -283,7 +283,9 @@ public class MypageServiceImpl implements MypageService {
 	    }
 	    
 	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
-	    return resultList.size() > 7 ? resultList.subList(0, 7) : resultList;
+	    resultList.sort((dto1, dto2) -> -Integer.compare(dto1.getOrderedQuantity(), dto2.getOrderedQuantity())); // 내림차순 정렬
+
+	    return resultList.subList(0, Math.min(7, resultList.size())); // 상위 7개 반환
 
 	}
 
@@ -300,7 +302,9 @@ public class MypageServiceImpl implements MypageService {
 	    }
 	    
 	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
-	    return resultList.size() > 7 ? resultList.subList(0, 7) : resultList;
+	    resultList.sort((dto1, dto2) -> -Integer.compare(dto1.getOrderedQuantity(), dto2.getOrderedQuantity())); // 내림차순 정렬
+
+	    return resultList.subList(0, Math.min(7, resultList.size())); // 상위 7개 반환
 
 	}
 
@@ -317,7 +321,9 @@ public class MypageServiceImpl implements MypageService {
 	    }
 	    
 	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
-	    return resultList.size() > 7 ? resultList.subList(0, 7) : resultList;
+	    resultList.sort((dto1, dto2) -> -Integer.compare(dto1.getOrderedQuantity(), dto2.getOrderedQuantity())); // 내림차순 정렬
+
+	    return resultList.subList(0, Math.min(7, resultList.size())); // 상위 7개 반환
 
 	}
 
