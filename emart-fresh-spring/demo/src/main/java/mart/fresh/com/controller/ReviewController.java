@@ -110,6 +110,13 @@ public class ReviewController {
 				System.out.println("리뷰 저장 실패: 리뷰 점수가 유효 범위를 벗어남");
 				return ResponseEntity.badRequest().body("리뷰 저장 실패: 리뷰 점수가 유효 범위를 벗어남");
 			}
+			
+			Review existingReview = orderedProductProduct.getReview();
+			if (existingReview != null) {
+				System.out.println("리뷰 저장 실패: 이미 리뷰가 있음");
+				return ResponseEntity.badRequest().body("리뷰 저장 실패: 이미 리뷰를 달았음");
+			}
+			
 			review.setReviewScore(review.getReviewScore());
 			review.setReviewDate(new Timestamp(System.currentTimeMillis()));
 
