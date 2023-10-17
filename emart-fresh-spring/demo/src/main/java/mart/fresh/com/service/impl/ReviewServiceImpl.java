@@ -27,7 +27,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     private ReviewDto convertEntityToDto(Review entity) {
         ReviewDto dto = new ReviewDto();
-   	 	String productImgUrl = productRepository.getProductImgUrlByProductTitle(entity.getProductTitle());
+        
+        List<String> productImgUrls = productRepository.getProductImgUrlsByProductTitle(entity.getProductTitle());
+        String productImgUrl =productImgUrls.get(0);
         
         dto.setProductImgUrl(productImgUrl);
         dto.setReviewId(entity.getReviewId());
