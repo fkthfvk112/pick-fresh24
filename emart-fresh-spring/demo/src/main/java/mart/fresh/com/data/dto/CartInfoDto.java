@@ -13,8 +13,9 @@ public class CartInfoDto {
     private int productTimeSale;
     private int cartProductQuantity;
     private int storeId;
+    private String storeName;
 
-    public CartInfoDto(int cartId, int cartProductId, int productId, String productTitle, String productImgUrl, int priceNumber, int productTimeSale, int cartProductQuantity, int storeId) {
+    public CartInfoDto(int cartId, int cartProductId, int productId, String productTitle, String productImgUrl, int priceNumber, int productTimeSale, int cartProductQuantity, int storeId, String storeName) {
         this.cartId = cartId;
         this.cartProductId = cartProductId;
         this.productId = productId;
@@ -24,6 +25,7 @@ public class CartInfoDto {
         this.productTimeSale = productTimeSale;
         this.cartProductQuantity = cartProductQuantity;
         this.storeId = storeId;
+        this.storeName = storeName;
     }
 }
 
