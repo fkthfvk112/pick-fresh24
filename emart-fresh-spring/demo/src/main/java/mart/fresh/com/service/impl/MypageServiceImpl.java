@@ -281,7 +281,12 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
 	        existingDto.setProductTitle(productTitle);
 	    }
-	    return new ArrayList<>(salesMap.values());
+	    
+	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
+	    resultList.sort((dto1, dto2) -> -Integer.compare(dto1.getOrderedQuantity(), dto2.getOrderedQuantity())); // 내림차순 정렬
+
+	    return resultList.subList(0, Math.min(7, resultList.size())); // 상위 7개 반환
+
 	}
 
 	private List<StoreSalesProductTitleDto> processMonthlyProductTitleData(List<OrderedProductProduct> salesEntityList) {
@@ -295,7 +300,12 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
 	        existingDto.setProductTitle(productTitle);
 	    }
-	    return new ArrayList<>(salesMap.values());
+	    
+	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
+	    resultList.sort((dto1, dto2) -> -Integer.compare(dto1.getOrderedQuantity(), dto2.getOrderedQuantity())); // 내림차순 정렬
+
+	    return resultList.subList(0, Math.min(7, resultList.size())); // 상위 7개 반환
+
 	}
 
 	private List<StoreSalesProductTitleDto> processYearlyProductTitleData(List<OrderedProductProduct> salesEntityList) {
@@ -309,7 +319,12 @@ public class MypageServiceImpl implements MypageService {
 	        existingDto.setOrderedQuantity(existingDto.getOrderedQuantity() + salesData.getOrderedQuantity());
 	        existingDto.setProductTitle(productTitle);
 	    }
-	    return new ArrayList<>(salesMap.values());
+	    
+	    List<StoreSalesProductTitleDto> resultList = new ArrayList<>(salesMap.values());
+	    resultList.sort((dto1, dto2) -> -Integer.compare(dto1.getOrderedQuantity(), dto2.getOrderedQuantity())); // 내림차순 정렬
+
+	    return resultList.subList(0, Math.min(7, resultList.size())); // 상위 7개 반환
+
 	}
 
 	@Override
