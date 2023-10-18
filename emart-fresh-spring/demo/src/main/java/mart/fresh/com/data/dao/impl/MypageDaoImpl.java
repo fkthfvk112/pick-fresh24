@@ -9,21 +9,26 @@ import org.springframework.stereotype.Component;
 import jakarta.transaction.Transactional;
 import mart.fresh.com.data.dao.MypageDao;
 import mart.fresh.com.data.dto.MypageDto;
+import mart.fresh.com.data.dto.ProductDto;
 import mart.fresh.com.data.dto.StoreSalesAmountDto;
 import mart.fresh.com.data.entity.ApplyManager;
 import mart.fresh.com.data.entity.Member;
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.repository.MypageRepository;
+import mart.fresh.com.data.repository.ProductRepository;
 
 @Component
 public class MypageDaoImpl implements MypageDao {
 
 	private final MypageRepository mypageRepository;
 	private final BCryptPasswordEncoder encoder;
+	private final ProductRepository productRepository;
 
 	@Autowired
-	public MypageDaoImpl(MypageRepository mypageRepository, BCryptPasswordEncoder encoder) {
+	public MypageDaoImpl(MypageRepository mypageRepository, BCryptPasswordEncoder encoder, ProductRepository productRepository) {
 		this.mypageRepository = mypageRepository;
 		this.encoder = encoder;
+		this.productRepository = productRepository;
 	}
 
 	@Override
@@ -102,6 +107,22 @@ public class MypageDaoImpl implements MypageDao {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public boolean productRegistration(ProductDto dto) {
+		Product productEntity = new Product();
+		productEntity.setCreatedAt(dto.getCreatedAt());
+		productEntity.setPriceNumber(dto.getPriceNumber());
+		productEntity.setPriceString(dto.getPriceString());
+		productEntity.setPriceNumber(dto.getPriceNumber());
+		productEntity.setProductExpirationDate(dto.getProductExpirationDate());
+		productEntity.setProductImgUrl(dto.getProductImgUrl());
+		productEntity.setProductTimeSale(dto.getProductTimeSale());
+		productEntity.setProductTitle(dto.getProductTitle());
+		productEntity.setProductType(dto.getProductType());
+		
+		return productRepository.save(productEntity) != null;
 	}
 
 }

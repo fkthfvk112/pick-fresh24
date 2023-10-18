@@ -1,4 +1,4 @@
-package mart.fresh.com.data.repository;
+ package mart.fresh.com.data.repository;
 
 import java.sql.Timestamp;
 import java.util.Date;

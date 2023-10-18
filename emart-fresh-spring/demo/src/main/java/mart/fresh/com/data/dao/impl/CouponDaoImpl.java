@@ -20,6 +20,7 @@ import mart.fresh.com.data.dto.CouponDto;
 import mart.fresh.com.data.entity.Coupon;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.CouponRepository;
+import mart.fresh.com.data.repository.MemberRepository;
 import mart.fresh.com.data.repository.MypageRepository;
 
 @Component
@@ -44,14 +45,14 @@ public class CouponDaoImpl implements CouponDao {
 
 		// CouponDto에서 필요한 데이터 추출
 		Timestamp couponExpirationDate = couponDto.getCouponExpirationDate();
-		
+
 		if (couponExpirationDate != null) {
-			 Calendar calendar = Calendar.getInstance();
-			    calendar.setTimeInMillis(couponExpirationDate.getTime());
-			    calendar.set(Calendar.HOUR_OF_DAY, 23);
-			    calendar.set(Calendar.MINUTE, 59);
-			    calendar.set(Calendar.SECOND, 59);
-			    couponExpirationDate.setTime(calendar.getTimeInMillis());
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(couponExpirationDate.getTime());
+			calendar.set(Calendar.HOUR_OF_DAY, 23);
+			calendar.set(Calendar.MINUTE, 59);
+			calendar.set(Calendar.SECOND, 59);
+			couponExpirationDate.setTime(calendar.getTimeInMillis());
 		}
 
 		int couponType = couponDto.getCouponType();
@@ -87,10 +88,10 @@ public class CouponDaoImpl implements CouponDao {
 
 		Member member = mypageRepository.findMemberByMemberId(couponDto.getMemberId());
 
-		int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(couponType, couponTitle,
-				couponDto.getMemberId());
-		
-		System.out.println("countByCouponTypeAndCouponTitleAndMemberMemberId : " + count);
+		int count = couponRepository.countByCouponTypeAndCouponTitleAndCouponExpirationDateAndMemberMemberId (
+				couponType, couponTitle, couponExpirationDate, couponDto.getMemberId());
+
+		System.out.println("CouponDaoImpl countByCouponTypeAndCouponTitleAndCouponExpirationDateAndMemberMemberId : " + count);
 
 		if (count > 0) {
 			return 0;
@@ -118,42 +119,49 @@ public class CouponDaoImpl implements CouponDao {
 		System.out.println("CouponDaoImpl exceptCouponList : " + memberId);
 		Pageable pageable = PageRequest.of(page, size);
 		int memberAuth = 2;
-
+		
 		Page<Coupon> couponList = new PageImpl<Coupon>(Collections.emptyList());
 		List<CouponDto> responseList = new ArrayList<>();
-
+		
+		
 		couponList = couponRepository.exceptCouponList(pageable, memberAuth);
 		long totalCount = couponList.getTotalElements();
 		System.out.println("Total count of coupons: " + totalCount);
-		
-		if (memberId != null) {
-		    for (Coupon coupon : couponList.getContent()) {
-		        int count = couponRepository.countByCouponTypeAndCouponTitleAndMemberMemberId(coupon.getCouponType(),
-		                coupon.getCouponTitle(), memberId);
-		        boolean isExisting = count > 0;
 
-		        CouponDto couponDto = new CouponDto();
-		        couponDto.setCouponId(coupon.getCouponId());
-		        couponDto.setMemberId(coupon.getMember().getMemberId());
-		        couponDto.setCouponExpirationDate(coupon.getCouponExpirationDate());
-		        couponDto.setCouponType(coupon.getCouponType());
-		        couponDto.setCouponTitle(coupon.getCouponTitle());
-		        couponDto.setExisting(isExisting);
-		        
-		        responseList.add(couponDto);
-		    }
+		if (memberId != null) {
+			for (Coupon coupon : couponList.getContent()) {
+				int count = couponRepository.countByCouponTypeAndCouponTitleAndCouponExpirationDateAndMemberMemberId(
+						coupon.getCouponType(), coupon.getCouponTitle(), coupon.getCouponExpirationDate(), memberId);
+				Member member = mypageRepository.findMemberByMemberId(memberId);
+				int authCheck = member.getMemberAuth();
+				
+				boolean isExisting = count > 0;
+				boolean isAdmin = authCheck == 2;
+				
+				CouponDto couponDto = new CouponDto();
+				couponDto.setCouponId(coupon.getCouponId());
+				couponDto.setMemberId(coupon.getMember().getMemberId());
+				couponDto.setCouponExpirationDate(coupon.getCouponExpirationDate());
+				couponDto.setCouponType(coupon.getCouponType());
+				couponDto.setCouponTitle(coupon.getCouponTitle());
+				couponDto.setExisting(isExisting);
+				couponDto.setAdmin(isAdmin);
+				
+				responseList.add(couponDto);
+			}
 		} else {
-		    for (Coupon coupon : couponList.getContent()) {
-		        CouponDto couponDto = new CouponDto();
-		        couponDto.setCouponId(coupon.getCouponId());
-		        couponDto.setMemberId(coupon.getMember().getMemberId());
-		        couponDto.setCouponExpirationDate(coupon.getCouponExpirationDate());
-		        couponDto.setCouponType(coupon.getCouponType());
-		        couponDto.setCouponTitle(coupon.getCouponTitle());
-		        couponDto.setExisting(false);
-		        
-		        responseList.add(couponDto);
-		    }
+			for (Coupon coupon : couponList.getContent()) {
+				CouponDto couponDto = new CouponDto();
+				couponDto.setCouponId(coupon.getCouponId());
+				couponDto.setMemberId(coupon.getMember().getMemberId());
+				couponDto.setCouponExpirationDate(coupon.getCouponExpirationDate());
+				couponDto.setCouponType(coupon.getCouponType());
+				couponDto.setCouponTitle(coupon.getCouponTitle());
+				couponDto.setExisting(false);
+				couponDto.setAdmin(false);
+				
+				responseList.add(couponDto);
+			}
 		}
 
 		Page<CouponDto> responses = new PageImpl<>(responseList, pageable, totalCount);
@@ -165,7 +173,7 @@ public class CouponDaoImpl implements CouponDao {
 	@Transactional
 	public void deleteByMemberMemberIdAndCouponId(String memberId, int couponId) {
 		couponRepository.deleteByMemberMemberIdAndCouponId(memberId, couponId);
-		
+
 	}
 
 	@Override

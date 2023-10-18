@@ -75,16 +75,18 @@ public class EventServiceImpl implements EventService {
 		return convertEventToDto(event);
 	}
 
-	public String uploadImage(MultipartFile imageFile) throws Exception {
-		try {
-			Map<?, ?> uploadResult = cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.emptyMap());
+	 public String uploadImage(MultipartFile imageFile) throws Exception {
+	        try {
+	            // 이미지 업로드 요청에 format 및 quality 옵션 추가
+	            Map<?, ?> uploadResult = cloudinary.uploader().upload(imageFile.getBytes(),
+	                    ObjectUtils.asMap("format", "webp", "quality", "auto")); // WebP 형식으로 저장
 
-			return uploadResult.get("secure_url").toString();
+	            return uploadResult.get("secure_url").toString();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            throw e;
+	        }
 
 	}
 

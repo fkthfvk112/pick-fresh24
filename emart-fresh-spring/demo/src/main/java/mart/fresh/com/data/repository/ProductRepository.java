@@ -58,10 +58,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 			Pageable pageable
 			);
 	 
-	 @Query("SELECT p.productImgUrl "
-			 + "FROM Product p "
-			 + "WHERE p.productTitle = :productTitle")
-	 String getProductImgUrlByProductTitle(String productTitle);
+	 @Query("SELECT p.productImgUrl FROM Product p WHERE p.productTitle = :productTitle")
+	 List<String> getProductImgUrlsByProductTitle(String productTitle);
 	 
 	 
 	 @Query("SELECT p FROM Product p WHERE p.productExpirationDate <= :sixHoursFromNow")
