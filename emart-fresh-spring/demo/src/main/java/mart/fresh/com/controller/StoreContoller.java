@@ -1,5 +1,6 @@
 package mart.fresh.com.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.GetStoreInDisDto;
 import mart.fresh.com.data.dto.GetStoreRequestDto;
+import mart.fresh.com.data.dto.ProductProcessResult;
 import mart.fresh.com.data.dto.GetStoreInDisMapDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
@@ -86,4 +88,22 @@ private final StoreService storeService;
 
         return ResponseEntity.ok(storeList);
     }
+	
+	@GetMapping("/stock")
+    public ResponseEntity<Object> getStoreProductStock(@RequestParam("storeId") int storeId, @RequestParam("productTitle") String productTitle) {
+        System.out.println("StoreController 가게 상품 재고 보여주기 " + new Date());
+        try {
+            int stock = storeService.getStoreProductStock(storeId, productTitle);
+            return ResponseEntity.ok(stock);
+        } catch (RuntimeException e) {
+	        String errorMessage = e.getMessage();
+	        if (errorMessage.equals("notFoundStoreByStoreId")) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("notFoundStoreByStoreId");
+	        }
+        } catch (Exception e) {
+        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(-1);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 에러");
+    }
+        
 }

@@ -91,5 +91,11 @@ public class StoreServiceImpl implements StoreService {
         return storeDto;
     }
 
+
+	@Override
+	public int getStoreProductStock(int storeId, String productTitle) {
+		return storeDao.getStoreProductStock(storeId, productTitle);
+	}
+
 }
 

@@ -18,5 +18,6 @@ public interface StoreService {
 	int addStore(@RequestBody StoreDtoWithId dto);
 	Store findByStoreId(int storeId);
 	int findStoreIdByMemberId(String storeId);
-	List<StoreListDto> getStoresWithNANDStoreName(double userLatitude, double userLongitude, int n, String partOfStoreName); 
+	List<StoreListDto> getStoresWithNANDStoreName(double userLatitude, double userLongitude, int n, String partOfStoreName);
+	int getStoreProductStock(int storeId, String productTitle); 
 }

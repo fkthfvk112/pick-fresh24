@@ -7,7 +7,9 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import mart.fresh.com.data.dao.StoreDao;
 import mart.fresh.com.data.dto.GetStoreInDisDto;
@@ -15,7 +17,9 @@ import mart.fresh.com.data.dto.GetStoreInDisMapDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.dto.StoreDtoWithId;
 import mart.fresh.com.data.entity.Member;
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
+import mart.fresh.com.data.entity.StoreProduct;
 import mart.fresh.com.data.repository.ProductRepository;
 import mart.fresh.com.data.repository.StoreProductObjRepository;
 import mart.fresh.com.data.repository.StoreRepository;
@@ -26,12 +30,14 @@ public class StoreDaoImpl implements StoreDao {
 	
 	private final StoreProductObjRepository storeProductObjRepository;
 	private final StoreRepository storeRepository;
+	private final ProductRepository productRepository;
 	private final ModelMapper modelmapper;
 	
 	@Autowired
-	public StoreDaoImpl(StoreProductObjRepository storeProductObjRepository, StoreRepository storeRepository, ModelMapper modelMapper) {
+	public StoreDaoImpl(StoreProductObjRepository storeProductObjRepository, StoreRepository storeRepository, ProductRepository productRepository, ModelMapper modelMapper) {
 		this.storeProductObjRepository = storeProductObjRepository;
 		this.storeRepository = storeRepository;
+		this.productRepository = productRepository;
 		this.modelmapper = modelMapper;
 	}
 	
@@ -166,6 +172,33 @@ public class StoreDaoImpl implements StoreDao {
         
         return storeRepository.findStoreWitnNByProductName(minLatitude, maxLatitude, minLongitude, maxLongitude, partOfStoreName);
         
+	}
+
+	@Override
+	public int getStoreProductStock(int storeId, String productTitle) {
+		Store store = storeRepository.findByStoreId(storeId);
+        List<Product> productList = productRepository.findByProductTitle(productTitle);
+        
+		if (store == null) {
+			throw new RuntimeException("notFoundStoreByStoreId");
+	    }
+		
+	    List<StoreProduct> storeProductList = new ArrayList<>();
+
+	    for (Product product : productList) {
+	        List<StoreProduct> products = storeProductObjRepository.findByStoreAndProduct(store, product);
+	        if (products != null) {
+	            storeProductList.addAll(products);
+	        }
+	    }
+		
+		int storeProductStock = 0;
+		
+		for (StoreProduct storeProduct : storeProductList) {
+	        storeProductStock += storeProduct.getStoreProductStock();
+	    }
+		
+		return storeProductStock;
 	}
 
 }
