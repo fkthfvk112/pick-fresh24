@@ -66,14 +66,23 @@ public class CartDaoImpl implements CartDao {
 		List<Cart> cartList = cartRepository.findByMemberMemberId(memberId);
 
 		Cart cart = cartList.get(0);
-
+		
 		if (cart == null)
 			return "장바구니 테이블 생성 안 되어있음";
+		
+		if (cart.getStore() == null) {
+	        Store store = new Store();
+	        store.setStoreId(storeId);
+	        cart.setStore(store);
+	        cartRepository.save(cart);
+	    }
+		
 
 		// 다른 가게가 카트에 이미 존재하면 에러 :
-		// 0은 빈 상태, 즉 에러 X
-		if (cart.getStore().getStoreId() != 0 && cart.getStore().getStoreId() != storeId)
-			return "error:another store exist";
+		// 0은 빈 상태, 즉 에러 X		
+		if (cart.getStore().getStoreId() != 0 && cart.getStore().getStoreId() != storeId) {
+	        return "error:another store exist";
+	    }
 
 		System.out.println("-------------adst : ");
 		Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());

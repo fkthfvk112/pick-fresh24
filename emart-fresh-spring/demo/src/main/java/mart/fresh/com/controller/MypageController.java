@@ -72,12 +72,12 @@ public class MypageController {
 	public ResponseEntity<String> checkEmail(Authentication authentication, @RequestBody String newEmail) {
 		System.out.println("MypageController checkEmail : " + newEmail);
 
+		JSONObject jsonobject = new JSONObject(newEmail);
+		String memberEmail = jsonobject.getString("newEmail").trim();
+		
 		if (!StringUtils.hasText(newEmail)) {
 			return ResponseEntity.badRequest().body("입력 값이 없습니다.");
 		}
-
-		JSONObject jsonobject = new JSONObject(newEmail);
-		String memberEmail = jsonobject.getString("newEmail").trim();
 
 		boolean isS = mypageService.checkEmail(memberEmail);
 
@@ -146,7 +146,6 @@ public class MypageController {
 	}
 
 	@GetMapping("/saleschart")
-//	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
 	public ResponseEntity<List<StoreSalesAmountDto>> salesChart(Authentication authentication,
 			@RequestParam String searchDate, @RequestParam String period) {
 
@@ -164,7 +163,7 @@ public class MypageController {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 			LocalDate searchDateParsed = LocalDate.parse(searchDate, formatter);
-			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
+			LocalDateTime searchDateTime = searchDateParsed.atTime(23, 59, 59);
 			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
 
 			System.out.println("searchTimestamp : " + searchTimestamp);
@@ -181,7 +180,6 @@ public class MypageController {
 	}
 
 	@GetMapping("/typechart")
-//	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
 	public ResponseEntity<List<StoreSalesProductTypeDto>> typeChart(Authentication authentication,
 			@RequestParam String searchDate, @RequestParam String period) {
 
@@ -199,7 +197,7 @@ public class MypageController {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 			LocalDate searchDateParsed = LocalDate.parse(searchDate, formatter);
-			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
+			LocalDateTime searchDateTime = searchDateParsed.atTime(23, 59, 59);
 			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
 
 			System.out.println("searchTimestamp : " + searchTimestamp);
@@ -217,9 +215,9 @@ public class MypageController {
 	}
 
 	@GetMapping("/titlechart")
-//	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(@RequestParam String memberId, @RequestParam String searchDate, @RequestParam String period) {
 	public ResponseEntity<List<StoreSalesProductTitleDto>> titleChart(Authentication authentication,
 			@RequestParam String searchDate, @RequestParam String period) {
+		
 		System.out.println("MypageController titlechart");
 
 		String memberId = authentication.getName();
@@ -234,7 +232,7 @@ public class MypageController {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 			LocalDate searchDateParsed = LocalDate.parse(searchDate, formatter);
-			LocalDateTime searchDateTime = searchDateParsed.atStartOfDay();
+			LocalDateTime searchDateTime = searchDateParsed.atTime(23, 59, 59);
 			Timestamp searchTimestamp = convertToTimestamp(searchDateTime);
 
 			System.out.println("searchTimestamp : " + searchTimestamp);

@@ -20,6 +20,7 @@ import mart.fresh.com.data.dto.CouponDto;
 import mart.fresh.com.data.entity.Coupon;
 import mart.fresh.com.data.entity.Member;
 import mart.fresh.com.data.repository.CouponRepository;
+import mart.fresh.com.data.repository.MemberRepository;
 import mart.fresh.com.data.repository.MypageRepository;
 
 @Component
@@ -118,10 +119,11 @@ public class CouponDaoImpl implements CouponDao {
 		System.out.println("CouponDaoImpl exceptCouponList : " + memberId);
 		Pageable pageable = PageRequest.of(page, size);
 		int memberAuth = 2;
-
+		
 		Page<Coupon> couponList = new PageImpl<Coupon>(Collections.emptyList());
 		List<CouponDto> responseList = new ArrayList<>();
-
+		
+		
 		couponList = couponRepository.exceptCouponList(pageable, memberAuth);
 		long totalCount = couponList.getTotalElements();
 		System.out.println("Total count of coupons: " + totalCount);
@@ -130,8 +132,12 @@ public class CouponDaoImpl implements CouponDao {
 			for (Coupon coupon : couponList.getContent()) {
 				int count = couponRepository.countByCouponTypeAndCouponTitleAndCouponExpirationDateAndMemberMemberId(
 						coupon.getCouponType(), coupon.getCouponTitle(), coupon.getCouponExpirationDate(), memberId);
+				Member member = mypageRepository.findMemberByMemberId(memberId);
+				int authCheck = member.getMemberAuth();
+				
 				boolean isExisting = count > 0;
-
+				boolean isAdmin = authCheck == 2;
+				
 				CouponDto couponDto = new CouponDto();
 				couponDto.setCouponId(coupon.getCouponId());
 				couponDto.setMemberId(coupon.getMember().getMemberId());
@@ -139,7 +145,8 @@ public class CouponDaoImpl implements CouponDao {
 				couponDto.setCouponType(coupon.getCouponType());
 				couponDto.setCouponTitle(coupon.getCouponTitle());
 				couponDto.setExisting(isExisting);
-
+				couponDto.setAdmin(isAdmin);
+				
 				responseList.add(couponDto);
 			}
 		} else {
@@ -151,7 +158,8 @@ public class CouponDaoImpl implements CouponDao {
 				couponDto.setCouponType(coupon.getCouponType());
 				couponDto.setCouponTitle(coupon.getCouponTitle());
 				couponDto.setExisting(false);
-
+				couponDto.setAdmin(false);
+				
 				responseList.add(couponDto);
 			}
 		}

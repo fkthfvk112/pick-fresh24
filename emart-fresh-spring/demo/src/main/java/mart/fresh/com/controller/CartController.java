@@ -131,7 +131,7 @@ public class CartController {
 			Member member = memberService.findByMemberId(memberId);
 
 			Cart cart = cartService.findByMember(member);
-
+			CartProduct cartProduct = cartProductService.findByCart(cart);
 			if (cart == null) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cart not found for memberId: " + memberId);
 			}
@@ -141,6 +141,15 @@ public class CartController {
 				store.setStoreId(storeId);
 				cart.setStore(store);
 				cartService.saveCart(cart);
+			}
+			
+			if (cartProduct == null) {
+				System.out.println("카트가 비었다.");
+				cart.setStore(null);
+				cartService.saveCart(cart);
+				System.out.println("카트가 비었으니까 바로 추가해줄께");
+				return ResponseEntity.ok(cartService.addToCart(authentication.getName(), dto.getProductName(),
+						dto.getStoreId(), dto.getRequestQuantity()));
 			}
 
 			int cartStoreId = cart.getStore().getStoreId();
