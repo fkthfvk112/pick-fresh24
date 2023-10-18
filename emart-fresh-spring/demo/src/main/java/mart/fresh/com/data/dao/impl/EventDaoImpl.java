@@ -2,6 +2,7 @@ package mart.fresh.com.data.dao.impl;
 
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +26,32 @@ public class EventDaoImpl implements EventDao {
     }
     
     private Event convertDtoToEvent(EventDto dto) {
+    	
+
+        Timestamp eventEndDate = dto.getEventEndDate();
+        
+        if(eventEndDate != null) {
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTimeInMillis(eventEndDate.getTime());
+			calendar.set(Calendar.HOUR_OF_DAY, 23);
+			calendar.set(Calendar.MINUTE, 59);
+			calendar.set(Calendar.SECOND, 59);
+			eventEndDate.setTime(calendar.getTimeInMillis());
+        }
+        
         Event eventEntity = new Event();
         eventEntity.setEventTitle(dto.getEventTitle());
         eventEntity.setEventBannerImage(dto.getEventBannerImage());
         eventEntity.setEventDetailImage(dto.getEventDetailImage());
         eventEntity.setEventStartDate(dto.getEventStartDate());
-        eventEntity.setEventEndDate(dto.getEventEndDate());
+        eventEntity.setEventEndDate(eventEndDate);
         return eventEntity;
     }
     
     @Override
     public boolean eventUpdate(EventDto dto) {
         System.out.println("EventDaoImpl eventUpdate");
-
+        
         Event eventEntity = convertDtoToEvent(dto);
         Event savedEvent = eventRepository.save(eventEntity);
         
