@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.data.entity.StoreProduct;
 
@@ -34,4 +35,6 @@ public interface StoreProductObjRepository extends JpaRepository<StoreProduct, I
 	List<StoreProduct> findtStoreProuctByStoreId(@Param("storeId") int storeId);
 
 	StoreProduct findByStoreStoreIdAndProductProductId(int storeId, Integer productId);
+
+	List<StoreProduct> findByStoreAndProduct(Store store, Product product);
 }
