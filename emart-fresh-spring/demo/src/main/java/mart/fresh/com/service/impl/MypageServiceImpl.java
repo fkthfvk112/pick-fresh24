@@ -102,11 +102,11 @@ public class MypageServiceImpl implements MypageService {
 		System.out.println("MypageServiceImpl MypageServiceImpl salesChart : " + salesEntityList.toString());
 
 		switch (period) {
-		case "주간":
+		case "weekly":
 			return processWeeklyData(salesEntityList, searchDate);
-		case "월간":
+		case "monthly":
 			return processMonthlyData(salesEntityList, searchDate);
-		case "연간":
+		case "yearly":
 			return processYearlyData(salesEntityList, searchDate);
 		default:
 			throw new IllegalArgumentException("Invalid period value");
@@ -194,11 +194,11 @@ public class MypageServiceImpl implements MypageService {
 	    System.out.println("MypageServiceImpl productTypeChart : " + salesEntityList.toString());
 
 	    switch (period) {
-	    case "주간":
+	    case "weekly":
 	        return processWeeklyProductData(salesEntityList);
-	    case "월간":
+	    case "monthly":
 	        return processMonthlyProductData(salesEntityList);
-	    case "연간":
+	    case "yearly":
 	        return processYearlyProductData(salesEntityList);
 	    default:
 	        throw new IllegalArgumentException("Invalid period value");
@@ -259,11 +259,11 @@ public class MypageServiceImpl implements MypageService {
 	    System.out.println("MypageServiceImpl productTitleChart : " + salesTitleEntityList.toString());
 
 	    switch (period) {
-	    case "주간":
+	    case "weekly":
 	        return processWeeklyProductTitleData(salesTitleEntityList);
-	    case "월간":
+	    case "monthly":
 	        return processMonthlyProductTitleData(salesTitleEntityList);
-	    case "연간":
+	    case "yearly":
 	        return processYearlyProductTitleData(salesTitleEntityList);
 	    default:
 	        throw new IllegalArgumentException("Invalid period value");

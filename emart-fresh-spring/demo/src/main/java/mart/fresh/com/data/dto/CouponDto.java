@@ -12,4 +12,5 @@ public class CouponDto {
     private int couponType;
     private String couponTitle;
     private boolean isExisting;
+    private boolean isAdmin;
 }

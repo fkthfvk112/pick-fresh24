@@ -72,12 +72,12 @@ public class MypageController {
 	public ResponseEntity<String> checkEmail(Authentication authentication, @RequestBody String newEmail) {
 		System.out.println("MypageController checkEmail : " + newEmail);
 
+		JSONObject jsonobject = new JSONObject(newEmail);
+		String memberEmail = jsonobject.getString("newEmail").trim();
+		
 		if (!StringUtils.hasText(newEmail)) {
 			return ResponseEntity.badRequest().body("입력 값이 없습니다.");
 		}
-
-		JSONObject jsonobject = new JSONObject(newEmail);
-		String memberEmail = jsonobject.getString("newEmail").trim();
 
 		boolean isS = mypageService.checkEmail(memberEmail);
 
