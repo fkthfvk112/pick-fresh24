@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import mart.fresh.com.data.dto.OrderedCountDto;
 import mart.fresh.com.data.entity.OrderedProductProduct;
@@ -26,4 +27,9 @@ public interface OrderedProductProductRepository extends JpaRepository<OrderedPr
 	List<OrderedCountDto> findProductsByOrderedCount(int n);
 	
 	List<OrderedProductProduct> findByOrderedProductStoreStoreIdAndOrderedProductOrderedDateBetweenOrderByOrderedProductOrderedDateAsc(int storeId, Timestamp startDate, Timestamp endDate);
+
+	@Query("SELECT COUNT(opp) FROM OrderedProductProduct opp "
+			+ "WHERE opp.product.productTitle = :productName ")
+	int countOrderByProductName(@Param("productName") String productName);
+
 }

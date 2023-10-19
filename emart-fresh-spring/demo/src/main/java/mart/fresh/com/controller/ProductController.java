@@ -72,11 +72,7 @@ public class ProductController {
 			@RequestParam(defaultValue = "0")int offset,
 			@RequestParam(defaultValue = "30")int limit
 			){
-		
-		System.out.println("오프셋" + offset);
-		System.out.println("리미트" + limit);
 
-		
 		ProductFilterDto filterDto = new ProductFilterDto();
 		filterDto.setSearchingTerm(searchingTerm);
 		filterDto.setEventNumber(eventNumber);

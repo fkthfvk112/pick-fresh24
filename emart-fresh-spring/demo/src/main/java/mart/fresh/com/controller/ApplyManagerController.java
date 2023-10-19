@@ -83,7 +83,6 @@ public class ApplyManagerController {
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
 		}
-
 	}
 
 }
