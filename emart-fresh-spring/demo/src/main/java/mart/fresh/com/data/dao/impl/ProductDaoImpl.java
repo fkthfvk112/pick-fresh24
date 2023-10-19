@@ -24,12 +24,15 @@ public class ProductDaoImpl implements ProductDao{
 	
 	private final ProductRepository productRepository;
 	private final OrderedProductProductRepository orderedProductProductRepository;
+	private final StoreDaoImpl storeDaoImpl;
 	
 	@Autowired
 	public ProductDaoImpl(ProductRepository productRepository,
-			OrderedProductProductRepository orderedProductProductRepository) {
+			OrderedProductProductRepository orderedProductProductRepository,
+			StoreDaoImpl storeDaoImpl) {
 		this.productRepository = productRepository;
 		this.orderedProductProductRepository = orderedProductProductRepository;
+		this.storeDaoImpl = storeDaoImpl;
 	}
 	
 	@Override
@@ -84,6 +87,20 @@ public class ProductDaoImpl implements ProductDao{
 	    return resultList;
 	}
 
+	
+	public List<ProductDto> deleteStoreProduct_stockIsZero(List<ProductDto> productList, int storeId) {
+		List<ProductDto> notZeroProductList = new ArrayList<>();
+		
+		for(ProductDto dto:productList) {
+			if(storeDaoImpl.getStoreProductStock(storeId, dto.getProductTitle()) > 0) {
+				notZeroProductList.add(dto);
+			}
+					
+		}
+		
+		return notZeroProductList;
+	}
+	
 	@Override
 	public List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
 		System.out.println("-------getProductDtoListByFilter");
@@ -153,7 +170,7 @@ public class ProductDaoImpl implements ProductDao{
 		        dtoList.add(dto);
 			}
 			
-			
+						
 			return sliceList(dtoList, offset, limit);
 		}
 		
@@ -206,45 +223,116 @@ public class ProductDaoImpl implements ProductDao{
 	public List<ProductDto> getStoreProductsByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
 		System.out.println("-------getStoreProductsByFilter id : " + productFilterDto.getStoreId());
 
-		List<Product> productEntityList = productRepository
-				.getStoreProductDtoListByFilter(
-					productFilterDto.getSearchingTerm(),
-					productFilterDto.getEventNumber(),
-					productFilterDto.getSelect(),
-					productFilterDto.getStoreId(),
-					PageRequest.of(offset, limit));//페이징 offset limit
-		
-		System.out.println(productEntityList);
-		
-		List<ProductDto> dtoList = new ArrayList();
-		
-		for(Product product:productEntityList) {
-			boolean isContain = false;
-			for(ProductDto dto:dtoList) {
-				String dtoProductName = dto.getProductTitle();
-				String entityProductName = product.getProductTitle();
-				if(dtoProductName.equals(entityProductName)) {
-					isContain = true;
-					break;
+		if(productFilterDto.getSelect() == 3) {
+			List<Product> productEntityList = productRepository
+					.getStoreProductDtoListByFilterNotPagable(
+						productFilterDto.getSearchingTerm(),
+						productFilterDto.getEventNumber(),
+						productFilterDto.getStoreId());
+			
+			List<ProductWithOrderCountDto> productWithOrderCount = new ArrayList<>();
+			
+			for(Product product: productEntityList) {
+				int orderCount = getOrderNumberByProductName(product.getProductTitle());
+				System.out.println("오더 카운트" + orderCount);
+				ProductWithOrderCountDto pod = new ProductWithOrderCountDto();
+				pod.setProductId(product.getProductId());
+				pod.setPriceNumber(product.getPriceNumber());
+				pod.setPriceString(product.getPriceString());
+				pod.setProductTitle(product.getProductTitle());
+				pod.setProductExpirationDate(product.getProductExpirationDate());
+				pod.setProductType(product.getProductType());
+				pod.setProductImgUrl(product.getProductImgUrl());
+				pod.setProductEvent(product.getProductEvent());
+				pod.setCreatedAt(product.getCreatedAt());
+				pod.setProductTimeSale(product.getProductTimeSale());
+				pod.setOrderCount(orderCount);
+				productWithOrderCount.add(pod);
+			}
+			orderByOrderNumber(productWithOrderCount);
+			
+			System.out.println("결과값 " + productWithOrderCount);
+
+			/* 중복 이름 처리, 중복 이름이 존재하면 아예 보여주지 않도록 함*/
+			List<ProductDto> dtoList = new ArrayList();
+			
+			for(ProductWithOrderCountDto product:productWithOrderCount) {
+				boolean isContain = false;
+				
+				for(ProductDto dto:dtoList) {
+					String dtoProductName = dto.getProductTitle();
+					String entityProductName = product.getProductTitle();
+					if(dtoProductName.equals(entityProductName)) {
+						isContain = true;
+						break;
+					}
 				}
+				if(isContain) continue;
+				
+				ProductDto dto = new ProductDto();
+		        dto.setProductId(product.getProductId());
+		        dto.setPriceNumber(product.getPriceNumber());
+		        dto.setPriceString(product.getPriceString());
+		        dto.setProductTitle(product.getProductTitle());
+		        dto.setProductExpirationDate(product.getProductExpirationDate());
+		        dto.setProductType(product.getProductType());
+		        dto.setProductImgUrl(product.getProductImgUrl());
+		        dto.setProductEvent(product.getProductEvent());
+		        dto.setCreatedAt(product.getCreatedAt());
+		        dto.setProductTimeSale(product.getProductTimeSale());
+		        dtoList.add(dto);
 			}
 			
-			if(isContain) continue;
-			ProductDto dto = new ProductDto();
-	        dto.setProductId(product.getProductId());
-	        dto.setPriceNumber(product.getPriceNumber());
-	        dto.setPriceString(product.getPriceString());
-	        dto.setProductTitle(product.getProductTitle());
-	        dto.setProductExpirationDate(product.getProductExpirationDate());
-	        dto.setProductType(product.getProductType());
-	        dto.setProductImgUrl(product.getProductImgUrl());
-	        dto.setProductEvent(product.getProductEvent());
-	        dto.setCreatedAt(product.getCreatedAt());
-	        dto.setProductTimeSale(product.getProductTimeSale());
-	        dtoList.add(dto);
+			
+			//재고가 0인 것을 제외함
+			dtoList = deleteStoreProduct_stockIsZero(dtoList, productFilterDto.getStoreId());
+			
+			return sliceList(dtoList, offset, limit);
 		}
-		
-		return dtoList;
+		else {
+			List<Product> productEntityList = productRepository
+					.getStoreProductDtoListByFilter(
+						productFilterDto.getSearchingTerm(),
+						productFilterDto.getEventNumber(),
+						productFilterDto.getSelect(),
+						productFilterDto.getStoreId(),
+						PageRequest.of(offset, limit));//페이징 offset limit
+			
+			System.out.println(productEntityList);
+			
+			List<ProductDto> dtoList = new ArrayList();
+			
+			for(Product product:productEntityList) {
+				boolean isContain = false;
+				for(ProductDto dto:dtoList) {
+					String dtoProductName = dto.getProductTitle();
+					String entityProductName = product.getProductTitle();
+					if(dtoProductName.equals(entityProductName)) {
+						isContain = true;
+						break;
+					}
+				}
+				
+				if(isContain) continue;
+				ProductDto dto = new ProductDto();
+		        dto.setProductId(product.getProductId());
+		        dto.setPriceNumber(product.getPriceNumber());
+		        dto.setPriceString(product.getPriceString());
+		        dto.setProductTitle(product.getProductTitle());
+		        dto.setProductExpirationDate(product.getProductExpirationDate());
+		        dto.setProductType(product.getProductType());
+		        dto.setProductImgUrl(product.getProductImgUrl());
+		        dto.setProductEvent(product.getProductEvent());
+		        dto.setCreatedAt(product.getCreatedAt());
+		        dto.setProductTimeSale(product.getProductTimeSale());
+		        dtoList.add(dto);
+			}
+			
+			//재고가 0인 것을 제외
+			dtoList = deleteStoreProduct_stockIsZero(dtoList, productFilterDto.getStoreId());
+
+			return dtoList;
+		}
 	}
 
 	@Override

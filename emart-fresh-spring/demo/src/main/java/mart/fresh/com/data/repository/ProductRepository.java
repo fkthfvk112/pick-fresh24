@@ -66,6 +66,15 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 			Pageable pageable
 			);
 	 
+	 @Query("SELECT sp.product FROM StoreProduct sp "
+		       + "WHERE sp.store.storeId = :storeId "
+		       + "AND sp.product.productTitle LIKE CONCAT('%', :searchingTerm, '%') "
+		       + "AND (:eventNumber = 0 OR sp.product.productEvent = :eventNumber) ")
+		List<Product> getStoreProductDtoListByFilterNotPagable(
+		     @Param("searchingTerm") String searchingTerm,
+		     @Param("eventNumber") int eventNumber,
+		     @Param("storeId") int storeId);
+	 
 	 @Query("SELECT p.productImgUrl FROM Product p WHERE p.productTitle = :productTitle")
 	 List<String> getProductImgUrlsByProductTitle(String productTitle);
 	 
