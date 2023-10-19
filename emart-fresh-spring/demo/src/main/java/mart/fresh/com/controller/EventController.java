@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,7 +69,7 @@ public class EventController {
 
 	@PostMapping("/event-update")
 
-	public ResponseEntity<String> eventUpdate(Authentication authentication, @RequestBody EventUpdateDto eventDto)
+	public ResponseEntity<String> eventUpdate(Authentication authentication, @ModelAttribute EventUpdateDto eventDto)
 			throws IOException {
 		System.out.println("EventController eventUpdate1 : " + eventDto.toString());
 

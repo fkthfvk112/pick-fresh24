@@ -112,8 +112,8 @@ public class MypageController {
 	public ResponseEntity<String> changePassword(Authentication authentication, @RequestBody MemberDto memberDto) {
 		System.out.println("MypageController changepassword");
 
-		if(memberDto.getNewPw().length() <= 7) {
-			return ResponseEntity.badRequest().body("비밀번호가 7자 이하입니다.");
+		if(memberDto.getNewPw().length() < 8 || memberDto.getMemberPw().length() < 8) {
+			return ResponseEntity.badRequest().body("비밀번호가 8자리이상이 필요합니다.");
 		}
 		
 		boolean isS = mypageService.changePassword(authentication.getName(), memberDto.getMemberPw(),
@@ -131,6 +131,10 @@ public class MypageController {
 
 		System.out.println("MypageController changeEmail");
 
+		if(!StringUtils.hasText(memberDto.getMemberEmail())) {
+			return ResponseEntity.badRequest().body("이메일 입력이 누락됐습니다.");
+		}
+		
 		String newEmail = memberDto.getMemberEmail();
 		String verificationCode = memberDto.getVerifyCode();
 
