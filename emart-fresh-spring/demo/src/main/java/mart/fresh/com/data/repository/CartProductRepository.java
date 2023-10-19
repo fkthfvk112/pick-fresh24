@@ -12,7 +12,7 @@ import mart.fresh.com.data.entity.CartProduct;
 public interface CartProductRepository extends JpaRepository<CartProduct, Integer>{
     List<CartProduct> findByCartMemberMemberId(String memberId);
 
-	void deleteByCartMemberMemberIdAndCartProductId(String memberId, int cartProductId);
+	boolean deleteByCartMemberMemberIdAndCartProductId(String memberId, int cartProductId);
 	List<CartProduct> findByProduct_ProductTitle(String productName);
 
 	@Query("SELECT cp "

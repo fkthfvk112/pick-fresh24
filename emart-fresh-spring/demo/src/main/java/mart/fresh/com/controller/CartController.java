@@ -195,14 +195,18 @@ public class CartController {
 
 	@DeleteMapping("/removeProduct")
 	public ResponseEntity<String> removeProductFromCart(Authentication authentication,
-			@RequestParam int cartProductId) {
-		String memberId = authentication.getName();
-		System.out.println("CartController " + memberId + "의 장바구니 삭제 " + new Date());
+	        @RequestParam int cartProductId) {
+	    String memberId = authentication.getName();
+	    System.out.println("CartController " + memberId + "의 장바구니 물품 삭제 " + new Date());
 
-		cartProductService.removeProductFromCart(memberId, cartProductId);
-		return ResponseEntity.status(HttpStatus.OK).build();
-
+	    boolean removalSuccessful = cartProductService.removeProductFromCart(memberId, cartProductId);
+	    if (removalSuccessful) {
+	        return ResponseEntity.status(HttpStatus.OK).build();
+	    } else {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 물품 삭제 실패");
+	    }
 	}
+
 
 	@PostMapping("/decreaseCartProduct")
 	public String decreaseCartProductQuantity(Authentication authentication) {
