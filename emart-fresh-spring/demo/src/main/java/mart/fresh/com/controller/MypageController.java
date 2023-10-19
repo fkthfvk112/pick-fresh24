@@ -112,6 +112,10 @@ public class MypageController {
 	public ResponseEntity<String> changePassword(Authentication authentication, @RequestBody MemberDto memberDto) {
 		System.out.println("MypageController changepassword");
 
+		if(memberDto.getNewPw().length() <= 7) {
+			return ResponseEntity.badRequest().body("비밀번호가 7자 이하입니다.");
+		}
+		
 		boolean isS = mypageService.changePassword(authentication.getName(), memberDto.getMemberPw(),
 				memberDto.getNewPw());
 
@@ -153,12 +157,12 @@ public class MypageController {
 
 		String memberId = authentication.getName();
 		int memberAuth = memberService.findMemberAuthByMemberId(memberId);
-
+		
 		// 추후 ExceptionHandler로 점주권한이 필요하다는 메세지 추가 필요
 		if (memberAuth != 1) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
 		}
-
+		
 		try {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -173,7 +177,7 @@ public class MypageController {
 			System.out.println("MypageController salesChart MypageController salesChart : " + salesList.toString());
 			return ResponseEntity.ok(salesList);
 		} catch (Exception e) {
-			System.out.println("에러났어 : " + e.getStackTrace());
+			System.out.println("salesChart 에러 : " + e.getStackTrace());
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -208,7 +212,7 @@ public class MypageController {
 			System.out.println("MypageController typechart MypageController typechart : " + typeChartList.toString());
 			return ResponseEntity.ok(typeChartList);
 		} catch (Exception e) {
-			System.out.println("에러났어 : " + e.getStackTrace());
+			System.out.println("typeChart 에러 : " + e.getStackTrace());
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
@@ -243,7 +247,7 @@ public class MypageController {
 			System.out.println("MypageController typechart MypageController typechart : " + titleChartList.toString());
 			return ResponseEntity.ok(titleChartList);
 		} catch (Exception e) {
-			System.out.println("에러났어 : " + e.getStackTrace());
+			System.out.println("titleChart 에러 : " + e.getStackTrace());
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}

@@ -86,8 +86,8 @@ public class CouponController {
 		
 		int memberAuth = memberService.findMemberAuthByMemberId(authentication.getName());
 		
-		if(memberAuth != 0) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("일반회원만 쿠폰을 받을 수 있습니다.");
+		if(memberAuth == 2) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("관리자는 쿠폰을 받을 수 없습니다.");
 		}
 
 		try {
