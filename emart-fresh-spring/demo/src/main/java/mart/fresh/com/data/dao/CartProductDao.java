@@ -4,7 +4,7 @@ import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.CartProduct;
 
 public interface CartProductDao {
-    void removeProductFromCart(String memberId, int cartProductId);
+    boolean removeProductFromCart(String memberId, int cartProductId);
 
 	boolean updateCartProductQuantity(String memberId, int cartProductId, int cartProductQuantity);
 
