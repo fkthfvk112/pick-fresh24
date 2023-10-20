@@ -142,35 +142,40 @@ public class MypageServiceImpl implements MypageService {
 
 		return salesList;
 	}
-	
 
 	private List<StoreSalesAmountDto> processMonthlyData(List<OrderedProduct> salesEntityList, Timestamp searchDate) {
 	    LocalDate date = searchDate.toLocalDateTime().toLocalDate();
 	    Month currentMonth = date.getMonth();
 	    int currentYear = date.getYear();
-	    
-	    LocalDate firstDayOfMonth = LocalDate.of(currentYear, currentMonth, 1);
-	    int firstWeekday = firstDayOfMonth.getDayOfWeek().getValue();  // 1 (Monday) to 7 (Sunday)
 
-	    LocalDate firstWeekStart = firstDayOfMonth.minusDays(firstWeekday - 1); // 월의 첫 주 시작일
+	    LocalDate firstDayOfMonth = LocalDate.of(currentYear, currentMonth, 1);
 	    LocalDate lastDayOfMonth = firstDayOfMonth.withDayOfMonth(firstDayOfMonth.lengthOfMonth());
 
-	    int totalWeeks = (int) ChronoUnit.WEEKS.between(firstWeekStart, lastDayOfMonth) + 1;
+	    LocalDate currentWeekStart = firstDayOfMonth;
+	    LocalDate currentWeekEnd = currentWeekStart.plusDays(6);
 
-	    // Initialize with empty data for each week
 	    Map<Integer, Integer> salesMap = new LinkedHashMap<>();
-	    for (int i = 1; i <= totalWeeks; i++) {
-	        salesMap.putIfAbsent(i, 0);
-	    }
-	    
-	    for (OrderedProduct salesData : salesEntityList) {
-	        LocalDate localDate = salesData.getOrderedDate().toLocalDateTime().toLocalDate();
+	    int weekNumber = 1;
 
-	        if (localDate.getMonth() == currentMonth && localDate.getYear() == currentYear) {
-	            int weekOfMonth = (int) ChronoUnit.WEEKS.between(firstWeekStart, localDate) + 1;
-
-	            salesMap.put(weekOfMonth, salesMap.get(weekOfMonth) + salesData.getTotalAmount());
+	    while (currentWeekStart.isBefore(lastDayOfMonth) || currentWeekStart.isEqual(lastDayOfMonth)) {
+	    	
+	        if (currentWeekEnd.isAfter(lastDayOfMonth)) {
+	            currentWeekEnd = lastDayOfMonth;
 	        }
+
+	        salesMap.put(weekNumber, 0); 
+
+	        for (OrderedProduct salesData : salesEntityList) {
+	            LocalDate localDate = salesData.getOrderedDate().toLocalDateTime().toLocalDate();
+
+	            if (localDate.isAfter(currentWeekStart.minusDays(1)) && localDate.isBefore(currentWeekEnd.plusDays(1))) {
+	                salesMap.put(weekNumber, salesMap.get(weekNumber) + salesData.getTotalAmount());
+	            }
+	        }
+
+	        currentWeekStart = currentWeekEnd.plusDays(1);
+	        currentWeekEnd = currentWeekStart.plusDays(6);
+	        weekNumber++;
 	    }
 
 	    List<StoreSalesAmountDto> salesList = new ArrayList<>();
@@ -178,24 +183,25 @@ public class MypageServiceImpl implements MypageService {
 	        StoreSalesAmountDto dto = new StoreSalesAmountDto();
 	        dto.setQuarter(entry.getKey());
 	        dto.setTotalAmount(entry.getValue());
-	        // Note: orderedDate is not set here as it is not relevant when grouping by week
 	        salesList.add(dto);
 	    }
 
 	    return salesList;
 	}
 
-
-
+	
 	private List<StoreSalesAmountDto> processYearlyData(List<OrderedProduct> salesEntityList, Timestamp searchDate) {
 		int year = searchDate.toLocalDateTime().getYear();
 
 		Map<Integer, Integer> quarterlySalesMap = new HashMap<>();
+		for (int i = 1; i <= 4; i++) {
+			quarterlySalesMap.put(i, 0);
+		}
+
 		for (OrderedProduct salesData : salesEntityList) {
 			LocalDate localDate = salesData.getOrderedDate().toLocalDateTime().toLocalDate();
 			if (localDate.getYear() == year) {
 				int quarter = (localDate.getMonthValue() - 1) / 3 + 1;
-				quarterlySalesMap.putIfAbsent(quarter, 0);
 				quarterlySalesMap.put(quarter, quarterlySalesMap.get(quarter) + salesData.getTotalAmount());
 			}
 		}
@@ -203,26 +209,13 @@ public class MypageServiceImpl implements MypageService {
 		List<StoreSalesAmountDto> salesList = new ArrayList<>();
 		for (Map.Entry<Integer, Integer> entry : quarterlySalesMap.entrySet()) {
 			StoreSalesAmountDto dto = new StoreSalesAmountDto();
-			dto.setQuarter(entry.getKey()); // Set the quarter
-			dto.setTotalAmount(entry.getValue()); // Set the total sales amount for the quarter
+			dto.setQuarter(entry.getKey());
+			dto.setTotalAmount(entry.getValue());
 			salesList.add(dto);
 		}
+
 		return salesList;
 	}
-
-//		private List<StoreSalesAmountDto> convertToDtoList(Map<LocalDate, Integer> salesMap) {
-//		    List<StoreSalesAmountDto> salesList = new ArrayList<>();
-//		    for (Map.Entry<LocalDate, Integer> entry : salesMap.entrySet()) {
-//		        StoreSalesAmountDto dto = new StoreSalesAmountDto();
-//		        dto.setQuarter((entry.getKey().getDayOfMonth() - 1) / 7 + 1);
-//		        dto.setTotalAmount(entry.getValue());
-//		        dto.setOrderedDate(Timestamp.valueOf(entry.getKey().atStartOfDay())); // Set orderedDate value here
-//		        salesList.add(dto);
-//		    }
-//		    return salesList;
-//		}
-//
-//	
 
 	@Override
 	public List<StoreSalesProductTypeDto> productTypeChart(String memberId, Timestamp searchDate, String period) {
