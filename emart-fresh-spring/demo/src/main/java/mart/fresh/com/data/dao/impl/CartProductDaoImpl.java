@@ -24,7 +24,8 @@ public class CartProductDaoImpl implements CartProductDao {
 	@Override
 	@Transactional
 	public boolean removeProductFromCart(String memberId, int cartProductId) {
-        return cartProductRepository.deleteByCartMemberMemberIdAndCartProductId(memberId, cartProductId);
+	    int result = cartProductRepository.deleteByCartMemberMemberIdAndCartProductId(memberId, cartProductId);
+	    return result > 0;
 	}
 
 	@Override

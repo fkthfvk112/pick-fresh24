@@ -155,57 +155,6 @@ public class CartDaoImpl implements CartDao {
 		return "success";
 	}
 
-	// 수정 : 동시성 문제 세마포어로 관리
-	// 현재 로직 ... 가게 재고와 장바구니를 깎음
-	@Transactional
-	@Override
-	public String decreaseCartProductQuantity(String memberId) {
-		System.out.println("멤버 아이디" + memberId);
-		Cart myCart = cartRepository.findByMember_MemberId(memberId);
-		// 카트 아이디
-		int cartId = myCart.getCartId();
-		int storeId = myCart.getStore().getStoreId();
-
-		// 내 주문 리스트
-		List<CartProduct> cartProductList = cartProductRepository.findCartProductListByCartId(cartId);
-
-		// 가게 재고
-		List<StoreProduct> spList = storeProductObjRepository.findtStoreProuctByStoreId(storeId);
-
-		for (CartProduct orderCp : cartProductList) {
-			String orederdProductName = orderCp.getProduct().getProductTitle();
-			int orederedProductQuantity = orderCp.getCartProductQuantity();
-
-			for (StoreProduct storeProduct : spList) {
-				String storeProductname = storeProduct.getProduct().getProductTitle();
-				int storeProductQuantity = storeProduct.getStoreProductStock();// 퀀티티
-
-				if (storeProductname.equals(orederdProductName)) {// 현재 검사하는 가게 물품과 내가 주문한 물품 일치
-					if (orederedProductQuantity > storeProductQuantity) {// 요구 수량이 가게 수량보다 많을 경우
-						System.out.println("이 조건" + orederedProductQuantity);
-						storeProductQuantity = 0;
-						storeProduct.setStoreProductStock(storeProductQuantity);
-						storeProductObjRepository.save(storeProduct);
-
-						orederedProductQuantity -= storeProductQuantity;
-					} else if (orederedProductQuantity <= storeProductQuantity) {// 요구 수량이 가게 수량보다 적을 경우
-						storeProductQuantity -= orederedProductQuantity;
-						orederedProductQuantity = 0;
-
-						storeProduct.setStoreProductStock(storeProductQuantity);
-						storeProductObjRepository.save(storeProduct);
-						cartProductRepository.delete(orderCp);
-						break;// 다음 내 품목으로
-					}
-				}
-			}
-
-			if (orederedProductQuantity >= 1)
-				throw new RuntimeException("수량 처리가 불가합니다.");
-		}
-		return "success";
-	}
-
 	@Override
 	public void saveCart(Cart cart) {
 		cartRepository.save(cart);

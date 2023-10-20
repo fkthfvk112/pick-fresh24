@@ -89,7 +89,7 @@ private final StoreService storeService;
         return ResponseEntity.ok(storeList);
     }
 	
-	@GetMapping("/stock")
+	@GetMapping("/get-store-stock")
     public ResponseEntity<Object> getStoreProductStock(@RequestParam("storeId") int storeId, @RequestParam("productTitle") String productTitle) {
         System.out.println("StoreController 가게 상품 재고 보여주기 " + new Date());
         try {
