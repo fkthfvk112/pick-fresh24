@@ -208,13 +208,6 @@ public class CartController {
 	}
 
 
-	@PostMapping("/decreaseCartProduct")
-	public String decreaseCartProductQuantity(Authentication authentication) {
-		System.out.println("이거요");
-		// String memberId = authentication.getName();
-		return cartService.decreaseCartProductQuantity(authentication.getName());
-	}
-
 	@PostMapping("/decreaseStoreProduct")
 	public ResponseEntity<ProductProcessResult> decreaseStoreProductQuantity(Authentication authentication,
 	        @RequestBody List<ProductInfoDto> productInfoList) {
@@ -244,8 +237,8 @@ public class CartController {
 	    }
 	}
 	
-	@PostMapping("/decreaseCartProduct1")
-	public ResponseEntity<ProductProcessResult> decreaseCartProductQuantity1(Authentication authentication,
+	@PostMapping("/decreaseCartProduct")
+	public ResponseEntity<ProductProcessResult> decreaseCartProductQuantity(Authentication authentication,
 			@RequestBody List<ProductInfoDto> productInfoList) {
 		String memberId = authentication.getName();
 	    System.out.println("CartController 결제 완료 시 장바구니 재고 깍기 " + new Date());

@@ -34,11 +34,6 @@ public class CartServiceImpl implements CartService {
 	}
 
 	@Override
-	public String decreaseCartProductQuantity(String memberId) {
-		return cartDao.decreaseCartProductQuantity(memberId);
-	}
-
-	@Override
 	public void saveCart(Cart cart) {
 		cartDao.saveCart(cart);
 	}
