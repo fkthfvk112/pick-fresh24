@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 import mart.fresh.com.data.dao.OrderedProductDao;
 import mart.fresh.com.data.dto.MyOrderedProductDto;
 import mart.fresh.com.data.entity.OrderedProduct;
@@ -68,6 +70,7 @@ public class OrderedProductServiceImpl implements OrderedProductService {
     
     @Override
     @EventListener
+//    @Transactional
     public void handleOrderedProductCreatedEvent(OrderedProductCreatedEvent event) {
     	    	
 	    // sink 값이 있으면 다음 flux 클라이언트 연결 때 dto 값 
