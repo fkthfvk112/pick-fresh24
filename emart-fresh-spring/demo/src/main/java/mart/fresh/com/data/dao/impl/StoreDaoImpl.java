@@ -80,6 +80,7 @@ public class StoreDaoImpl implements StoreDao {
 		
 		List<Store> stores = storeProductObjRepository.findStoreByProductNamesMap(
 				searchDto.getProductName());
+		System.out.println("이이이이이거" + stores);
 		
 		
 		List<StoreDto> storeDtos = new ArrayList();
@@ -90,6 +91,7 @@ public class StoreDaoImpl implements StoreDao {
 			double distance = StoreUtils.haversineDistance(
 					storeLatitude, storeLongitude, searchDto.getUserLatitude(), searchDto.getUserLongitude()
 					);
+			System.out.println("디스탄스 " + distance);
 			
 			if(distance <= searchDto.getMaxDis()) {
 				StoreDto dto = new StoreDto();

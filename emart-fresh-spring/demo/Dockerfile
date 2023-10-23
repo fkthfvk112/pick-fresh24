@@ -10,6 +10,19 @@ COPY . .
 
 RUN mvn clean package -Dmaven.test.skip=true
 
+# 시간 설정 스테이지
+FROM openjdk:17-ea-11-jdk-slim
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Seoul
+RUN apt-get install -y tzdata
+
+WORKDIR /server
+
+COPY ./build/libs/L7-Monitor-0.0.1-SNAPSHOT.jar l7-monitor.jar
+
+ENTRYPOINT ["java", "-jar", "l7-monitor.jar"]
+
 # OpenJDK 실행 스테이지
 FROM openjdk:17-jdk-slim
 

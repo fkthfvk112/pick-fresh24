@@ -134,23 +134,60 @@ public class OrderedProductDaoImpl implements OrderedProductDao {
 	        Timestamp startDate, endDate;
 	        
 	        switch (period) {
-	            case "주간":
-	                cal.add(Calendar.DAY_OF_MONTH, -6); // 6일을 뺌. 현재 날짜를 포함하여 7일 간의 데이터를 가져옴.
-	                startDate = new Timestamp(cal.getTimeInMillis());
-	                endDate = searchDate;
-	                break;
-	            case "월간":
-	                cal.set(Calendar.DAY_OF_MONTH, 1); // 해당 월의 첫 날로 설정
-	                startDate = new Timestamp(cal.getTimeInMillis());
-	                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH)); // 해당 월의 마지막 날로 설정
-	                endDate = new Timestamp(cal.getTimeInMillis());
-	                break;
-	            case "연간":
-	                cal.set(Calendar.DAY_OF_YEAR, 1); // 해당 연도의 첫 날로 설정
-	                startDate = new Timestamp(cal.getTimeInMillis());
-	                cal.set(Calendar.DAY_OF_YEAR, cal.getActualMaximum(Calendar.DAY_OF_YEAR)); // 해당 연도의 마지막 날로 설정
-	                endDate = new Timestamp(cal.getTimeInMillis());
-	                break;
+	        case "weekly":
+	            cal.add(Calendar.DAY_OF_MONTH, -6);
+	            cal.set(Calendar.HOUR_OF_DAY, 0);
+	            cal.set(Calendar.MINUTE, 0);
+	            cal.set(Calendar.SECOND, 0);
+	            cal.set(Calendar.MILLISECOND, 0);
+	            startDate = new Timestamp(cal.getTimeInMillis());
+
+	            cal.setTimeInMillis(searchDate.getTime()); 
+	            cal.set(Calendar.HOUR_OF_DAY, 23);
+	            cal.set(Calendar.MINUTE, 59);
+	            cal.set(Calendar.SECOND, 59);
+	            cal.set(Calendar.MILLISECOND, 999);
+	            endDate = new Timestamp(cal.getTimeInMillis());
+
+	            System.out.println("DateRangeService weekly 검색조건의 시각 확인 / startDate : " + startDate + " endDate : " + endDate);
+	            break;
+	            
+	        case "monthly":
+	            cal.set(Calendar.DAY_OF_MONTH, 1);
+	            cal.set(Calendar.HOUR_OF_DAY, 0);
+	            cal.set(Calendar.MINUTE, 0);
+	            cal.set(Calendar.SECOND, 0);
+	            cal.set(Calendar.MILLISECOND, 0);
+	            startDate = new Timestamp(cal.getTimeInMillis());
+
+	            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH)); 
+	            cal.set(Calendar.HOUR_OF_DAY, 23);
+	            cal.set(Calendar.MINUTE, 59);
+	            cal.set(Calendar.SECOND, 59);
+	            cal.set(Calendar.MILLISECOND, 999);
+	            endDate = new Timestamp(cal.getTimeInMillis());
+	            
+	            System.out.println("DateRangeService monthly 검색조건의 시각 확인 / startDate : " + startDate + " endDate : " + endDate);
+	            break;
+	            
+	        case "yearly":
+	            cal.set(Calendar.DAY_OF_YEAR, 1);
+	            cal.set(Calendar.HOUR_OF_DAY, 0);
+	            cal.set(Calendar.MINUTE, 0);
+	            cal.set(Calendar.SECOND, 0);
+	            cal.set(Calendar.MILLISECOND, 0);
+	            startDate = new Timestamp(cal.getTimeInMillis());
+
+	            cal.set(Calendar.DAY_OF_YEAR, cal.getActualMaximum(Calendar.DAY_OF_YEAR)); 
+	            cal.set(Calendar.HOUR_OF_DAY, 23);
+	            cal.set(Calendar.MINUTE, 59);
+	            cal.set(Calendar.SECOND, 59);
+	            cal.set(Calendar.MILLISECOND, 999);
+	            endDate = new Timestamp(cal.getTimeInMillis());
+	            
+	            System.out.println("DateRangeService yearly 검색조건의 시각 확인 / startDate : " + startDate + " endDate : " + endDate);
+	            break;
+	            
 	            default:
 	                throw new IllegalArgumentException("Invalid period value");
 	        }
