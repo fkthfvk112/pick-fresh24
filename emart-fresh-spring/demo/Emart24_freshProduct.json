@@ -7,7 +7,7 @@
     "productExpirationDate": "2023-11-06T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMzQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -19,7 +19,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTc",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -55,7 +55,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTY",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -67,7 +67,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMzM",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -91,7 +91,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMzE",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -115,7 +115,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTg",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -139,7 +139,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTk",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -151,7 +151,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjY",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -163,7 +163,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTE",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -175,7 +175,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDc",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -187,7 +187,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDI",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -211,7 +211,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDg",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -219,7 +219,7 @@
     "productId": 19,
     "priceNumber": 3800,
     "priceString": "3,800 원",
-    "productTitle": "라무라_레드_치킨버거",
+    "productTitle": "라무라레드치킨버거",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjM",
@@ -231,7 +231,7 @@
     "productId": 20,
     "priceNumber": 4200,
     "priceString": "4,200 원",
-    "productTitle": "더클리프_클럽버거",
+    "productTitle": "더클리프클럽버거",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjI",
@@ -247,7 +247,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -259,7 +259,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDk",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -271,7 +271,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTI",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -283,7 +283,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -295,7 +295,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjg",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -307,7 +307,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMTM",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -319,7 +319,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMzA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -331,7 +331,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjc",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -343,7 +343,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTM",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -351,7 +351,7 @@
     "productId": 30,
     "priceNumber": 9900,
     "priceString": "9,900 원",
-    "productTitle": "뉴반반고구마닭강정_속초식 갈비맛",
+    "productTitle": "뉴반반고구마닭강정속초식 갈비맛",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5ODY",
@@ -367,7 +367,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5ODk",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -379,7 +379,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -403,7 +403,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDU",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -415,7 +415,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -427,7 +427,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTU",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -439,7 +439,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTg",
-    "productEvent": 0,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -451,7 +451,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTk",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -499,7 +499,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMDM",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -511,7 +511,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5ODU",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -535,7 +535,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTE",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -547,7 +547,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTI",
-    "productEvent": 2,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -559,7 +559,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -571,7 +571,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5OTA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -591,11 +591,11 @@
     "productId": 50,
     "priceNumber": 4500,
     "priceString": "4,500 원",
-    "productTitle": "대정)신병_절차대로비빔면(매콤참치)2편",
+    "productTitle": "대정)신병절차대로비빔면(매콤참치)2편",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 7,
     "productImgUrl": "https://www.emart24.co.kr/image/NDU5ODc",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -603,11 +603,11 @@
     "productId": 51,
     "priceNumber": 2800,
     "priceString": "2,800 원",
-    "productTitle": "신병_말년병장사제버거",
+    "productTitle": "신병말년병장사제버거",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/NDYwMjE",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -619,7 +619,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5MzE",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -631,7 +631,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5MzY",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -643,7 +643,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5MzQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -655,7 +655,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5Mzg",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -667,7 +667,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5NDA",
-    "productEvent": 0,
+    "productEvent": 2,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -675,11 +675,11 @@
     "productId": 57,
     "priceNumber": 1800,
     "priceString": "1,800 원",
-    "productTitle": "더클리프_현무암치킨마요삼각",
+    "productTitle": "더클리프현무암치킨마요삼각",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5MzI",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -691,7 +691,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5Mzc",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -715,7 +715,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5Mjg",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -727,7 +727,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5Mjc",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -747,11 +747,11 @@
     "productId": 63,
     "priceNumber": 1800,
     "priceString": "1,800 원",
-    "productTitle": "라무라_레드치킨삼각",
+    "productTitle": "라무라레드치킨삼각",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5MzM",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -763,7 +763,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5MzA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -775,7 +775,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/NDM5Mzk",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -787,7 +787,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0Mw",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -799,7 +799,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIzNA",
-    "productEvent": 0,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -811,7 +811,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0Nw",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -823,7 +823,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI1MA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -835,7 +835,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0Ng",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -843,11 +843,11 @@
     "productId": 71,
     "priceNumber": 3500,
     "priceString": "3,500 원",
-    "productTitle": "바삭_통살치킨버거",
+    "productTitle": "바삭통살치킨버거",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIzNw",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -859,7 +859,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI1MQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -871,7 +871,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIzNQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -919,7 +919,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0NQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -931,7 +931,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0OQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -943,7 +943,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyMQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -955,7 +955,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIxOQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -967,7 +967,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyNw",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1003,7 +1003,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIzOQ",
-    "productEvent": 0,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1015,7 +1015,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwOA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1027,7 +1027,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwNQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1075,7 +1075,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDc1MA",
-    "productEvent": 1,
+    "productEvent": 2,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1087,7 +1087,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwNA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1111,7 +1111,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0NA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1123,7 +1123,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwMQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1147,7 +1147,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5OQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1159,7 +1159,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 3,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI0MA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1171,7 +1171,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwNw",
-    "productEvent": 0,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1183,7 +1183,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 5,
     "productImgUrl": "https://www.emart24.co.kr/image/MzI1Mg",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1195,7 +1195,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/NDc0OQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1207,7 +1207,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyMA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1215,11 +1215,11 @@
     "productId": 102,
     "priceNumber": 2500,
     "priceString": "2,500 원",
-    "productTitle": "서울시스터즈_햄에그김치김밥",
+    "productTitle": "서울시스터즈햄에그김치김밥",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5OA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1231,7 +1231,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIxNw",
-    "productEvent": 0,
+    "productEvent": 2,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1243,7 +1243,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyNg",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1255,7 +1255,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5MA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1263,11 +1263,11 @@
     "productId": 106,
     "priceNumber": 4200,
     "priceString": "4,200 원",
-    "productTitle": "코오롱_담백솟솟!콩불고기김밥",
+    "productTitle": "코오롱담백솟솟!콩불고기김밥",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5Nw",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1279,7 +1279,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyMw",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1291,7 +1291,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 6,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyOA",
-    "productEvent": 0,
+    "productEvent": 3,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1327,7 +1327,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyNA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1339,7 +1339,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwMw",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1351,7 +1351,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE4Nw",
-    "productEvent": 2,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1375,7 +1375,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIxNQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1387,7 +1387,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5Mw",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1423,7 +1423,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwNg",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1443,11 +1443,11 @@
     "productId": 121,
     "priceNumber": 5000,
     "priceString": "5,000 원",
-    "productTitle": "국민은행_돈드리는은행도시락(바싹불고기)",
+    "productTitle": "국민은행돈드리는은행도시락(바싹불고기)",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIxMg",
-    "productEvent": 0,
+    "productEvent": 3,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1455,7 +1455,7 @@
     "productId": 122,
     "priceNumber": 5500,
     "priceString": "5,500 원",
-    "productTitle": "국민은행_돈드리는은행도시락(제육 간장불고기)",
+    "productTitle": "국민은행돈드리는은행도시락(제육 간장불고기)",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIxMw",
@@ -1483,7 +1483,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwOQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1495,7 +1495,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIwMg",
-    "productEvent": 0,
+    "productEvent": 2,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1507,7 +1507,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 2,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5NA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1519,7 +1519,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIxMQ",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1531,7 +1531,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE5Mg",
-    "productEvent": 2,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1543,7 +1543,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzIyMg",
-    "productEvent": 2,
+    "productEvent": 3,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1551,11 +1551,11 @@
     "productId": 130,
     "priceNumber": 4300,
     "priceString": "4,300 원",
-    "productTitle": "토성고리_토핑유부초밥세트",
+    "productTitle": "토성고리토핑유부초밥세트",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 1,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE2NA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1591,7 +1591,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE2Mg",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1627,7 +1627,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3OA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1651,7 +1651,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3OQ",
-    "productEvent": 2,
+    "productEvent": 1,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1659,11 +1659,11 @@
     "productId": 139,
     "priceNumber": 1600,
     "priceString": "1,600 원",
-    "productTitle": "붉은태양_더빅햄김치볶음삼각",
+    "productTitle": "붉은태양더빅햄김치볶음삼각",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3MA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1675,7 +1675,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3Mg",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1687,7 +1687,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE4NQ",
-    "productEvent": 1,
+    "productEvent": 3,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1695,11 +1695,11 @@
     "productId": 142,
     "priceNumber": 1800,
     "priceString": "1,800 원",
-    "productTitle": "코오롱_담백솟솟!콩불고기삼각",
+    "productTitle": "코오롱담백솟솟!콩불고기삼각",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3Ng",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1707,7 +1707,7 @@
     "productId": 143,
     "priceNumber": 2000,
     "priceString": "2,000 원",
-    "productTitle": "트레저_치킨에그버터간장주먹밥",
+    "productTitle": "트레저치킨에그버터간장주먹밥",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE2Mw",
@@ -1723,7 +1723,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE2Ng",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1735,7 +1735,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE2OQ",
-    "productEvent": 2,
+    "productEvent": 3,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1747,7 +1747,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE4MQ",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1771,7 +1771,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE4NA",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1783,7 +1783,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE4Mw",
-    "productEvent": 1,
+    "productEvent": 2,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1795,7 +1795,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3NA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1803,11 +1803,11 @@
     "productId": 151,
     "priceNumber": 1900,
     "priceString": "1,900 원",
-    "productTitle": "우미학_더빅깍두기볶음삼각",
+    "productTitle": "우미학더빅깍두기볶음삼각",
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3Mw",
-    "productEvent": 2,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1819,7 +1819,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE2OA",
-    "productEvent": 1,
+    "productEvent": 0,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   },
@@ -1831,7 +1831,7 @@
     "productExpirationDate": "2023-11-07T07:23:35.800+00:00",
     "productType": 4,
     "productImgUrl": "https://www.emart24.co.kr/image/MzE3MQ",
-    "productEvent": 0,
+    "productEvent": 2,
     "createdAt": "2023-10-06T07:23:35.800+00:00",
     "productTimeSale": 0
   }
