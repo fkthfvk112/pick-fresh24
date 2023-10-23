@@ -1,5 +1,7 @@
 package mart.fresh.com.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +36,10 @@ public class CartProductServiceImpl implements CartProductService{
 	@Override
 	public void removeAllProductsFromCart(int cartId) {
 		cartProductDao.removeAllProductsFromCart(cartId);
+	}
+
+	@Override
+	public List<CartProduct> findListByCart(Cart cart) {
+		return cartProductDao.findListByCart(cart);
 	}
 }
