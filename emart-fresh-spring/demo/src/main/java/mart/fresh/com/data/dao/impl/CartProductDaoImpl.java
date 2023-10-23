@@ -1,5 +1,6 @@
 package mart.fresh.com.data.dao.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,12 @@ public class CartProductDaoImpl implements CartProductDao {
 	public void removeAllProductsFromCart(int cartId) {
 		cartProductRepository.deleteByCart_CartId(cartId);
 		
+	}
+
+	@Override
+	public List<CartProduct> findListByCart(Cart cart) {
+		int cartId = cart.getCartId();
+		return cartProductRepository.findByCartCartId(cartId);
 	}
 
 }

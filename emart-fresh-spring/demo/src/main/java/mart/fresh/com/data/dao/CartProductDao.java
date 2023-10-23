@@ -1,5 +1,7 @@
 package mart.fresh.com.data.dao;
 
+import java.util.List;
+
 import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.CartProduct;
 
@@ -11,5 +13,7 @@ public interface CartProductDao {
 	CartProduct findByCart(Cart cart);
 
 	void removeAllProductsFromCart(int cartId);
+
+	List<CartProduct> findListByCart(Cart cart);
 
 }
