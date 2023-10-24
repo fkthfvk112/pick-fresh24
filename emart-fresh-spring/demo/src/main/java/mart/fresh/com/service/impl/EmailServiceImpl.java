@@ -208,8 +208,8 @@ public class EmailServiceImpl implements EmailService {
             htmlContent.append("<html><head>");
             htmlContent.append("</head><body>");
             htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
-            htmlContent.append("<h2><span style='color: #FABA00;'>emar24</span>");
-            htmlContent.append("<span style='color: #42C20D;'> Fresh</span></h2>");
+            htmlContent.append("<h2><span style='color: #FABA00;'>PICK</span>");
+            htmlContent.append("<span style='color: #42C20D;'> FRESH 24</span></h2>");
             htmlContent.append("<h1><span style='color: #FABA00;'>이메일 변경</span> 요청 건</h1><br>");
             htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
                    + memberName + "</span> 님</p>");
