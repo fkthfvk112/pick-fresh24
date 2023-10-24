@@ -199,49 +199,49 @@ public class EmailServiceImpl implements EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8"); // 인코딩을 UTF-8로 설정
          
 
-           try {
-              helper.setTo(recipientEmail);
-              helper.setFrom("mailtestcjh@gmail.com");
-              helper.setSubject(subject);
-              StringBuffer htmlContent = new StringBuffer();
-              
-              htmlContent.append("<html><head>");
-              htmlContent.append("</head><body>");
-              htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
-              htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
-  			  htmlContent.append("<span style='color: #42C20D;'> FRESH 24</span></h3>");
-              htmlContent.append("<h1><span style='color: #FABA00;'>이메일 변경</span> 요청 건</h1><br>");
-              htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
-                     + memberName + "</span> 님</p>");
-              htmlContent.append("<p><b>'이메일 변경 건'</b> 인증번호입니다.</p>");
-              htmlContent.append("<p>인증번호 만료시간 <b>'5분'</b> 내 입력해주시기 바랍니다.</p>");
-              htmlContent.append("<hr><br>");
-              htmlContent.append(
-                      "<p style='white-space: nowrap;'>&nbsp;&nbsp;인증번호 &nbsp;&nbsp;&nbsp;&nbsp;<span style='font-weight: bold; font-size: 16px;'>"
-                            + verificationCode + "</span></p>");
+        try {
+            helper.setTo(recipientEmail);
+            helper.setFrom("mailtestcjh@gmail.com");
+            helper.setSubject(subject);
+            StringBuffer htmlContent = new StringBuffer();
+            
+            htmlContent.append("<html><head>");
+            htmlContent.append("</head><body>");
+            htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
+            htmlContent.append("<h2><span style='color: #FABA00;'>emar24</span>");
+            htmlContent.append("<span style='color: #42C20D;'> Fresh</span></h2>");
+            htmlContent.append("<h1><span style='color: #FABA00;'>이메일 변경</span> 요청 건</h1><br>");
+            htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
+                   + memberName + "</span> 님</p>");
+            htmlContent.append("<p><b>'이메일 변경 건'</b> 인증번호입니다.</p>");
+            htmlContent.append("<p>인증번호 만료시간 <b>'5분'</b> 내 입력해주시기 바랍니다.</p>");
+            htmlContent.append("<hr><br>");
+            htmlContent.append(
+                    "<p style='white-space: nowrap;'>&nbsp;&nbsp;인증번호 &nbsp;&nbsp;&nbsp;&nbsp;<span style='font-weight: bold; font-size: 16px;'>"
+                          + verificationCode + "</span></p>");
 
-              htmlContent.append("<br><hr><br><br>");
-              
-              htmlContent.append("<p style='font-size: 10px;'>홈페이지에서 인증번호를 입력해주세요.<br><br>");
-              htmlContent.append(
-                    "<a href='http://pick-fresh24.com/mypage' style='display: inline-block; padding: 15px 50px; background-color: #FABA00; color: #fff; text-decoration: none; border: 1px solid #FABA00; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
+            htmlContent.append("<br><hr><br><br>");
+            
+            htmlContent.append("<p style='font-size: 10px;'>홈페이지에서 인증번호를 입력해주세요.<br><br>");
+            htmlContent.append(
+                  "<a href='http://pick-fresh24.com/mypage' style='display: inline-block; padding: 15px 50px; background-color: #FABA00; color: #fff; text-decoration: none; border: 1px solid #FABA00; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
 
-              htmlContent.append("</div></body></html>");
+            htmlContent.append("</div></body></html>");
 
-              helper.setText(htmlContent.toString(), true); // true를 설정하여 HTML 형식으로 지정합니다.
+            helper.setText(htmlContent.toString(), true); // true를 설정하여 HTML 형식으로 지정합니다.
 
-              javaMailSender.send(message);
-              System.out.println("인증번호 이메일 발송 성공");
-              return "메일발송 성공";
-           } catch (MailException e) {
-        	   System.out.println("인증번호 이메일 발송 실패");
-              e.printStackTrace();
-              return "메일발송 실패";
-           } catch (MessagingException e) {
-        	   System.out.println("인증번호 이메일 발송 오류");
-              e.printStackTrace();
-              return "메일발송 오류";
-           }
-        }
+            javaMailSender.send(message);
+            System.out.println("인증번호 이메일 발송 성공");
+            return "메일발송 성공";
+         } catch (MailException e) {
+            System.out.println("인증번호 이메일 발송 실패");
+            e.printStackTrace();
+            return "메일발송 실패";
+         } catch (MessagingException e) {
+            System.out.println("인증번호 이메일 발송 오류");
+            e.printStackTrace();
+            return "메일발송 오류";
+         }
+      }
 
 }
