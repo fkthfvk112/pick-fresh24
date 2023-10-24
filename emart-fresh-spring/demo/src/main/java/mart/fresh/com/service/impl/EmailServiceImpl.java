@@ -46,7 +46,7 @@ public class EmailServiceImpl implements EmailService {
 	              htmlContent.append("</head><body>");
 	              htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
 	              htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
-	  			  htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+	  			  htmlContent.append("<span style='color: #42C20D;'> FRESH 24</span></h3>");
 	              htmlContent.append("<h1><span style='color: #FABA00;'>점주 승인</span> 요청 건</h1><br>");
 	              htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
 	                     + "</span> 관리자님</p>");
@@ -94,8 +94,8 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("</head><body>");
 			htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
 			htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
-			htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
-			htmlContent.append("<h1><span style='color: #42C20D;'>비밀번호 찾기</span> 이메일 인증 안내</h1><br>");
+			htmlContent.append("<span style='color: #42C20D;'> FRESH 24</span></h3>");
+			htmlContent.append("<h1><span style='color: #FABA00;'>비밀번호 찾기</span> 이메일 인증 안내</h1><br>");
 			htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
 					+ maskId(memberId) + "</span> 고객님</p>");
 			htmlContent.append("<p><b>'비밀번호 찾기'</b>를 위해 이메일 인증을 진행합니다.</p>");
@@ -161,7 +161,7 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("</head><body>");
 			htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
 			htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
-			htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+			htmlContent.append("<span style='color: #42C20D;'> FRESH 24</span></h3>");
 			htmlContent.append("<h1><span style='color: #FABA00;'>회원가입</span> 이메일 인증 안내</h1><br>");
 			htmlContent.append("<p'>안녕하세요, 고객님</p>");
 			htmlContent.append("<p><b>'회원가입'</b>을 위해 이메일 인증을 진행합니다.</p>");
@@ -209,7 +209,7 @@ public class EmailServiceImpl implements EmailService {
               htmlContent.append("</head><body>");
               htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
               htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
-  			  htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+  			  htmlContent.append("<span style='color: #42C20D;'> FRESH 24</span></h3>");
               htmlContent.append("<h1><span style='color: #FABA00;'>이메일 변경</span> 요청 건</h1><br>");
               htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
                      + memberName + "</span> 님</p>");
