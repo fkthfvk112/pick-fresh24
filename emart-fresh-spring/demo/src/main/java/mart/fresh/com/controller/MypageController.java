@@ -91,7 +91,7 @@ public class MypageController {
 
 		if (member != null) {
 			String recipientEmail = memberEmail; // 수신자 이메일 주소 설정
-			String subject = "[emart24 fresh] 이메일 변경 건 인증번호 메일입니다.";
+			String subject = "[PICK FRESH 24] 이메일 변경 건 인증번호 메일입니다.";
 
 			String verificationCode = generateVerificationCode();
 

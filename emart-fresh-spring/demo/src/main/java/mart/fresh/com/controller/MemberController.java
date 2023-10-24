@@ -365,7 +365,7 @@ public class MemberController {
 
 		if (memberEmail != null) {
 
-			String subject = "[emart24 fresh] 회원가입 이메일 인증";
+			String subject = "[PICK FRESH 24] 회원가입 이메일 인증";
 			try {
 				emailService.sendVerificationEmail(memberEmail, subject, verificationCode);
 				return new ResponseEntity<>(HttpStatus.OK);
@@ -423,7 +423,7 @@ public class MemberController {
 			String verificationCode = MemberUtil.generateVerificationCode();
 			LocalDateTime expiryTime = currentTime.plusMinutes(5); // 5분 후 만료
 
-			String subject = "[emart24 fresh] 비밀번호 찾기";
+			String subject = "[PICK FRESH 24] 비밀번호 찾기";
 
 			emailService.sendEmailFindPw(foundMember.getMemberEmail(), foundMember.getMemberId(), subject,
 					verificationCode);
