@@ -45,9 +45,9 @@ public class EmailServiceImpl implements EmailService {
 	              htmlContent.append("<html><head>");
 	              htmlContent.append("</head><body>");
 	              htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
-	              htmlContent.append("<h3><span style='color: #FFA500;'>emar24</span>");
-	              htmlContent.append("<span style='color: #008000;'> Fresh</span></h3>");
-	              htmlContent.append("<h1><span style='color: #FFA500;'>점주 승인</span> 요청 건</h1><br>");
+	              htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
+	  			  htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+	              htmlContent.append("<h1><span style='color: #FABA00;'>점주 승인</span> 요청 건</h1><br>");
 	              htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
 	                     + "</span> 관리자님</p>");
 	              htmlContent.append("<p><b>'점주 승인 요청 건'</b> 알림 메세지입니다.</p>");
@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
 	              
 	              htmlContent.append("<p style='font-size: 10px;'>홈페이지에서 리스트를 확인해주세요.<br><br>");
 	              htmlContent.append(
-	                    "<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
+	                    "<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FABA00; color: #fff; text-decoration: none; border: 1px solid #FABA00; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
 
 	              htmlContent.append("</div></body></html>");
 
@@ -93,9 +93,9 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("<html><head>");
 			htmlContent.append("</head><body>");
 			htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
-			htmlContent.append("<h3><span style='color: #FFA500;'>emar24</span>");
-			htmlContent.append("<span style='color: #008000;'> Fresh</span></h3>");
-			htmlContent.append("<h1><span style='color: #FFA500;'>비밀번호 찾기</span> 이메일 인증 안내</h1><br>");
+			htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
+			htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+			htmlContent.append("<h1><span style='color: #42C20D;'>비밀번호 찾기</span> 이메일 인증 안내</h1><br>");
 			htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
 					+ maskId(memberId) + "</span> 고객님</p>");
 			htmlContent.append("<p><b>'비밀번호 찾기'</b>를 위해 이메일 인증을 진행합니다.</p>");
@@ -111,7 +111,7 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("<p style='font-size: 10px;'>타인이 고객님의 계정정보를 도용해 인증을 요청했을 수 있습니다.</p>");
 			htmlContent.append("<p style='font-size: 10px;'>계정정보 유출이 의심된다면 ‘내정보’에서 비밀번호를 변경해주세요.<br><br>");
 			htmlContent.append(
-					"<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>비밀번호 변경</b></a>");
+					"<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FABA00; color: #fff; text-decoration: none; border: 1px solid #FABA00; font-size: 11px;'><b>비밀번호 변경</b></a>");
 
 			htmlContent.append("</div></body></html>");
 
@@ -160,9 +160,9 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("<html><head>");
 			htmlContent.append("</head><body>");
 			htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
-			htmlContent.append("<h3><span style='color: #FFA500;'>emar24</span>");
-			htmlContent.append("<span style='color: #008000;'> Fresh</span></h3>");
-			htmlContent.append("<h1><span style='color: #FFA500;'>회원가입</span> 이메일 인증 안내</h1><br>");
+			htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
+			htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+			htmlContent.append("<h1><span style='color: #FABA00;'>회원가입</span> 이메일 인증 안내</h1><br>");
 			htmlContent.append("<p'>안녕하세요, 고객님</p>");
 			htmlContent.append("<p><b>'회원가입'</b>을 위해 이메일 인증을 진행합니다.</p>");
 			htmlContent.append("<p>아래 발급된 이메일 인증번호를 복사하거나 직접 입력하여 인증을 완료해주세요.</p>");
@@ -177,7 +177,7 @@ public class EmailServiceImpl implements EmailService {
 			htmlContent.append("<p style='font-size: 10px;'>타인이 고객님의 계정정보를 도용해 인증을 요청했을 수 있습니다.</p>");
 			htmlContent.append("<p style='font-size: 10px;'>계정정보 유출이 의심된다면 ‘내정보’에서 비밀번호를 변경해주세요.<br><br>");
 			htmlContent.append(
-					"<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>비밀번호 변경</b></a>");
+					"<a href='http://pick-fresh24.com/login' style='display: inline-block; padding: 15px 50px; background-color: #FABA00; color: #fff; text-decoration: none; border: 1px solid #FABA00; font-size: 11px;'><b>비밀번호 변경</b></a>");
 			htmlContent.append("</div></body></html>");
 
 			helper.setText(htmlContent.toString(), true);
@@ -208,9 +208,9 @@ public class EmailServiceImpl implements EmailService {
               htmlContent.append("<html><head>");
               htmlContent.append("</head><body>");
               htmlContent.append("<div style='font-family: Arial, sans-serif; padding: 90px; border: 1px solid #ccc;'>");
-              htmlContent.append("<h2><span style='color: #FFA500;'>emar24</span>");
-              htmlContent.append("<span style='color: #008000;'> Fresh</span></h2>");
-              htmlContent.append("<h1><span style='color: #FFA500;'>이메일 변경</span> 요청 건</h1><br>");
+              htmlContent.append("<h3><span style='color: #FABA00;'>PICK</span>");
+  			  htmlContent.append("<span style='color: #008000;'> FRESH 24</span></h3>");
+              htmlContent.append("<h1><span style='color: #FABA00;'>이메일 변경</span> 요청 건</h1><br>");
               htmlContent.append("<p>안녕하세요, <span style='font-weight: bold;'>"
                      + memberName + "</span> 님</p>");
               htmlContent.append("<p><b>'이메일 변경 건'</b> 인증번호입니다.</p>");
@@ -224,7 +224,7 @@ public class EmailServiceImpl implements EmailService {
               
               htmlContent.append("<p style='font-size: 10px;'>홈페이지에서 인증번호를 입력해주세요.<br><br>");
               htmlContent.append(
-                    "<a href='http://pick-fresh24.com/mypage' style='display: inline-block; padding: 15px 50px; background-color: #FFA500; color: #fff; text-decoration: none; border: 1px solid #FFA500; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
+                    "<a href='http://pick-fresh24.com/mypage' style='display: inline-block; padding: 15px 50px; background-color: #FABA00; color: #fff; text-decoration: none; border: 1px solid #FABA00; font-size: 11px;'><b>홈페이지 바로가기</b></a>");
 
               htmlContent.append("</div></body></html>");
 
