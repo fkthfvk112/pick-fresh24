@@ -2,6 +2,7 @@
 <h2>프로젝트 설명</h2>
 <p>
 	픽업 전문 매장을 컨샙으로 개발한 사이트입니다. 지도, 검색 기반으로 가게를 선택하고, 픽업 주문을 할 수 있습니다.
+	</br>
 	아래 팀 프로젝트 리포지토리에서 출발하는 개인용 디벨롭 리포지토리입니다.
 	<a href="https://github.com/orgs/emartFresh/repositories" target='_blank'>팀 리포지토리</a>
 </p>
