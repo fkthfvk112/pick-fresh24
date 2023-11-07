@@ -19,4 +19,5 @@ public interface ProductDao {
 	Product getProductDetailByProductId(int productId);
 	Product findByProductId(int productId);
 	void saveAllProductList(List<Product> productList);
+	int getOrderNumberByProductName(String productTitle);
 }

@@ -77,6 +77,7 @@ public class ProductController {
 		filterDto.setSearchingTerm(searchingTerm);
 		filterDto.setEventNumber(eventNumber);
 		filterDto.setSelect(select);
+		System.out.println("디티오" + filterDto);
 		
 		List<ProductDto> productDtoList =  productService.getProductDtoListByFilter(filterDto, offset, limit);
 		System.out.println("먼트롤러" + productDtoList);

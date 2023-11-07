@@ -18,6 +18,7 @@ import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
 import mart.fresh.com.data.repository.OrderedProductProductRepository;
 import mart.fresh.com.data.repository.ProductRepository;
+import mart.fresh.com.util.CustomPageable;
 
 @Component
 public class ProductDaoImpl implements ProductDao{
@@ -75,19 +76,6 @@ public class ProductDaoImpl implements ProductDao{
 		return count;
 	}
 	
-	public <T> List<T> sliceList(List<T> list, int offset, int limit) {
-	    List<T> resultList = new ArrayList<T>();
-	    int start = (offset)*limit;
-	    int end = Math.min(start + limit, list.size());
-	    
-	    for(int i = start; i < end; i++) {
-	    	resultList.add(list.get(i));
-	    }
-	    
-	    return resultList;
-	}
-
-	
 	public List<ProductDto> deleteStoreProduct_stockIsZero(List<ProductDto> productList, int storeId) {
 		List<ProductDto> notZeroProductList = new ArrayList<>();
 		
@@ -103,14 +91,6 @@ public class ProductDaoImpl implements ProductDao{
 	
 	@Override
 	public List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
-		System.out.println("-------getProductDtoListByFilter");
-
-		System.out.println("aaa" + productFilterDto.getSearchingTerm());
-		System.out.println("bbb" + productFilterDto.getEventNumber());
-		System.out.println("ccc" + productFilterDto.getSelect());
-		System.out.println("ddd" + offset);
-		System.out.println("eee" + limit);
-		
 		if(productFilterDto.getSelect() == 3) {
 			List<Product> productEntityList = productRepository
 					.getProductDtoListByFilterNotPagable(
@@ -121,7 +101,6 @@ public class ProductDaoImpl implements ProductDao{
 			
 			for(Product product: productEntityList) {
 				int orderCount = getOrderNumberByProductName(product.getProductTitle());
-				System.out.println("오더 카운트" + orderCount);
 				ProductWithOrderCountDto pod = new ProductWithOrderCountDto();
 				pod.setProductId(product.getProductId());
 				pod.setPriceNumber(product.getPriceNumber());
@@ -138,8 +117,6 @@ public class ProductDaoImpl implements ProductDao{
 			}
 			orderByOrderNumber(productWithOrderCount);
 			
-			System.out.println("결과값 " + productWithOrderCount);
-
 			/* 중복 이름 처리, 중복 이름이 존재하면 아예 보여주지 않도록 함*/
 			List<ProductDto> dtoList = new ArrayList();
 			
@@ -171,7 +148,7 @@ public class ProductDaoImpl implements ProductDao{
 			}
 			
 						
-			return sliceList(dtoList, offset, limit);
+			return CustomPageable.sliceList(dtoList, offset, limit);
 		}
 		
 		else {
@@ -287,7 +264,7 @@ public class ProductDaoImpl implements ProductDao{
 			//재고가 0인 것을 제외함
 			dtoList = deleteStoreProduct_stockIsZero(dtoList, productFilterDto.getStoreId());
 			
-			return sliceList(dtoList, offset, limit);
+			return CustomPageable.sliceList(dtoList, offset, limit);
 		}
 		else {
 			List<Product> productEntityList = productRepository

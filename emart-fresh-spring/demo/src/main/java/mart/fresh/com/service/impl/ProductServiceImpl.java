@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +14,21 @@ import mart.fresh.com.data.dto.ProductFilterDto;
 import mart.fresh.com.data.dto.StoreDto;
 import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
+import mart.fresh.com.data.repository.ProductRepository;
+import mart.fresh.com.service.ProductSearchStrategy;
 import mart.fresh.com.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService{
 	private final ProductDao productDao;
+	private final ProductRepository productRepository;
+	private final ModelMapper moddelMapper;
 
 	@Autowired
-	public ProductServiceImpl(ProductDao productDao) {
+	public ProductServiceImpl(ProductDao productDao, ProductRepository productRepository, ModelMapper moddelMapper) {
 		this.productDao = productDao;
+		this.productRepository = productRepository;
+		this.moddelMapper = moddelMapper;
 	}//엔티티 객체 DTO객체 전환
 	
 	@Override
@@ -74,9 +81,33 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
-		 List<ProductDto> productDtoList = productDao.getProductDtoListByFilter(productFilterDto, offset, limit);
-		
-		return productDtoList;
+		//List<ProductDto> productDtoList = productDao.getProductDtoListByFilter(productFilterDto, offset, limit);
+		GetSearchedProductDtoListByFilter context = new GetSearchedProductDtoListByFilter();
+
+		switch (productFilterDto.getSelect()) {
+		case 0: {
+			ProductSearchStrategy strategy = new ProductSelectZeroStrategy(productRepository, moddelMapper);
+			context.setFilterStrategy(strategy);
+			return context.getProductListByFilter(productFilterDto, offset, limit);
+		}
+		case 1: {
+			ProductSearchStrategy strategy = new ProductSelectOneStrategy(productRepository, moddelMapper);
+			context.setFilterStrategy(strategy);
+			return context.getProductListByFilter(productFilterDto, offset, limit);
+		}
+		case 2: {
+			ProductSearchStrategy strategy = new ProductSelectTwoStrategy(productRepository, moddelMapper);
+			context.setFilterStrategy(strategy);
+			return context.getProductListByFilter(productFilterDto, offset, limit);
+		}
+		case 3: {
+			ProductSearchStrategy strategy = new ProductSelectThreeStrategy(productRepository, productDao, moddelMapper);
+			context.setFilterStrategy(strategy);
+			return context.getProductListByFilter(productFilterDto, offset, limit);
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected select value: " + productFilterDto.getSelect());
+		}
 	}
 
 	@Override
@@ -114,20 +145,5 @@ public class ProductServiceImpl implements ProductService{
 		productDao.saveAllProductList(productList);
 		
 	}
-	
-	//전환 예제
-//	@Override
-//	public ProductResponseDto getProduct(Long number) {
-//		Product product = productDao.selectProduct(number);//db to entity
-//		
-//		ProductResponseDto productResponseDto = new ProductResponseDto();//dto 생성
-//		productResponseDto.setNumber(product.getNumber());//entity to dto
-//		productResponseDto.setName(product.getName());
-//		productResponseDto.setPrice(product.getPrice());
-//		productResponseDto.setStock(product.getStock());
-//		
-//		return productResponseDto;
-//	}
-
 }
 
