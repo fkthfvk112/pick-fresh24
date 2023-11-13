@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,12 +13,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Index;
+
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "product")
+@Table(name = "product", indexes = @jakarta.persistence.Index(name = "inx_productTitle", columnList = "product_title"))
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

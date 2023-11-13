@@ -48,13 +48,13 @@ import mart.fresh.com.service.StoreService;
 @RequestMapping("/orderedproduct")
 @RestController
 public class OrderedProductController {
-private final OrderedProductService orderedProductService;
-private final OrderedProductProductService orderedProductProductService;
-private final MemberService memberService;
-private final StoreService storeService;
-private final ReviewService reviewService;
-private final CouponService couponService;
-private final ProductService productService;
+	private final OrderedProductService orderedProductService;
+	private final OrderedProductProductService orderedProductProductService;
+	private final MemberService memberService;
+	private final StoreService storeService;
+	private final ReviewService reviewService;
+	private final CouponService couponService;
+	private final ProductService productService;
 
 	@Autowired
 	public OrderedProductController(OrderedProductService orderedProductService, OrderedProductProductService orderedProductProductService, 
@@ -88,8 +88,6 @@ private final ProductService productService;
 		System.out.println("OrderedProductController getOrderedProductByorderedProductId :  " + memberId);
 	
 		   return orderedProductService.streamOrderedProductsByStoreId(memberId);
-
-
 	}
 
 

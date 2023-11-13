@@ -54,7 +54,7 @@ public class ProductDaoImpl implements ProductDao{
 	public Product saveProduct(Product product) {
 		Product savedProduct = productRepository.save(product);
 		System.out.println("----saveProduct dato " + savedProduct);
-		return null;
+		return savedProduct;
 	}
 
 	@Override

@@ -81,7 +81,6 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductDto> getProductDtoListByFilter(ProductFilterDto productFilterDto, int offset, int limit) {
-		//List<ProductDto> productDtoList = productDao.getProductDtoListByFilter(productFilterDto, offset, limit);
 		GetSearchedProductDtoListByFilter context = new GetSearchedProductDtoListByFilter();
 
 		switch (productFilterDto.getSelect()) {

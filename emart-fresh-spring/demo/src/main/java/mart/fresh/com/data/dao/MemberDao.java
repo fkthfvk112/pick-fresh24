@@ -6,7 +6,7 @@ public interface MemberDao {
    
     Member login(String memberId, String memberPw);
     
-    void addMember(Member member);
+    Member addMember(Member member);
     void kakaoAddMember(String memberId, String memberName, String memberEmail);
 	void naverAddMember(String memberId, String memberName, String memberEmail);
 	

@@ -31,9 +31,10 @@ public class MemberDaoImpl implements MemberDao {
     }
 
     @Override
-    public void addMember(Member member) {
+    public Member addMember(Member member) {
        System.out.println("----회원가입 멤버 추가---- ");
-        memberRepository.save(member);
+        
+       return memberRepository.save(member);
     }
     
     @Override
