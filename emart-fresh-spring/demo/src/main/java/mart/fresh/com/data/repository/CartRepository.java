@@ -22,7 +22,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer>{
     	       "JOIN cp.cart c " +
     	       "JOIN cp.product p " + 
     	       "WHERE c.member.memberId = :memberId")
-    	List<CartInfoDto> getCartInfoByMemberId(@Param("memberId") String memberId);
+    List<CartInfoDto> getCartInfoByMemberId(@Param("memberId") String memberId);
     
     
     Cart findByMember_MemberId(String memberId);
@@ -34,6 +34,6 @@ public interface CartRepository extends JpaRepository<Cart, Integer>{
     	    + "    sp.product.productTitle = :productName AND "
     	    + "    sp.storeProductStock >= 0 AND "
     	    + "    sp.product.productExpirationDate >= :now")
-    	List<StoreProduct> getAvailableProducts(@Param("storeId") int storeId, @Param("productName") String productName, @Param("now") Timestamp now);
+    List<StoreProduct> getAvailableProducts(@Param("storeId") int storeId, @Param("productName") String productName, @Param("now") Timestamp now);
 
 }

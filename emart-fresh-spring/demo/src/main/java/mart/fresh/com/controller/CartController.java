@@ -52,29 +52,14 @@ public class CartController {
 	@GetMapping("/getCartInfo")
 	public ResponseEntity<List<CartInfoDto>> getCartInfoByMember(Authentication authentication) {
 	    String memberId = authentication.getName();
-	    System.out.println("CartController " + memberId + "의 장바구니 확인 " + new Date());
-	    
 	    List<CartInfoDto> cartInfoList = cartService.getCartInfo(memberId);
-	    List<CartInfoDto> filteredCartInfoList = new ArrayList<>();
 	    
-	    System.out.println("getCartIngfo - cartInfoList" + cartInfoList);
 	    for (CartInfoDto cartInfo : cartInfoList) {
-	        if (cartInfo.getCartProductQuantity() > 0) {
-	        	Store store = storeService.findByStoreId(cartInfo.getStoreId());
-	        	String storeName = store.getStoreName();
-	        	cartInfo.setStoreName(storeName);
-	            filteredCartInfoList.add(cartInfo);
-	        }
+	    	cartInfo.outOfStock();
 	    }
-	    System.out.println("getCartIngfo - filteredCartInfoList" + filteredCartInfoList);
+	    System.out.println("getCartIngfo - cartInfoList" + cartInfoList);
 
-	    if (filteredCartInfoList.isEmpty()) {
-		    System.out.println("no content");
-
-	        return ResponseEntity.noContent().build();
-	    } else {
-	        return ResponseEntity.ok(filteredCartInfoList);
-	    }
+	    return ResponseEntity.ok(cartInfoList);
 	}
 
 

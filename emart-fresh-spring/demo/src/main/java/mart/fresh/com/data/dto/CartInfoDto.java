@@ -1,6 +1,8 @@
 package mart.fresh.com.data.dto;
 
 import lombok.Data;
+import mart.fresh.com.error.ErrorCode;
+import mart.fresh.com.error.exception.CartProductException;
 
 @Data
 public class CartInfoDto {
@@ -26,6 +28,12 @@ public class CartInfoDto {
         this.cartProductQuantity = cartProductQuantity;
         this.storeId = storeId;
         this.storeName = storeName;
+    }
+    
+    public void outOfStock() {
+    	if(this.cartProductQuantity <= 0) {
+    		throw new CartProductException(ErrorCode.CART_PRODUCT_OUT_OF_STOCK);
+    	}
     }
 }
 
