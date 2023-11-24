@@ -11,11 +11,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "store_product")
 public class StoreProduct {
 	@Id
@@ -34,5 +38,14 @@ public class StoreProduct {
     @ManyToOne
 	@ToString.Exclude//ToString에서 제외, 제외 안하면 무한 호출 에러
     @JoinColumn(name="store_id")
-    private Store store; 
+    private Store store;
+
+    @Builder
+	public StoreProduct(int storeProductId, int storeProductStock, Product product, Store store) {
+		super();
+		this.storeProductId = storeProductId;
+		this.storeProductStock = storeProductStock;
+		this.product = product;
+		this.store = store;
+	} 
 }

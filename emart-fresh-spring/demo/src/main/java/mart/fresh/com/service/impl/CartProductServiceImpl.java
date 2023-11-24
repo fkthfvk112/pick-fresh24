@@ -24,6 +24,7 @@ public class CartProductServiceImpl implements CartProductService{
 	public boolean removeProductFromCart(String memberId, int cartProductId) {
 		return cartProductDao.removeProductFromCart(memberId, cartProductId);
 	}
+	
 	@Override
 	public boolean updateCartProductQuantity(String memberId, List<CartUpdateInfoDto> requestItems) {
 		try {

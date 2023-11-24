@@ -164,7 +164,7 @@ public class OrderedProductController {
 	            List<OrderedProductProductDto> orderedProductProductDtoList = new ArrayList<>();
 	            
 	            for (OrderedProductProduct orderedProductProduct : orderedProductProductList) {
-	                OrderedProductProductDto orderedProductProductDto = new OrderedProductProductDto();
+	                OrderedProductProductDto orderedProductProductDto = OrderedProductProductDto.builder().build();
 	                orderedProductProductDto.setProductId(orderedProductProduct.getProduct().getProductId());
 	                orderedProductProductDto.setOrderedQuantity(orderedProductProduct.getOrderedQuantity());
 	                orderedProductProductDto.setOrderedProductId(orderedProductProduct.getOrderedProductProductId());

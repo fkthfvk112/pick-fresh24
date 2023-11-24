@@ -111,7 +111,7 @@ public class MypageDaoImpl implements MypageDao {
 
 	@Override
 	public boolean productRegistration(ProductDto dto) {
-		Product productEntity = new Product();
+		Product productEntity = Product.builder().build();
 		productEntity.setCreatedAt(dto.getCreatedAt());
 		productEntity.setPriceNumber(dto.getPriceNumber());
 		productEntity.setPriceString(dto.getPriceString());

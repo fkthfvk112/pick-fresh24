@@ -151,7 +151,7 @@ public class MemberController {
 					
 					Cart cart1 = cartService.findByMember(member);
 					if (cart1 == null) {
-						Cart cart = new Cart();
+						Cart cart = Cart.builder().build();
 						cart.setMember(member);
 						cartService.saveCart(cart);
 					}
@@ -216,7 +216,7 @@ public class MemberController {
 
 					Cart cart1 = cartService.findByMember(member);
 					if (cart1 == null) {
-						Cart cart = new Cart();
+						Cart cart = Cart.builder().build();
 						cart.setMember(member);
 						cartService.saveCart(cart);
 					}
@@ -336,7 +336,7 @@ public class MemberController {
 			memberService.addMember(member);
 			memberService.localLoginType(member);
 			
-			Cart cart = new Cart();
+			Cart cart = Cart.builder().build();
 	        cart.setMember(member);
 	        cartService.saveCart(cart);
 

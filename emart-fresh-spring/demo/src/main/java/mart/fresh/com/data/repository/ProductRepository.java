@@ -11,6 +11,7 @@ import mart.fresh.com.data.entity.Product;
 import mart.fresh.com.data.entity.Store;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
+
 	 @Query("SELECT s "
 	            + "FROM Store s "
 	            + "WHERE s.storeId IN ( "
