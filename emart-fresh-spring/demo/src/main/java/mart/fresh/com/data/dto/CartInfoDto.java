@@ -1,19 +1,21 @@
 package mart.fresh.com.data.dto;
 
 import lombok.Data;
+import lombok.Getter;
 import mart.fresh.com.error.ErrorCode;
 import mart.fresh.com.error.exception.CartProductException;
 
 @Data
+@Getter
 public class CartInfoDto {
 	private int cartId;
-	private int cartProductId;
+	protected int cartProductId;
     private int productId;
     private String productTitle;
     private String productImgUrl;
     private int priceNumber;
     private int productTimeSale;
-    private int cartProductQuantity;
+    protected int cartProductQuantity;
     private int storeId;
     private String storeName;
 
@@ -28,6 +30,11 @@ public class CartInfoDto {
         this.cartProductQuantity = cartProductQuantity;
         this.storeId = storeId;
         this.storeName = storeName;
+    }
+    
+    public CartInfoDto(int cartProductId, int cartProductQuantity) {
+        this.cartProductId = cartProductId;
+        this.cartProductQuantity = cartProductQuantity;
     }
     
     public void outOfStock() {

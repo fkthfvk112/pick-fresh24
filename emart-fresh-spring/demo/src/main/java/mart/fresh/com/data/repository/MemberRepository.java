@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import mart.fresh.com.data.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
+	
+	Member findByMemberName(String memberName);
+	
 	// 로그인(아이디, 비번)
 	Member findByMemberIdAndMemberPw(String memberId, String MemberPw);
 	// 	boolean findByMemberIdAndMemberPw(String memberId, String MemberPw);

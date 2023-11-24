@@ -71,7 +71,7 @@ public class CartDaoImpl implements CartDao {
 			return "장바구니 테이블 생성 안 되어있음";
 		
 		if (cart.getStore() == null) {
-	        Store store = new Store();
+	        Store store = Store.builder().build();
 	        store.setStoreId(storeId);
 	        cart.setStore(store);
 	        cartRepository.save(cart);

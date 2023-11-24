@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mart.fresh.com.data.dao.CartProductDao;
+import mart.fresh.com.data.dto.CartUpdateInfoDto;
 import mart.fresh.com.data.entity.Cart;
 import mart.fresh.com.data.entity.CartProduct;
 import mart.fresh.com.service.CartProductService;
@@ -24,8 +25,18 @@ public class CartProductServiceImpl implements CartProductService{
 		return cartProductDao.removeProductFromCart(memberId, cartProductId);
 	}
 	@Override
-	public boolean updateCartProductQuantity(String memberId, int cartProductId, int cartProductQuantity) {
-		return cartProductDao.updateCartProductQuantity(memberId, cartProductId, cartProductQuantity);
+	public boolean updateCartProductQuantity(String memberId, List<CartUpdateInfoDto> requestItems) {
+		try {
+			for (CartUpdateInfoDto item : requestItems) {
+				int cartProductId = item.getCartProductId();
+				int cartProductQuantity = item.getCartProductQuantity();
+				cartProductDao.updateCartProductQuantity(memberId, cartProductId,cartProductQuantity);
+			}
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
 	}
 
 	@Override

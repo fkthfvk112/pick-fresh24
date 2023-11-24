@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import mart.fresh.com.data.dto.AddToCartDto;
 import mart.fresh.com.data.dto.CartInfoDto;
+import mart.fresh.com.data.dto.CartUpdateInfoDto;
 import mart.fresh.com.data.dto.ProductInfoDto;
 import mart.fresh.com.data.dto.ProductProcessResult;
 import mart.fresh.com.data.entity.Cart;
@@ -61,36 +63,18 @@ public class CartController {
 
 	    return ResponseEntity.ok(cartInfoList);
 	}
-
-
-	@PostMapping("/updateCartProductQuantity")
+	
+	@PostMapping("/updateCartProductQuantity")// 여기까아지~
 	public ResponseEntity<?> updateCartProductQuantity(Authentication authentication,
-			@RequestBody List<Map<String, Integer>> requestItems) {
-		String memberId = authentication.getName();
-		System.out.println("CartController " + memberId + "의 장바구니 물품 수량 변경 " + new Date());
-
-		try {
-			List<CartInfoDto> updatedCartInfoList = new ArrayList<>();
-
-			for (Map<String, Integer> item : requestItems) {
-				int cartProductId = item.get("cartProductId");
-				int cartProductQuantity = item.get("cartProductQuantity");
-
-				boolean success = cartProductService.updateCartProductQuantity(memberId, cartProductId,
-						cartProductQuantity);
-
-				if (!success) {
-					System.out.println("장바구니 물품 수량 변경 실패");
-					return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패");
-				}
-			}
-			updatedCartInfoList = cartService.getCartInfo(memberId);
-
-			System.out.println("장바구니 물품 수량 변경 성공");
-			return ResponseEntity.ok(updatedCartInfoList);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("장바구니 수량 변경 실패: " + e.getMessage());
+			@RequestBody List<CartUpdateInfoDto> requestItems) {
+		String memberId = authentication.getName();		
+		if(!cartProductService.updateCartProductQuantity(memberId, requestItems)) {
+			throw new AccessDeniedException("cart update fail");
 		}
+
+		List<CartInfoDto> updatedCartInfoList = cartService.getCartInfo(memberId);
+
+		return ResponseEntity.ok(updatedCartInfoList);
 	}
 
 	@PostMapping("/addToCart") // 수정 : add auth
@@ -123,7 +107,7 @@ public class CartController {
 			}
 
 			if (cart.getStore() == null) {
-				Store store = new Store();
+				Store store = Store.builder().build();
 				store.setStoreId(storeId);
 				cart.setStore(store);
 				cartService.saveCart(cart);

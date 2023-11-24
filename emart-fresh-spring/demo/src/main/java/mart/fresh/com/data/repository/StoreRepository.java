@@ -12,6 +12,7 @@ import mart.fresh.com.data.entity.Store;
 public interface StoreRepository extends JpaRepository<Store, Integer>{
 	Store findByMemberMemberId(String memberId);
 	Store findByStoreId(int storeId);
+	Store findByStoreName(String storeName);
 	
 	@Query("SELECT s FROM Store s " +
             "WHERE s.storeLatitude BETWEEN :minLatitude AND :maxLatitude " +

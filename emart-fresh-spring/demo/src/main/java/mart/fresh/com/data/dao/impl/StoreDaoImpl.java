@@ -126,8 +126,8 @@ public class StoreDaoImpl implements StoreDao {
 	@Override
 	public int addStore(StoreDtoWithId dto) {
 		try {
-			Store storeEntity = new Store();
-			Member member = new Member();
+			Store storeEntity = Store.builder().build();
+			Member member = Member.builder().build();
 			member.setMemberId(dto.getMemberId());
 			
 			storeEntity.setMember(member);

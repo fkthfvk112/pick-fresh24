@@ -1,6 +1,9 @@
 package mart.fresh.com.data.entity;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -19,6 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "member")
 public class Member {
@@ -55,4 +59,21 @@ public class Member {
     
     @Column(name = "login_type")
     private String loginType;
+
+    @Builder
+	public Member(String memberId, @NotEmpty String memberPw, @NotEmpty String memberName, @Email String memberEmail,
+			int memberAuth, int memberWarning, boolean memberDel, String verifyCode, LocalDateTime verifyCodeExpiry,
+			String loginType) {
+		super();
+		this.memberId = memberId;
+		this.memberPw = memberPw;
+		this.memberName = memberName;
+		this.memberEmail = memberEmail;
+		this.memberAuth = memberAuth;
+		this.memberWarning = memberWarning;
+		this.memberDel = memberDel;
+		this.verifyCode = verifyCode;
+		this.verifyCodeExpiry = verifyCodeExpiry;
+		this.loginType = loginType;
+	}
 }

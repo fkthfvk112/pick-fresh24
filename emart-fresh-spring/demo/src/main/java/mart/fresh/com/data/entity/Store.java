@@ -13,9 +13,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @Entity
 @Table(name = "store")
@@ -40,6 +44,20 @@ public class Store {
     @ToString.Exclude
     @JoinColumn(name = "member_id")
     private Member member;
+
+	@Builder
+	public Store(int storeId, String storeName, String storeAddress, double storeLongitude, double storeLatitude,
+			Member member) {
+		super();
+		this.storeId = storeId;
+		this.storeName = storeName;
+		this.storeAddress = storeAddress;
+		this.storeLongitude = storeLongitude;
+		this.storeLatitude = storeLatitude;
+		this.member = member;
+	}
+	
+	
 	
 //	@OneToOne
 //	@Column(name="member_id")

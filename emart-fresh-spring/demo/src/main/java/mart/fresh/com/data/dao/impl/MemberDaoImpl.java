@@ -44,7 +44,7 @@ public class MemberDaoImpl implements MemberDao {
     	String kakaoMemberName = "[kakao]"+memberName;
     	String kakaoMemberEmail = "[kakao]"+memberEmail;
 
-    	Member member = new Member();
+    	Member member = Member.builder().build();
         member.setMemberId(kakaoMemberId);
         member.setMemberPw(null);
         member.setMemberName(kakaoMemberName);
@@ -59,7 +59,7 @@ public class MemberDaoImpl implements MemberDao {
     	String naverMemberName = "[naver]"+memberName;
     	String naverMemberEmail = "[naver]"+memberEmail;
 
-    	Member member = new Member();
+    	Member member = Member.builder().build();
         member.setMemberId(naverMemberId);
         member.setMemberPw(null);
         member.setMemberName(naverMemberName);
